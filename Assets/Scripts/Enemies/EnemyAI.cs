@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] float speed = 2f;
+    [SerializeField] public float speed = 2f;
     Transform player;
     Rigidbody2D rb;
 

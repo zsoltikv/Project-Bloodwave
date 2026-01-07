@@ -4,8 +4,8 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] float spawnInterval = 3f;
-    [SerializeField] int maxEnemies = 10;
+    [SerializeField] float spawnInterval = 1f;
+    [HideInInspector] public int enemiesToSpawn = 0;
 
     void Start()
     {
@@ -16,10 +16,13 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(spawnInterval);
-
-            if (GameObject.FindGameObjectsWithTag("Enemy").Length < maxEnemies)
+            if (enemiesToSpawn > 0)
+            {
                 SpawnEnemy();
+                enemiesToSpawn--;
+            }
+
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -34,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
         float camHeight = Camera.main.orthographicSize;
         float camWidth = camHeight * Camera.main.aspect;
 
-        int side = Random.Range(0, 4); 
+        int side = Random.Range(0, 4);
         Vector2 pos = Vector2.zero;
 
         switch (side)
