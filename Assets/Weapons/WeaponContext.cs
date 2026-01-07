@@ -4,7 +4,7 @@ public struct WeaponContext
 {
     public GameObject owner;
     public Transform firePoint;
-    public Stats stats;
+    public PlayerStats stats;
     public WeaponInstance weapon;
 
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
 
-    [SerializeField] private Stats stats;
+    [SerializeField] private PlayerStats stats;
     [SerializeField] private Transform firePoint;
     
     [SerializeField] private WeaponDefinition startingWeapon;

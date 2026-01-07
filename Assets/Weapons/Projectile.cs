@@ -27,7 +27,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent<Health>(out var hp)) return;
+        if (!other.TryGetComponent<EnemyHealth>(out var hp)) return;
 
         float dealt = hp.TakeDamage(damage);
 
@@ -37,7 +37,11 @@ public class Projectile : MonoBehaviour
             fx.RaiseHit(new HitInfo { target = other.gameObject, point = transform.position, damage = dealt });
 
             if (hp.IsDead)
+            {
                 fx.RaiseKill(new KillInfo { target = other.gameObject, point = transform.position });
+                Destroy(other.gameObject);
+            }
+
         }
 
         Destroy(gameObject);
