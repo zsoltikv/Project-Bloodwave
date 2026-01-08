@@ -17,11 +17,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 startPos;
     private Vector2 dragVector;
     private bool dragging;
+    private AimDirection2D aim;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         indicatorRoot.gameObject.SetActive(false);
+        aim = GetComponent<AimDirection2D>();
     }
 
     void Update()
@@ -110,5 +112,6 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = dragVector.normalized;
 
         rb.linearVelocity = direction * maxSpeed * strength;
+        aim.SetFromMove(direction);
     }
 }

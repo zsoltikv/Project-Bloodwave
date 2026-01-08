@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class PlayerStats : MonoBehaviour
     public float ProjectileSpeed => Mathf.Max(0.1f, baseProjectileSpeed + projectileSpeedBonus);
     public int ProjectileBonus => baseProjectileBonus + projectileBonus;
 
+    public event Action OnProjectileBonusChanged;
+
     public int XP { get; private set; } = 0;
     public int Coins { get; private set; } = 0;
 
@@ -37,5 +40,11 @@ public class PlayerStats : MonoBehaviour
     {
         Coins += amount;
         Debug.Log($"Coins gained: {amount}. Total Coins: {Coins}");
+    }
+
+    public void AddProjectileBonus(int amount)
+    {
+        projectileBonus += amount;
+        OnProjectileBonusChanged?.Invoke();
     }
 }
