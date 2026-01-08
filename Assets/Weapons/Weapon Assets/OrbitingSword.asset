@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef08d026d877b109e9e716277face885, type: 3}
-  m_Name: Shotgun
+  m_Name: OrbitingSword
   m_EditorClassIdentifier: 
-  weaponName: Shotgun
+  weaponName: Orbiting Sword
   icon: {fileID: 0}
   baseCooldown: 1
   baseProjectileCount: 1
-  baseDamage: 20
-  baseRange: 2
-  targeting: {fileID: 11400000, guid: 41fae851b86d40bfcb2d58961a7b7304, type: 2}
-  spawnPattern: {fileID: 11400000, guid: 6527d83b37bcb3114926e37fc1d9cae9, type: 2}
-  projectileFactory: {fileID: 11400000, guid: eac33f18b4681bd23a384211fd3500a8, type: 2}
+  baseDamage: 10
+  baseRange: 6
+  targeting: {fileID: 0}
+  spawnPattern: {fileID: 0}
+  projectileFactory: {fileID: 0}
+  orbitingFactory: {fileID: 11400000, guid: 7b891728ad657606280253444bec7029, type: 2}
   modifiersOnHit: []
   modifiersOnKill: []

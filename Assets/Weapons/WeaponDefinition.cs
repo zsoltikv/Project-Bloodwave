@@ -14,6 +14,7 @@ public class WeaponDefinition : ScriptableObject
     public TargetingStrategy targeting;
     public SpawnPattern spawnPattern;
     public ProjectileFactory projectileFactory;
+    public OrbitingWeaponFactory orbitingFactory;
 
     public WeaponModifier[] modifiersOnHit;
     public WeaponModifier[] modifiersOnKill;

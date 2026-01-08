@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef08d026d877b109e9e716277face885, type: 3}
-  m_Name: Shotgun
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  weaponName: Shotgun
+  weaponName: Sword
   icon: {fileID: 0}
   baseCooldown: 1
   baseProjectileCount: 1
-  baseDamage: 20
-  baseRange: 2
-  targeting: {fileID: 11400000, guid: 41fae851b86d40bfcb2d58961a7b7304, type: 2}
-  spawnPattern: {fileID: 11400000, guid: 6527d83b37bcb3114926e37fc1d9cae9, type: 2}
-  projectileFactory: {fileID: 11400000, guid: eac33f18b4681bd23a384211fd3500a8, type: 2}
+  baseDamage: 15
+  baseRange: 6
+  targeting: {fileID: 11400000, guid: f96974fa6bbc3fac8bf072abc9006a9e, type: 2}
+  spawnPattern: {fileID: 11400000, guid: 8a40dbd80f62a9e93b849777b42ef771, type: 2}
+  projectileFactory: {fileID: 11400000, guid: 7470f1edfd14a64859eb6fbf88a0dff5, type: 2}
   modifiersOnHit: []
   modifiersOnKill: []

@@ -11,6 +11,19 @@ public class WeaponController : MonoBehaviour
 
     private readonly List<WeaponInstance> weapons = new List<WeaponInstance>();
 
+    private bool IsShootingWeapon(WeaponDefinition def) => def.targeting != null && def.spawnPattern != null && def.projectileFactory != null;
+    private List<GameObject> orbitingObjects = new List<GameObject>();
+
+    private void OnEnable()
+    {
+        stats.OnProjectileBonusChanged += RefreshAllOrbitingWeapons;
+    }
+
+    private void OnDisable()
+    {
+        stats.OnProjectileBonusChanged -= RefreshAllOrbitingWeapons;
+    }
+
     private void Start()
     {
         if (startingWeapon != null)
@@ -21,7 +34,38 @@ public class WeaponController : MonoBehaviour
 
     public void AddWeapon(WeaponDefinition definition)
     {
-        weapons.Add(new WeaponInstance(definition));
+        var instance = new WeaponInstance(definition);
+        weapons.Add(instance);
+
+        RefreshAllOrbitingWeapons();
+    }
+
+    public void RefreshAllOrbitingWeapons()
+    {
+        foreach (var obj in orbitingObjects)
+        {
+            Destroy(obj);
+        }
+
+        orbitingObjects.Clear();
+
+        foreach (var weapon in weapons)
+        {
+            if (weapon.definition.orbitingFactory == null)
+            {
+                continue;
+            }
+
+            var spawned = weapon.definition.orbitingFactory.Spawn(new WeaponContext
+            {
+                owner = this.gameObject,
+                firePoint = firePoint,
+                stats = stats,
+                weapon = weapon
+            });
+
+            orbitingObjects.AddRange(spawned);
+        }
     }
 
     private void Update()
@@ -30,6 +74,9 @@ public class WeaponController : MonoBehaviour
 
         foreach (var weapon in weapons)
         {
+            if (!IsShootingWeapon(weapon.definition))
+                continue;
+
             weapon.cooldownTimer -= deltaTime;
             if (weapon.cooldownTimer <= 0f)
             {
@@ -77,7 +124,7 @@ public class WeaponController : MonoBehaviour
                 }
             }
 
-            var projectile = _weapon.definition.projectileFactory.Spawn(ctx, shot);
+            var projectile = _weapon.definition.projectileFactory.SpawnAndReturn(ctx, shot);
 
             if (_weapon.definition.modifiersOnHit != null)
             {
