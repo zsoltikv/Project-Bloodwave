@@ -5,7 +5,7 @@ public class BulletPrefabFactory : ProjectileFactory
 {
     public GameObject bulletPrefab;
 
-    public override GameObject Spawn(WeaponContext context, Shot shot)
+    public override GameObject SpawnAndReturn(WeaponContext context, Shot shot)
     {
         GameObject bullet = Object.Instantiate(bulletPrefab, shot.position, Quaternion.identity);
         Projectile bulletComponent = bullet.GetComponent<Projectile>();

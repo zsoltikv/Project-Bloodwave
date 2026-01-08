@@ -2,5 +2,5 @@ using UnityEngine;
 
 public abstract class ProjectileFactory : ScriptableObject
 {
-    public abstract GameObject Spawn(WeaponContext context, Shot shot);
+    public abstract GameObject SpawnAndReturn(WeaponContext context, Shot shot);
 }
