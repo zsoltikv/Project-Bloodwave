@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] public float speed = 2f;
     Transform player;
     Rigidbody2D rb;
 
@@ -21,6 +20,6 @@ public class EnemyAI : MonoBehaviour
         if (!player) return;
 
         Vector2 dir = (player.position - transform.position).normalized;
-        rb.linearVelocity = dir * speed;
+        rb.linearVelocity = dir * this.GetComponent<EnemyHealth>().currentSpeed;
     }
 }
