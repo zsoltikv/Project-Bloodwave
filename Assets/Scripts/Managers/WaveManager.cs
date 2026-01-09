@@ -29,9 +29,9 @@ public class WaveManager : MonoBehaviour
 
             foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-                var ai = enemy.GetComponent<EnemyAI>();
+                var ai = enemy.GetComponent<EnemyHealth>();
                 if (ai != null)
-                    ai.speed += 0.2f;
+                    ai.baseSpeed += 0.2f;
             }
 
             previousWaveEnemies = enemiesThisWave;

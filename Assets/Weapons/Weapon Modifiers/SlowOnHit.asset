@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ebe5bc4f05659b69a478f19d7e190db, type: 3}
-  m_Name: SinglePattern
+  m_Script: {fileID: 11500000, guid: 73b30c07d7b9086e5bd129f66aad2ea4, type: 3}
+  m_Name: SlowOnHit
   m_EditorClassIdentifier: 
-  shotDelay: 0.1
+  slowAmount: 0.5
+  slowDuration: 2

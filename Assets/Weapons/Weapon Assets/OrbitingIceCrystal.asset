@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef08d026d877b109e9e716277face885, type: 3}
-  m_Name: OrbitingSword
+  m_Name: OrbitingIceCrystal
   m_EditorClassIdentifier: 
-  weaponName: Orbiting Sword
+  weaponName: Ice Crystal
   icon: {fileID: 0}
   baseCooldown: 1
   baseProjectileCount: 1
-  baseDamage: 10
+  baseDamage: 0
   baseRange: 6
   targeting: {fileID: 0}
   spawnPattern: {fileID: 0}
   projectileFactory: {fileID: 0}
-  orbitingFactory: {fileID: 11400000, guid: 7b891728ad657606280253444bec7029, type: 2}
+  orbitingFactory: {fileID: 11400000, guid: fab4413c1d825b49daa736feb1228000, type: 2}
   modifiersOnHit:
   - {fileID: 11400000, guid: 67cf445bf755eaf11b977e865679f92d, type: 2}
   modifiersOnKill: []

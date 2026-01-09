@@ -21,6 +21,8 @@ public class OrbitingWeaponFactory : ScriptableObject
             float startAngle = (360f / count) * i;
 
             var go = Instantiate(orbitingPrefab);
+            go.GetComponent<ProjectileEffects>().OnHitModifiers = context.weapon.definition.modifiersOnHit;
+            go.GetComponent<ProjectileEffects>().OnKillModifiers = context.weapon.definition.modifiersOnKill;
             var orbit = go.GetComponent<OrbitingWeapon>();
 
             orbit.Init(

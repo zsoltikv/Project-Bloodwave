@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ebe5bc4f05659b69a478f19d7e190db, type: 3}
-  m_Name: SinglePattern
+  m_Script: {fileID: 11500000, guid: 8431d5fde9dfb9a039e9f789098823ae, type: 3}
+  m_Name: OrbitingIceCrystalFactory
   m_EditorClassIdentifier: 
-  shotDelay: 0.1
+  orbitingPrefab: {fileID: 1739044120064202457, guid: ddcc414db12608711bde1f5dc22ad82c, type: 3}
