@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,7 +14,13 @@ public class PlayerMovement : MonoBehaviour
     public RectTransform innerDot;
     public float indicatorRadius = 60f;
 
+    [Header("Shadow")]
+    [SerializeField] private Transform shadow;
+
+    private Vector3 shadowBaseScale;
     private Rigidbody2D rb;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
     private Vector2 startPos;
     private Vector2 dragVector;
     private bool dragging;
@@ -22,8 +29,12 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         indicatorRoot.gameObject.SetActive(false);
         aim = GetComponent<AimDirection2D>();
+
+        shadowBaseScale = shadow.localScale;
     }
 
     void Update()
@@ -38,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        animator.SetFloat("linearVelocity", rb.linearVelocity.magnitude);
     }
 
     void HandleTouch()
@@ -105,6 +117,13 @@ public class PlayerMovement : MonoBehaviour
         if (!dragging || dragVector.magnitude < deadZone)
         {
             rb.linearVelocity = Vector2.zero;
+
+            shadow.localScale = Vector3.Lerp(
+                shadow.localScale,
+                shadowBaseScale,
+                Time.deltaTime * 10f
+            );
+
             return;
         }
 
@@ -113,5 +132,22 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocity = direction * maxSpeed * strength;
         aim.SetFromMove(direction);
+
+        if (direction.x != 0)
+            spriteRenderer.flipX = direction.x < 0;
+
+        float t = rb.linearVelocity.magnitude / maxSpeed;
+
+        Vector3 targetScale = new Vector3(
+            shadowBaseScale.x * Mathf.Lerp(1f, 1.1f, t),
+            shadowBaseScale.y,
+            shadowBaseScale.z
+        );
+
+        shadow.localScale = Vector3.Lerp(
+            shadow.localScale,
+            targetScale,
+            Time.deltaTime * 10f
+        );
     }
 }

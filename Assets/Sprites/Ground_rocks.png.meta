@@ -670,6 +670,138 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Overlay_rocks_0
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 372
+        width: 33
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63300f61d5080b94281cc97c824679cf
+      internalID: 1543561577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Overlay_rocks_1
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 381
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23082fe8d802af64eb65124d752239b5
+      internalID: 1433485302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Overlay_rocks_4
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 370
+        width: 30
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ec242647af763243889221c9e455642
+      internalID: 1767954029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Overlay_rocks_2
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 194
+        width: 54
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4795441aec483c4ea4e90b75f4a4d46
+      internalID: 1147725263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Overlay_rocks_5
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 198
+        width: 70
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2bb77445b44de24ea0fec324ded0335
+      internalID: -2500410296492031657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Overlay_rocks_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 194
+        width: 39
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e9d8535ec6d7994a8075e89616f0feb
+      internalID: -51239767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -684,7 +816,6 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ground_rocks_1: -2500410296492031657
       Ground_rocks_10: -3066340888266251505
       Ground_rocks_11: -1486819914241441321
       Ground_rocks_12: 7490475191868388045
@@ -712,6 +843,13 @@ TextureImporter:
       Ground_rocks_7: -6989180640577424569
       Ground_rocks_8: -4618727947508768088
       Ground_rocks_9: 2860838997945202992
+      Overlay_rocks_0: 1543561577
+      Overlay_rocks_1: 1433485302
+      Overlay_rocks_2: 1147725263
+      Overlay_rocks_3: 1017998448
+      Overlay_rocks_4: 1767954029
+      Overlay_rocks_5: -2500410296492031657
+      Overlay_rocks_6: -51239767
       Wall_Corner_BL: -1431903638
       Wall_Corner_BR: 1412392296
       Wall_Corner_TL: 1987254399
