@@ -34,6 +34,6 @@ public class SwordSlash : MonoBehaviour
                 Destroy(hp.gameObject);
             }
         }
-
+        Debug.Log("Sword hit " + other.gameObject.name + " for " + dealt + " damage.");
     }
 }
