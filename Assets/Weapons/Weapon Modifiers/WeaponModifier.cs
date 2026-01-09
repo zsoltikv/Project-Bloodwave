@@ -1,4 +1,6 @@
 using UnityEngine;
+
+
 public abstract class WeaponModifier : ScriptableObject
 {
     public virtual void OnBeforeFire(ref WeaponContext context) { }
