@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebe5bc4f05659b69a478f19d7e190db, type: 3}
   m_Name: SinglePattern
   m_EditorClassIdentifier: 
+  shotDelay: 0.1

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,7 +81,7 @@ public class WeaponController : MonoBehaviour
             weapon.cooldownTimer -= deltaTime;
             if (weapon.cooldownTimer <= 0f)
             {
-                FireWeapon(weapon);
+                StartCoroutine(FireWeaponRoutine(weapon));
                 weapon.cooldownTimer = GetCooldown(weapon);
             }
         }
@@ -91,8 +92,10 @@ public class WeaponController : MonoBehaviour
         return weapon.definition.baseCooldown * stats.CooldownMultiplier;
     }
 
-    private void FireWeapon(WeaponInstance _weapon)
+    private IEnumerator FireWeaponRoutine(WeaponInstance _weapon)
     {
+        int totalShots;
+
         var ctx = new WeaponContext
         {
             owner = this.gameObject,
@@ -109,31 +112,50 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        var targetInfo = _weapon.definition.targeting.GetTargets(ctx);
-        var shots = _weapon.definition.spawnPattern.BuildShots(ctx, targetInfo);
-
-        foreach (var shot0 in shots)
+        if (_weapon.definition.name == "Pistol")
         {
-            var shot = shot0;
-            
-            if (_weapon.definition.modifiersOnHit != null)
+            totalShots = 1 + ctx.stats.ProjectileBonus;
+        }
+        else
+        {
+            totalShots = 1;
+        }
+        float delay = _weapon.definition.spawnPattern.shotDelay; 
+
+        for (int i = 0; i < totalShots; i++)
+        {
+            var targetInfo = _weapon.definition.targeting.GetTargets(ctx);
+
+            var shots = _weapon.definition.spawnPattern.BuildShots(ctx, targetInfo);
+
+            foreach (var shot0 in shots)
             {
-                foreach (var modifier in _weapon.definition.modifiersOnHit)
+                var shot = shot0;
+
+                if (_weapon.definition.modifiersOnHit != null)
                 {
-                    modifier.OnShotBuilt(ref ctx, ref shot);
+                    foreach (var modifier in _weapon.definition.modifiersOnHit)
+                    {
+                        modifier.OnShotBuilt(ref ctx, ref shot);
+                    }
+                }
+
+                var projectile =
+                    _weapon.definition.projectileFactory.SpawnAndReturn(ctx, shot);
+
+                if (_weapon.definition.modifiersOnHit != null)
+                {
+                    foreach (var modifier in _weapon.definition.modifiersOnHit)
+                    {
+                        modifier.OnProjectileSpawned(ref ctx, projectile);
+                    }
                 }
             }
 
-            var projectile = _weapon.definition.projectileFactory.SpawnAndReturn(ctx, shot);
-
-            if (_weapon.definition.modifiersOnHit != null)
-            {
-                foreach (var modifier in _weapon.definition.modifiersOnHit)
-                {
-                    modifier.OnProjectileSpawned(ref ctx, projectile);
-                }
-            }
+            if (i < totalShots - 1)
+                yield return new WaitForSeconds(delay);
         }
     }
+
 
 }
