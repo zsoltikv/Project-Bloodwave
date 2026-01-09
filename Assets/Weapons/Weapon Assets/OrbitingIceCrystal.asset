@@ -16,11 +16,12 @@ MonoBehaviour:
   icon: {fileID: 0}
   baseCooldown: 1
   baseProjectileCount: 1
-  baseDamage: 3
+  baseDamage: 0
   baseRange: 6
   targeting: {fileID: 0}
   spawnPattern: {fileID: 0}
   projectileFactory: {fileID: 0}
   orbitingFactory: {fileID: 11400000, guid: fab4413c1d825b49daa736feb1228000, type: 2}
-  modifiersOnHit: []
+  modifiersOnHit:
+  - {fileID: 11400000, guid: 67cf445bf755eaf11b977e865679f92d, type: 2}
   modifiersOnKill: []
