@@ -20,7 +20,7 @@ public class ShotgunPattern : SpawnPattern
             : ctx.firePoint.right;
 
         float baseDamage =
-            ctx.weapon.definition.baseDamage *
+            ctx.weapon.definition.Damage *
             ctx.stats.DamageMultiplier *
             damageMultiplierPerPellet;
 

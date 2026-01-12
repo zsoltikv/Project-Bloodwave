@@ -13,5 +13,6 @@ public class SlowOnHit : WeaponModifier
         {
             targetStats.ApplySlow(slowAmount, slowDuration);
         }
+        Debug.Log("Applied slow on hit.");
     }
 }

@@ -89,7 +89,7 @@ public class WeaponController : MonoBehaviour
 
     private float GetCooldown(WeaponInstance weapon)
     {
-        return weapon.definition.baseCooldown * stats.CooldownMultiplier;
+        return weapon.definition.Cooldown * stats.CooldownMultiplier;
     }
 
     private IEnumerator FireWeaponRoutine(WeaponInstance _weapon)
@@ -114,7 +114,7 @@ public class WeaponController : MonoBehaviour
 
         if (_weapon.definition.name == "Pistol")
         {
-            totalShots = 1 + ctx.stats.ProjectileBonus;
+            totalShots = ctx.weapon.definition.ProjectileCount;
         }
         else
         {

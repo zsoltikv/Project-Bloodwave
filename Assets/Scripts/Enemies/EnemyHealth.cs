@@ -10,6 +10,10 @@ public class EnemyHealth : MonoBehaviour
     public int xpReward = 1;
     public int coinReward = 1;
 
+    [Header("Status Effects")]
+    public bool isSlowed = false;
+    public bool isBleeding = false;
+
     public bool IsDead = false;
 
     private void Awake()
@@ -49,14 +53,40 @@ public class EnemyHealth : MonoBehaviour
 
     public void ApplySlow(float slowAmount, float duration)
     {
-        StopAllCoroutines();
         StartCoroutine(SlowCoroutine(slowAmount, duration));
     }
 
     private IEnumerator SlowCoroutine(float slowAmount, float duration)
     {
-        currentSpeed = baseSpeed * (1 - slowAmount);
-        yield return new WaitForSeconds(duration);
-        ResetSpeed();
+        if (!isSlowed)
+        {
+            isSlowed = true;
+            currentSpeed = baseSpeed * (1 - slowAmount);    
+            Debug.Log("Slow effect.");
+            yield return new WaitForSeconds(duration);
+            isSlowed = false;
+            ResetSpeed();
+        }
+    }
+
+    public void ApplyBleed(float bleedDamage, float bleedDuration)
+    {
+        StartCoroutine(BleedCoroutine(bleedDamage, bleedDuration));
+    }
+
+    private IEnumerator BleedCoroutine(float bleedDamage, float bleedDuration)
+    {
+        if (isBleeding)
+            yield break;
+        isBleeding = true;
+        float timeElapsed = 0f;
+        while (timeElapsed < bleedDuration)
+        {
+            TakeDamage(bleedDamage * Time.deltaTime);
+            timeElapsed += Time.deltaTime;
+            Debug.Log($"Bleed damage applied: {bleedDamage}");
+            yield return null;
+        }
+        isBleeding = false;
     }
 }
