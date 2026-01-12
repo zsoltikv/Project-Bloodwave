@@ -6,9 +6,9 @@ public class WeaponDefinition : ScriptableObject
     public string weaponName;
     public Sprite icon;
 
-    public float baseCooldown = 1f;
-    public int baseProjectileCount = 1;
-    public float baseDamage = 10f;
+    public float Cooldown = 1f;
+    public int ProjectileCount = 1;
+    public float Damage = 10f;
     public float baseRange = 6f;
 
     public TargetingStrategy targeting;

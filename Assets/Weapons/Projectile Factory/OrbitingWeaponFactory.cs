@@ -10,7 +10,7 @@ public class OrbitingWeaponFactory : ScriptableObject
     {
         var orbitList = new List<GameObject>();
 
-        int count = Mathf.Max(1, context.weapon.definition.baseProjectileCount + context.stats.ProjectileBonus);
+        int count = context.weapon.definition.ProjectileCount;
 
         if (count > 6) count = 6;
 
@@ -29,7 +29,7 @@ public class OrbitingWeaponFactory : ScriptableObject
                 context.owner.transform,
                 radius: 1.5f + context.weapon.level * 0.3f,
                 angularSpeed: 180f + context.weapon.level * 30f,
-                damage: context.weapon.definition.baseDamage
+                damage: context.weapon.definition.Damage
             );
 
             orbit.SetStartAngle(startAngle);
