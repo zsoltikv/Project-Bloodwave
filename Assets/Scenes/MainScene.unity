@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 103169945}
   - component: {fileID: 103169947}
   - component: {fileID: 103169946}
+  - component: {fileID: 103169948}
   m_Layer: 5
   m_Name: RunTimer
   m_TagString: Untagged
@@ -153,7 +154,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 957}
+  m_AnchoredPosition: {x: 0, y: 975}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &103169946
@@ -255,6 +256,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103169944}
   m_CullTransparentMesh: 1
+--- !u!114 &103169948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103169944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332b03f46a0053442af611dfaca3865b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 103169946}
 --- !u!1 &259111721
 GameObject:
   m_ObjectHideFlags: 0
@@ -40687,9 +40701,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3118117755767866832, guid: 7625b2db3e4f21845902adad753bcc4e, type: 3}
+  player: {fileID: 1786332226}
   spawnInterval: 1
-  enemiesToSpawn: 0
-  Player: {fileID: 1786332226}
+  minSpawnInterval: 0.3
+  difficultyIncreaseInterval: 20
+  speedIncreasePerStep: 0.2
 --- !u!4 &583360079
 Transform:
   m_ObjectHideFlags: 0
@@ -41285,55 +41301,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1409647264}
   m_CullTransparentMesh: 1
---- !u!1 &1410135660
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1410135662}
-  - component: {fileID: 1410135661}
-  m_Layer: 0
-  m_Name: WaveManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1410135661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410135660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13598673e90d0bc47a24043013e41331, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawner: {fileID: 583360078}
-  timeBetweenWaves: 2
-  waveIndex: 0
-  startingEnemies: 10
-  enemiesIncrement: 5
---- !u!4 &1410135662
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410135660}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8054293, y: 0.5874793, z: -0.006327513}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1658191550
 GameObject:
   m_ObjectHideFlags: 0
@@ -41515,7 +41482,6 @@ GameObject:
   - component: {fileID: 1786332233}
   - component: {fileID: 1786332234}
   - component: {fileID: 1786332235}
-  - component: {fileID: 1786332236}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -41747,18 +41713,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d26307134af930cbb26e1a5f84c2005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1786332236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1786332226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b674250b32a20a149b88e1e2cd3d36dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1854193716
@@ -42146,5 +42100,4 @@ SceneRoots:
   - {fileID: 328497785}
   - {fileID: 1786332227}
   - {fileID: 259111724}
-  - {fileID: 1410135662}
   - {fileID: 583360079}
