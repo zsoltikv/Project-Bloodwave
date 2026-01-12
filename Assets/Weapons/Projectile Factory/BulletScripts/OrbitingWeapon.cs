@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class OrbitingWeapon : MonoBehaviour
 {
-    public float radius = 1.5f;
-    public float angularSpeed = 180f; // fok / mp
-    public float damage;
+    private float radius = 1.5f;
+    private float angularSpeed = 180f; // fok / mp
+    private float damage;
 
     private Transform owner;
     private float angle;
