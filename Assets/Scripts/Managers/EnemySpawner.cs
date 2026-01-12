@@ -4,52 +4,70 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] float spawnInterval = 1f;
-    [HideInInspector] public int enemiesToSpawn = 0;
-    public GameObject Player;
+    [SerializeField] GameObject player;
+
+    [Header("Spawn")]
+    [SerializeField] float spawnInterval = 1.5f;
+    [SerializeField] float minSpawnInterval = 0.3f;
+
+    [Header("Difficulty")]
+    [SerializeField] float difficultyIncreaseInterval = 20f;
+    [SerializeField] float speedIncreasePerStep = 0.2f;
+
+    float difficultyMultiplier = 0f;
 
     void Start()
     {
         StartCoroutine(SpawnLoop());
+        StartCoroutine(DifficultyLoop());
     }
 
     IEnumerator SpawnLoop()
     {
         while (true)
         {
-            if (enemiesToSpawn > 0)
-            {
-                SpawnEnemy();
-                enemiesToSpawn--;
-            }
-
+            SpawnEnemy();
             yield return new WaitForSeconds(spawnInterval);
+        }
+    }
+
+    IEnumerator DifficultyLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(difficultyIncreaseInterval);
+
+            difficultyMultiplier += speedIncreasePerStep;
+            spawnInterval = Mathf.Max(minSpawnInterval, spawnInterval - 0.1f);
         }
     }
 
     void SpawnEnemy()
     {
         Vector2 spawnPos = GetRandomSpawnPosition();
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+        var health = enemy.GetComponent<EnemyHealth>();
+        if (health != null)
+        {
+            health.baseSpeed += difficultyMultiplier;
+        }
     }
 
     Vector2 GetRandomSpawnPosition()
     {
-        Vector2 offset = Player.transform.position;
+        Vector2 offset = player.transform.position;
         float camHeight = Camera.main.orthographicSize;
         float camWidth = camHeight * Camera.main.aspect;
 
         int side = Random.Range(0, 4);
-        Vector2 pos = Vector2.zero;
 
-        switch (side)
+        return side switch
         {
-            case 0: pos = new Vector2(Random.Range(-camWidth, camWidth), camHeight + 1) + offset; break;
-            case 1: pos = new Vector2(Random.Range(-camWidth, camWidth), -camHeight - 1) + offset; break;
-            case 2: pos = new Vector2(-camWidth - 1, Random.Range(-camHeight, camHeight)) + offset; break;
-            case 3: pos = new Vector2(camWidth + 1, Random.Range(-camHeight, camHeight)) + offset; break;
-        }
-
-        return pos;
+            0 => new Vector2(Random.Range(-camWidth, camWidth), camHeight + 1) + offset,
+            1 => new Vector2(Random.Range(-camWidth, camWidth), -camHeight - 1) + offset,
+            2 => new Vector2(-camWidth - 1, Random.Range(-camHeight, camHeight)) + offset,
+            _ => new Vector2(camWidth + 1, Random.Range(-camHeight, camHeight)) + offset,
+        };
     }
 }
