@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -43,7 +44,6 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Player has died.");
-        // GameOver Panel, Respawn etc.
+        SceneManager.LoadScene("GameOver");
     }
 }

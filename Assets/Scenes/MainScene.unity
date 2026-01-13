@@ -42755,7 +42755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   baseDamageMultiplier: 1
-  baseCooldownMultiplier: 1
+  baseCooldownMultiplier: -100
   baseRangeMultiplier: 1
   baseProjectileSpeed: 12
   baseProjectileBonus: 0
