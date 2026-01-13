@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Orbiting Sword
   icon: {fileID: 0}
-  baseCooldown: 1
-  baseProjectileCount: 1
-  baseDamage: 10
+  Cooldown: 1
+  ProjectileCount: 1
+  Damage: 10
   baseRange: 6
   targeting: {fileID: 0}
   spawnPattern: {fileID: 0}
   projectileFactory: {fileID: 0}
   orbitingFactory: {fileID: 11400000, guid: 7b891728ad657606280253444bec7029, type: 2}
   modifiersOnHit:
-  - {fileID: 11400000, guid: 67cf445bf755eaf11b977e865679f92d, type: 2}
+  - {fileID: 11400000, guid: 45352653bfdd77bbcb0ea3566a865863, type: 2}
   modifiersOnKill: []
