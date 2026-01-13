@@ -10,7 +10,10 @@ public class WeaponController : MonoBehaviour
     
     [SerializeField] private WeaponDefinition startingWeapon;
 
-    private List<WeaponInstance> weapons = new List<WeaponInstance>();
+    [Header("Runtime Weapons (Debug View)")]
+    [SerializeField] private List<WeaponInstance> weapons = new List<WeaponInstance>();
+
+    public List<WeaponInstance> GetWeapons() => weapons;
 
     private bool IsShootingWeapon(WeaponDefinition def) => def.targeting != null && def.spawnPattern != null && def.projectileFactory != null;
     private List<GameObject> orbitingObjects = new List<GameObject>();
@@ -80,22 +83,25 @@ public class WeaponController : MonoBehaviour
             if (!IsShootingWeapon(weapon.definition))
                 continue;
 
-            weapon.cooldownTimer -= deltaTime;
-            if (weapon.cooldownTimer <= 0f)
+            if (!weapon.isFiring)
             {
-                StartCoroutine(FireWeaponRoutine(weapon));
-                weapon.cooldownTimer = GetCooldown(weapon);
+                weapon.cooldownTimer -= deltaTime;
+                if (weapon.cooldownTimer <= 0f)
+                {
+                    StartCoroutine(FireWeaponRoutine(weapon));
+                }
             }
         }
     }
 
     private float GetCooldown(WeaponInstance weapon)
     {
-        return weapon.definition.Cooldown * (1 - stats.CooldownMultiplier);
+        return weapon.GetCooldown() * (1 - stats.CooldownMultiplier);
     }
 
     private IEnumerator FireWeaponRoutine(WeaponInstance _weapon)
     {
+        _weapon.isFiring = true;
         int totalShots;
 
         var ctx = new WeaponContext
@@ -116,7 +122,8 @@ public class WeaponController : MonoBehaviour
 
         if (_weapon.definition.name == "Pistol")
         {
-            totalShots = ctx.weapon.definition.ProjectileCount;
+            totalShots = ctx.weapon.GetProjectileCount();
+            Debug.Log($"Pistol totalShots: {totalShots}, bonusProjectileCount: {_weapon.bonusProjectileCount}, base: {_weapon.definition.ProjectileCount}");
         }
         else
         {
@@ -130,8 +137,10 @@ public class WeaponController : MonoBehaviour
 
             var shots = _weapon.definition.spawnPattern.BuildShots(ctx, targetInfo);
 
+            int shotCount = 0;
             foreach (var shot0 in shots)
             {
+                shotCount++;
                 var shot = shot0;
 
                 if (_weapon.definition.modifiersOnHit != null)
@@ -153,9 +162,13 @@ public class WeaponController : MonoBehaviour
                     }
                 }
             }
+            Debug.Log($"Pistol iteration {i}: spawned {shotCount} projectiles");
 
             if (i < totalShots - 1)
                 yield return new WaitForSeconds(delay);
+
+        _weapon.cooldownTimer = GetCooldown(_weapon);
+        _weapon.isFiring = false;
         }
     }
 

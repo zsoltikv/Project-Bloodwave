@@ -12,9 +12,9 @@ public class SinglePattern : SpawnPattern
         {
             position = ctx.firePoint.position,
             direction = dir,
-            damage = ctx.weapon.definition.Damage,
+            damage = ctx.weapon.GetDamage(),
             speed  = ctx.stats.baseProjectileSpeed,
-            range  = ctx.weapon.definition.baseRange
+            range  = ctx.weapon.GetRange()
         };
     }
 }

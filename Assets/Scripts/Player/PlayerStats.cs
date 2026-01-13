@@ -10,9 +10,11 @@ public class PlayerStats : MonoBehaviour
     public GameObject XpBar;
     public GameObject HpBar;
     public GameObject LevelupPanel;
+    public GameObject LevelText;
 
     [Header("Base")]
     public float Health = 100f;
+    public int Level = 1;
     public float baseDamageMultiplier = 1f;
     public float baseCooldownMultiplier = 1f; // 1 = normál, 0.8 = gyorsabb
     public float baseRangeMultiplier = 1f;
@@ -77,6 +79,8 @@ public class PlayerStats : MonoBehaviour
     {
         XpBar.GetComponent<UnityEngine.UI.Slider>().value = 0f;
         XP = 0;
+        Level += 1;
+        LevelText.GetComponent<TMPro.TextMeshProUGUI>().text = "Level " + Level.ToString();
         XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue = Mathf.RoundToInt(XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue * 1.5f);
         RefreshXpBar();
         GameManagerScript.instance.PauseGame();
