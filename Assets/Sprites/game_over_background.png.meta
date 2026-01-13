@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6f8c3396a4ba5b04dba62df4cbd1f65c
+guid: 9ae41b7d3ffc4284a855a8a92adddc3a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2212589989402079858
-    second: game_over_panel_0
+      213: -6345972679224788954
+    second: game_over_background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: game_over_panel_0
+      name: game_over_background_0
       rect:
         serializedVersion: 2
-        x: 36
+        x: 42
         y: 36
-        width: 714
-        height: 1095
+        width: 996
+        height: 1848
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e8d8a10a02d4b41e0800000000000000
-      internalID: -2212589989402079858
+      spriteID: 628f87c78739ee7a0800000000000000
+      internalID: -6345972679224788954
       vertices: []
       indices: 
       edges: []

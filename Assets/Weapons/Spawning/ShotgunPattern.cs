@@ -11,8 +11,8 @@ public class ShotgunPattern : SpawnPattern
 
     public override IEnumerable<Shot> BuildShots(WeaponContext ctx, targetInfo target)
     {
-        int totalPellets = Mathf.Max(1, pelletCount + ctx.stats.ProjectileBonus);
-        float dynamicSpread = spreadAngle + ctx.stats.ProjectileBonus * 10f;
+        int totalPellets = Mathf.Max(1, pelletCount + ctx.weapon.definition.ProjectileCount - 1);
+        float dynamicSpread = spreadAngle + ctx.weapon.definition.ProjectileCount * 10f;
         float half = dynamicSpread * 0.5f;
 
         Vector3 baseDir = target.hasTarget
@@ -21,13 +21,10 @@ public class ShotgunPattern : SpawnPattern
 
         float baseDamage =
             ctx.weapon.definition.Damage *
-            ctx.stats.DamageMultiplier *
             damageMultiplierPerPellet;
 
-        float speed = ctx.stats.ProjectileSpeed;
-        float range =
-            ctx.weapon.definition.baseRange *
-            ctx.stats.RangeMultiplier;
+        float speed = ctx.stats.baseProjectileSpeed;
+        float range = ctx.weapon.definition.baseRange;
 
         if (pelletCount <= 1)
         {

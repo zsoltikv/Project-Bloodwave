@@ -646,7 +646,6 @@ RectTransform:
   - {fileID: 1712691913}
   - {fileID: 623127553}
   - {fileID: 1342719024}
-  - {fileID: 400583509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -41213,8 +41212,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Choose a weapon!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7be7d0fe6c24d3c47988ffda288cb471, type: 2}
-  m_sharedMaterial: {fileID: 4892771842042023574, guid: 7be7d0fe6c24d3c47988ffda288cb471, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -43043,16 +43042,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a61a7c2a3b82d440afc369a85483d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 100
   baseDamageMultiplier: 1
-  baseCooldownMultiplier: 1
+  baseCooldownMultiplier: -100
   baseRangeMultiplier: 1
   baseProjectileSpeed: 12
   baseProjectileBonus: 0
-  damageBonusMultiplier: 0
-  cooldownBonusMultiplier: 0
-  rangeBonusMultiplier: 0
-  projectileSpeedBonus: 0
-  projectileBonus: 0
+  CooldownMultiplier: 0
 --- !u!114 &1786332233
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public class WeaponController : MonoBehaviour
     
     [SerializeField] private WeaponDefinition startingWeapon;
 
-    private readonly List<WeaponInstance> weapons = new List<WeaponInstance>();
+    private List<WeaponInstance> weapons = new List<WeaponInstance>();
 
     private bool IsShootingWeapon(WeaponDefinition def) => def.targeting != null && def.spawnPattern != null && def.projectileFactory != null;
     private List<GameObject> orbitingObjects = new List<GameObject>();
@@ -89,7 +89,7 @@ public class WeaponController : MonoBehaviour
 
     private float GetCooldown(WeaponInstance weapon)
     {
-        return weapon.definition.Cooldown * stats.CooldownMultiplier;
+        return weapon.definition.Cooldown * (1 - stats.CooldownMultiplier);
     }
 
     private IEnumerator FireWeaponRoutine(WeaponInstance _weapon)
