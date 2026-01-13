@@ -2,12 +2,14 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 using Microsoft.Unity.VisualStudio.Editor;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
     [Header("Ui Elements")]
     public GameObject XpBar;
     public GameObject HpBar;
+    public GameObject LevelupPanel;
 
     [Header("Base")]
     public float Health = 100f;
@@ -62,7 +64,23 @@ public class PlayerStats : MonoBehaviour
 
     public void RefreshXpBar()
     {
-        XpBar.GetComponent<UnityEngine.UI.Slider>().value = XP / 100f;
+        XpBar.GetComponent<UnityEngine.UI.Slider>().value = XP;
+
+        if (XpBar.GetComponent<UnityEngine.UI.Slider>().value >= XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue)
+        {
+
+            LevelUp();
+        }
     }
-    
+
+    public void LevelUp() 
+    {
+        XpBar.GetComponent<UnityEngine.UI.Slider>().value = 0f;
+        XP = 0;
+        XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue = Mathf.RoundToInt(XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue * 1.5f);
+        RefreshXpBar();
+        GameManagerScript.instance.PauseGame();
+        LevelupPanel.SetActive(true);
+    }
+
 }

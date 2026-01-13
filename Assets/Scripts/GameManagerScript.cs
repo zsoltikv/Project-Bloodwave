@@ -19,5 +19,17 @@ public class GameManagerScript : MonoBehaviour
         }
     }
 
+    public void PauseGame()
+    {
+        FreezeGame = true;
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        FreezeGame = false;
+        Time.timeScale = 1f;
+    }
+
 
 }
