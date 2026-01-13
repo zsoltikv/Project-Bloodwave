@@ -23,7 +23,7 @@ public class ShotgunPattern : SpawnPattern
             ctx.weapon.definition.Damage *
             damageMultiplierPerPellet;
 
-        float speed = 10;
+        float speed = ctx.stats.baseProjectileSpeed;
         float range = ctx.weapon.definition.baseRange;
 
         if (pelletCount <= 1)
