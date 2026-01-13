@@ -1,12 +1,16 @@
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class PlayerStats : MonoBehaviour
 {
-    public float Health = 100f;
+    [Header("Ui Elements")]
+    public GameObject XpBar;
+    public GameObject HpBar;
 
     [Header("Base")]
+    public float Health = 100f;
     public float baseDamageMultiplier = 1f;
     public float baseCooldownMultiplier = 1f; // 1 = normál, 0.8 = gyorsabb
     public float baseRangeMultiplier = 1f;
@@ -19,12 +23,14 @@ public class PlayerStats : MonoBehaviour
   
     public event Action OnProjectileBonusChanged;
 
-    public int XP { get; private set; } = 0;
-    public int Coins { get; private set; } = 0;
+    [Header("Collected resources")]
+    [SerializeField] public int XP = 0;
+    [SerializeField] public int Coins = 0;
 
     public void AddXP(int amount)
     {
         XP += amount;
+        RefreshXpBar();
     }
 
     public void AddCoins(int amount)
@@ -36,6 +42,8 @@ public class PlayerStats : MonoBehaviour
     {
         Health -= amount;
 
+        RefreshHpBar();
+
         if (Health <= 0)
         {
             Die();
@@ -46,4 +54,15 @@ public class PlayerStats : MonoBehaviour
     {
         SceneManager.LoadScene("GameOver");
     }
+
+    public void RefreshHpBar()
+    {
+        HpBar.transform.GetChild(1).GetComponent<UnityEngine.UI.Image>().fillAmount = Health / 100f;
+    }
+
+    public void RefreshXpBar()
+    {
+        XpBar.GetComponent<UnityEngine.UI.Slider>().value = XP / 100f;
+    }
+    
 }

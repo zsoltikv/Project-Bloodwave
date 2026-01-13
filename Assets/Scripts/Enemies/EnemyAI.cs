@@ -18,7 +18,7 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!player) return;
+        if (!player || GameManagerScript.instance.FreezeGame) return;
 
         Vector2 dir = (player.position - transform.position).normalized;
         rb.linearVelocity = dir * this.GetComponent<EnemyHealth>().currentSpeed;

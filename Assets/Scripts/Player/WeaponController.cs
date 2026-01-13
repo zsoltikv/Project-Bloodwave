@@ -71,6 +71,8 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManagerScript.instance.FreezeGame) return;
+        
         float deltaTime = Time.deltaTime;
 
         foreach (var weapon in weapons)
