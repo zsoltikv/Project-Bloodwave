@@ -7,7 +7,7 @@ public class GameLoader : MonoBehaviour
     public void StartGame()
     {
         PlayerPrefs.SetInt("GameStarted", 1);
-        SceneManager.LoadScene("MainScene");
+        FadeManager.Instance.LoadSceneWithFade("MainScene");
     }
 
 }
