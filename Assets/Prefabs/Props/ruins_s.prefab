@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7953459534008155599}
   - component: {fileID: 7660677175903077537}
   - component: {fileID: 4002758186446594898}
-  - component: {fileID: -342981292131802752}
+  - component: {fileID: 555090047969606324}
   m_Layer: 0
   m_Name: ruins_s
   m_TagString: Untagged
@@ -136,7 +136,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.33674252, y: 0.1870476}
   m_EdgeRadius: 0
---- !u!114 &-342981292131802752
+--- !u!114 &555090047969606324
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

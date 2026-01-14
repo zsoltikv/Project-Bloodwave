@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6016987331503079553}
   - component: {fileID: 2143055539289159779}
   - component: {fileID: 7137073445092346321}
-  - component: {fileID: 8518511005513983073}
+  - component: {fileID: -3240320154457582940}
   m_Layer: 0
   m_Name: spike_plant
   m_TagString: Untagged
@@ -136,7 +136,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.2829995, y: 0.088654995}
   m_EdgeRadius: 0
---- !u!114 &8518511005513983073
+--- !u!114 &-3240320154457582940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56070334a79aff40b9999a48ff8fb9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propBottom: {fileID: 0}
+  propBottom: {fileID: 6801635458240750129}
 --- !u!1 &8498348907016581566
 GameObject:
   m_ObjectHideFlags: 0

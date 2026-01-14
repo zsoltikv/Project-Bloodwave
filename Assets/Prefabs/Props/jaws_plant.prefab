@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5088086885841485984}
   - component: {fileID: 1773989086429265907}
   - component: {fileID: 4811979436626099829}
-  - component: {fileID: 3058258138479529394}
+  - component: {fileID: -384089879469363475}
   m_Layer: 0
   m_Name: jaws_plant
   m_TagString: Untagged
@@ -167,7 +167,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.13972434, y: 0.13217792}
   m_EdgeRadius: 0
---- !u!114 &3058258138479529394
+--- !u!114 &-384089879469363475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,4 +179,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56070334a79aff40b9999a48ff8fb9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propBottom: {fileID: 0}
+  propBottom: {fileID: 6382321303004479971}

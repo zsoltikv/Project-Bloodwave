@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8530585678378581473}
   - component: {fileID: 2382147505307930873}
   - component: {fileID: 5346417797244203806}
-  - component: {fileID: -4122217370625380060}
+  - component: {fileID: -4390749612030723826}
   m_Layer: 0
   m_Name: undead_tomb
   m_TagString: Untagged
@@ -190,7 +190,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.27916884, y: 0.30401897}
   m_EdgeRadius: 0
---- !u!114 &-4122217370625380060
+--- !u!114 &-4390749612030723826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

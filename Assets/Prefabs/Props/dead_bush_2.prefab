@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8352144273679954470}
   - component: {fileID: 7549830357308378450}
-  - component: {fileID: 8472988656240774598}
+  - component: {fileID: 2443553109431970676}
   m_Layer: 0
   m_Name: dead_bush_2
   m_TagString: Untagged
@@ -120,7 +120,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8472988656240774598
+--- !u!114 &2443553109431970676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
