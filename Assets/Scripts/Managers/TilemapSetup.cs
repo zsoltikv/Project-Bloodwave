@@ -6,15 +6,15 @@ public class TilemapSetup : MonoBehaviour
     [Header("Tilemaps")]
     public Tilemap groundTilemap;
     public Tilemap overlayTilemap;
-    public Tilemap propsBehindTilemap;
 
     [Header("Overlay Tiles")]
     public TileBase[] overlayTiles;
     [Range(0f, 1f)] public float overlayChance = 0.15f;
 
-    [Header("Props Behind (Tilemap)")]
-    public TileBase[] propsBehindTiles;
+    [Header("Props Behind (GameObjects)")]
+    public GameObject[] propsBehindPrefabs;
     [Range(0f, 1f)] public float propsBehindChance = 0.05f;
+    public Transform propsBehindParent;
 
     [Header("Props Front (GameObjects)")]
     public GameObject[] propsFrontPrefabs;
@@ -36,15 +36,9 @@ public class TilemapSetup : MonoBehaviour
         groundTilemap.CompressBounds();
 
         overlayTilemap.ClearAllTiles();
-        propsBehindTilemap.ClearAllTiles();
 
-        if (propsFrontParent != null)
-        {
-            for (int i = propsFrontParent.childCount - 1; i >= 0; i--)
-            {
-                DestroyImmediate(propsFrontParent.GetChild(i).gameObject);
-            }
-        }
+        ClearChildren(propsBehindParent);
+        ClearChildren(propsFrontParent);
 
         BoundsInt bounds = groundTilemap.cellBounds;
 
@@ -67,65 +61,18 @@ public class TilemapSetup : MonoBehaviour
         if (Random.value > overlayChance)
             return;
 
-        PlaceTile(
-            overlayTilemap,
-            overlayTiles,
-            pos,
-            true
-        );
+        PlaceOverlayTile(pos);
     }
 
-    // ---------- PROPS ----------
-    void TryPlaceProps(Vector3Int pos)
+    void PlaceOverlayTile(Vector3Int pos)
     {
-        float roll = Random.value;
-
-        if (roll < propsBehindChance)
-        {
-            PlaceTile(
-                propsBehindTilemap,
-                propsBehindTiles,
-                pos,
-                false
-            );
-        }
-        else if (roll < propsBehindChance + propsFrontChance)
-        {
-            SpawnFrontProp(pos);
-        }
-    }
-
-    // ---------- FRONT PROP SPAWN ----------
-    void SpawnFrontProp(Vector3Int cellPos)
-    {
-        if (propsFrontPrefabs == null || propsFrontPrefabs.Length == 0)
+        if (overlayTiles == null || overlayTiles.Length == 0)
             return;
 
-        Vector3 worldPos = groundTilemap.GetCellCenterWorld(cellPos);
+        TileBase tile = overlayTiles[Random.Range(0, overlayTiles.Length)];
+        overlayTilemap.SetTile(pos, tile);
 
-        GameObject prefab =
-            propsFrontPrefabs[Random.Range(0, propsFrontPrefabs.Length)];
-
-        GameObject instance =
-            Instantiate(prefab, worldPos, Quaternion.identity, propsFrontParent);
-
-        var sorting = instance.GetComponent<PropFrontSorting>();
-        if (sorting != null)
-        {
-            sorting.Init(playerFeet);
-        }
-    }
-
-    // ---------- TILE PLACEMENT ----------
-    void PlaceTile(Tilemap tilemap, TileBase[] tiles, Vector3Int pos, bool allowRotation)
-    {
-        if (tiles == null || tiles.Length == 0)
-            return;
-
-        TileBase tile = tiles[Random.Range(0, tiles.Length)];
-        tilemap.SetTile(pos, tile);
-
-        int rot = allowRotation ? Random.Range(0, 4) * 90 : 0;
+        int rot = Random.Range(0, 4) * 90;
 
         Vector3 offset = new Vector3(
             Random.Range(-maxOffset, maxOffset),
@@ -139,7 +86,79 @@ public class TilemapSetup : MonoBehaviour
             Vector3.one
         );
 
-        tilemap.SetTransformMatrix(pos, matrix);
+        overlayTilemap.SetTransformMatrix(pos, matrix);
+    }
+
+    // ---------- PROPS ----------
+    void TryPlaceProps(Vector3Int pos)
+    {
+        float roll = Random.value;
+
+        if (roll < propsBehindChance)
+        {
+            SpawnBehindProp(pos);
+        }
+        else if (roll < propsBehindChance + propsFrontChance)
+        {
+            SpawnFrontProp(pos);
+        }
+    }
+
+    // ---------- BEHIND PROP ----------
+    void SpawnBehindProp(Vector3Int cellPos)
+    {
+        if (propsBehindPrefabs == null || propsBehindPrefabs.Length == 0)
+            return;
+
+        Vector3 worldPos = groundTilemap.GetCellCenterWorld(cellPos);
+
+        GameObject prefab =
+            propsBehindPrefabs[Random.Range(0, propsBehindPrefabs.Length)];
+
+        Instantiate(
+            prefab,
+            worldPos,
+            Quaternion.identity,
+            propsBehindParent
+        );
+    }
+
+    // ---------- FRONT PROP ----------
+    void SpawnFrontProp(Vector3Int cellPos)
+    {
+        if (propsFrontPrefabs == null || propsFrontPrefabs.Length == 0)
+            return;
+
+        Vector3 worldPos = groundTilemap.GetCellCenterWorld(cellPos);
+
+        GameObject prefab =
+            propsFrontPrefabs[Random.Range(0, propsFrontPrefabs.Length)];
+
+        GameObject instance =
+            Instantiate(
+                prefab,
+                worldPos,
+                Quaternion.identity,
+                propsFrontParent
+            );
+
+        var sorting = instance.GetComponent<PropFrontSorting>();
+        if (sorting != null)
+        {
+            sorting.Init(playerFeet);
+        }
+    }
+
+    // ---------- HELPERS ----------
+    void ClearChildren(Transform parent)
+    {
+        if (parent == null)
+            return;
+
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(parent.GetChild(i).gameObject);
+        }
     }
 
     // ---------- SURROUND CHECK ----------
