@@ -43437,7 +43437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 1786332232}
   firePoint: {fileID: 1949533702}
-  startingWeapon: {fileID: 11400000, guid: fb589a0bbe111c957a41466a0ef5e88a, type: 2}
+  startingWeapon: {fileID: 11400000, guid: af3ed66c75782eeed844f51152b60f07, type: 2}
   weapons: []
 --- !u!95 &1786332234
 Animator:
