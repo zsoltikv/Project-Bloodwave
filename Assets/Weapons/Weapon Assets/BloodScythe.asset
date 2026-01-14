@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Blood Scythe
   icon: {fileID: 0}
-  Cooldown: 1
+  Cooldown: 2
   ProjectileCount: 1
-  Damage: 10
-  baseRange: 6
+  Damage: 20
+  baseRange: 3
   targeting: {fileID: 11400000, guid: f96974fa6bbc3fac8bf072abc9006a9e, type: 2}
   spawnPattern: {fileID: 11400000, guid: 8a40dbd80f62a9e93b849777b42ef771, type: 2}
   projectileFactory: {fileID: 11400000, guid: 3dce6caead99f8727b5cf1839f87d84d, type: 2}

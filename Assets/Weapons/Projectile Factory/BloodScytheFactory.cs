@@ -9,10 +9,8 @@ public class BloodScytheFactory : ProjectileFactory
     {
         Vector3 dir = shot.direction.normalized;
         
-        // Calculate starting angle based on shot direction
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        // Spawn at owner's position
         Vector3 pos = context.owner.transform.position;
         Quaternion rot = Quaternion.Euler(0, 0, angle);
 
@@ -22,10 +20,9 @@ public class BloodScytheFactory : ProjectileFactory
         var scythe = go.GetComponent<BloodScythe>();
         if (scythe != null)
         {
-            scythe.Init(context.owner, shot.damage, angle);
+            scythe.Init(context.owner, shot.damage, angle, shot.range);
         }
 
-        // Copy modifiers for effects
         var fx = go.GetComponent<ProjectileEffects>();
         if (fx != null)
         {

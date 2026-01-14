@@ -6,14 +6,20 @@ public class LifeStealOnHit : WeaponModifier
     [Range(0f, 1f)]
     public float lifeStealPercent = 0.1f; // 10% of damage dealt
 
+    private PlayerStats cachedPlayerStats;
+
     public override void OnHit(ref WeaponContext context, HitInfo hit)
     {
         float healAmount = hit.damage * lifeStealPercent;
         
-        var playerStats = context.owner.GetComponent<PlayerStats>();
-        if (playerStats != null)
+        if (cachedPlayerStats == null)
         {
-            playerStats.Heal(healAmount);
+            cachedPlayerStats = Object.FindObjectOfType<PlayerStats>();
+        }
+        
+        if (cachedPlayerStats != null)
+        {
+            cachedPlayerStats.Heal(healAmount);
         }
     }
 }

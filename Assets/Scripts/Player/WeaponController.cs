@@ -120,7 +120,7 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        if (_weapon.definition.name == "Pistol")
+        if (_weapon.definition.name == "Pistol" || _weapon.definition.name == "BloodScythe" || _weapon.definition.name == "Sword")
         {
             totalShots = ctx.weapon.GetProjectileCount();
         }
@@ -164,10 +164,10 @@ public class WeaponController : MonoBehaviour
 
             if (i < totalShots - 1)
                 yield return new WaitForSeconds(delay);
+        }
 
         _weapon.cooldownTimer = GetCooldown(_weapon);
         _weapon.isFiring = false;
-        }
     }
 
 

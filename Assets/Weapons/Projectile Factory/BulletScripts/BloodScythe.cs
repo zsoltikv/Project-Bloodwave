@@ -4,21 +4,27 @@ using UnityEngine;
 public class BloodScythe : MonoBehaviour
 {
     public float lifetime = 0.25f;
-    public float sweepAngle = 120f; // Wide arc sweep
-    public float sweepSpeed = 720f; // Degrees per second
+    public float sweepAngle = 120f;
+    public float sweepSpeed = 720f;
 
     private GameObject owner;
     private float damage;
+    private float range;
     private HashSet<EnemyHealth> hitEnemies = new();
     private float initialAngle;
     private float currentSweepAngle;
 
-    public void Init(GameObject owner, float damage, float startAngle)
+    public void Init(GameObject owner, float damage, float startAngle, float range)
     {
         this.owner = owner;
         this.damage = damage;
+        this.range = range;
         this.initialAngle = startAngle;
         this.currentSweepAngle = 0f;
+
+        float baseRange = 2.0f;
+        float scale = (range / baseRange) * 0.3f;
+        transform.localScale = Vector3.one * scale;
         
         Destroy(gameObject, lifetime);
     }
@@ -31,25 +37,24 @@ public class BloodScythe : MonoBehaviour
             return;
         }
 
-        // Sweep through arc
         currentSweepAngle += sweepSpeed * Time.deltaTime;
         float progress = Mathf.Clamp01(currentSweepAngle / sweepAngle);
         
-        // Swing from -sweepAngle/2 to +sweepAngle/2
-        float offset = Mathf.Lerp(-sweepAngle / 2f, sweepAngle / 2f, progress);
-        float angle = initialAngle + offset;
+        float sweepOffset = Mathf.Lerp(-sweepAngle / 2f, sweepAngle / 2f, progress);
+        float angle = initialAngle + sweepOffset;
 
         transform.rotation = Quaternion.Euler(0, 0, angle);
         
-        // Keep at owner's position
-        transform.position = owner.transform.position;
+        float offsetDistance = range * 0.3f; 
+        Vector3 positionOffset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0f) * offsetDistance;
+        transform.position = owner.transform.position + positionOffset;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject == owner) return;
         if (!other.TryGetComponent<EnemyHealth>(out var hp)) return;
-        if (hitEnemies.Contains(hp)) return; // Each enemy can only be hit once per swing
+        if (hitEnemies.Contains(hp)) return; 
 
         hitEnemies.Add(hp);
         float dealt = hp.TakeDamage(damage);
