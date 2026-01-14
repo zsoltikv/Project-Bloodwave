@@ -54,6 +54,16 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void Heal(float amount)
+    {
+        Health += amount;
+        if (Health > 100f)
+        {
+            Health = 100f;
+        }
+        RefreshHpBar();
+    }
+
     public void Die()
     {
         FadeManager.Instance.LoadSceneWithFade("GameOver");
