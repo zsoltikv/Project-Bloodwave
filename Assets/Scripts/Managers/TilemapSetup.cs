@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TilemapSetup : MonoBehaviour
@@ -33,6 +33,8 @@ public class TilemapSetup : MonoBehaviour
     [ContextMenu("Generate All")]
     public void GenerateAll()
     {
+        groundTilemap.CompressBounds();
+
         overlayTilemap.ClearAllTiles();
         propsBehindTilemap.ClearAllTiles();
 
@@ -48,7 +50,7 @@ public class TilemapSetup : MonoBehaviour
 
         foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
-            if (!groundTilemap.HasTile(pos))
+            if (groundTilemap.GetTile(pos) == null)
                 continue;
 
             if (!IsFullySurrounded(pos))
@@ -145,20 +147,20 @@ public class TilemapSetup : MonoBehaviour
     {
         Vector3Int[] neighbors =
         {
-            pos + Vector3Int.up,
-            pos + Vector3Int.down,
-            pos + Vector3Int.left,
-            pos + Vector3Int.right,
+            Vector3Int.up,
+            Vector3Int.down,
+            Vector3Int.left,
+            Vector3Int.right,
 
-            pos + new Vector3Int(1, 1, 0),
-            pos + new Vector3Int(-1, 1, 0),
-            pos + new Vector3Int(1, -1, 0),
-            pos + new Vector3Int(-1, -1, 0)
+            new Vector3Int(1, 1, 0),
+            new Vector3Int(-1, 1, 0),
+            new Vector3Int(1, -1, 0),
+            new Vector3Int(-1, -1, 0)
         };
 
-        foreach (var n in neighbors)
+        foreach (var dir in neighbors)
         {
-            if (!groundTilemap.HasTile(n))
+            if (groundTilemap.GetTile(pos + dir) == null)
                 return false;
         }
 

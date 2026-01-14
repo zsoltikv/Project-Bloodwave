@@ -3,6 +3,7 @@
 [RequireComponent(typeof(SpriteRenderer))]
 public class PropFrontSorting : MonoBehaviour
 {
+    [Header("References")]
     public Transform propBottom;
 
     SpriteRenderer propRenderer;

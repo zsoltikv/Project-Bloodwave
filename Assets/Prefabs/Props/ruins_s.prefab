@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7953459534008155599}
   - component: {fileID: 7660677175903077537}
   - component: {fileID: 4002758186446594898}
-  - component: {fileID: 2876213878510578925}
+  - component: {fileID: -342981292131802752}
   m_Layer: 0
   m_Name: ruins_s
   m_TagString: Untagged
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -5237015435053085785, guid: a1a8ff0320f0dd24099ed782c1c731e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -136,7 +136,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.33674252, y: 0.1870476}
   m_EdgeRadius: 0
---- !u!114 &2876213878510578925
+--- !u!114 &-342981292131802752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5788568584495095793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eda663f8c304c934391a77a47eda9131, type: 3}
+  m_Script: {fileID: 11500000, guid: c56070334a79aff40b9999a48ff8fb9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   propBottom: {fileID: 2323059336645685624}

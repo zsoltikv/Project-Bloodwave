@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8352144273679954470}
   - component: {fileID: 7549830357308378450}
-  - component: {fileID: 2610186597408553154}
+  - component: {fileID: 8472988656240774598}
   m_Layer: 0
   m_Name: dead_bush_2
   m_TagString: Untagged
@@ -108,7 +108,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -4217588451241903539, guid: a1a8ff0320f0dd24099ed782c1c731e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -120,7 +120,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2610186597408553154
+--- !u!114 &8472988656240774598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2422112486130681585}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eda663f8c304c934391a77a47eda9131, type: 3}
+  m_Script: {fileID: 11500000, guid: c56070334a79aff40b9999a48ff8fb9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   propBottom: {fileID: 311236970832624826}
