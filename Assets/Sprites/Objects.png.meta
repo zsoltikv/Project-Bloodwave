@@ -798,13 +798,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Objects_0
+      name: skeleton_king
       rect:
         serializedVersion: 2
-        x: 4
-        y: 587
-        width: 152
-        height: 115
+        x: 5
+        y: 588
+        width: 150
+        height: 113
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -864,7 +864,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Objects_3
+      name: v
       rect:
         serializedVersion: 2
         x: 481
@@ -969,50 +969,6 @@ TextureImporter:
       bones: []
       spriteID: c25f6905f3e1e8a40800000000000000
       internalID: 5372264662783423788
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Objects_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 575
-        width: 33
-        height: 31
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: be4b6ac726e7d40a0800000000000000
-      internalID: -6895716492971166485
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Objects_9
-      rect:
-        serializedVersion: 2
-        x: 111
-        y: 575
-        width: 50
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0b062db5683d11cb0800000000000000
-      internalID: -4894898745955426128
       vertices: []
       indices: 
       edges: []
@@ -1506,7 +1462,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Objects_32
+      name: decayed_log
       rect:
         serializedVersion: 2
         x: 490
@@ -5765,7 +5721,6 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Objects_0: 7642980859614939925
       Objects_1: -174804484191063705
       Objects_10: 734368628706365288
       Objects_100: 2587314467390573380
@@ -5913,10 +5868,8 @@ TextureImporter:
       Objects_27: -1668014440229517187
       Objects_28: -2035105256428418344
       Objects_29: 7043884582185661398
-      Objects_3: -7067808830664889489
       Objects_30: 7757104150326903795
       Objects_31: 2182464128780118203
-      Objects_32: 2576728462390566697
       Objects_33: 5940148099811479935
       Objects_34: 2941760180877342075
       Objects_35: -3746574086467807375
@@ -5990,6 +5943,9 @@ TextureImporter:
       Objects_97: -1711523434982782601
       Objects_98: -3959818803741121525
       Objects_99: 6601666357239969419
+      decayed_log: 2576728462390566697
+      skeleton_king: 7642980859614939925
+      v: -7067808830664889489
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
