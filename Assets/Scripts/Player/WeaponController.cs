@@ -123,7 +123,6 @@ public class WeaponController : MonoBehaviour
         if (_weapon.definition.name == "Pistol")
         {
             totalShots = ctx.weapon.GetProjectileCount();
-            Debug.Log($"Pistol totalShots: {totalShots}, bonusProjectileCount: {_weapon.bonusProjectileCount}, base: {_weapon.definition.ProjectileCount}");
         }
         else
         {
@@ -162,7 +161,6 @@ public class WeaponController : MonoBehaviour
                     }
                 }
             }
-            Debug.Log($"Pistol iteration {i}: spawned {shotCount} projectiles");
 
             if (i < totalShots - 1)
                 yield return new WaitForSeconds(delay);

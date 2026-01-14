@@ -25,10 +25,15 @@ public class Projectile : MonoBehaviour
     }
 
 
+    private bool hasHit = false;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (hasHit || other.gameObject == owner) return;
+        
         if (!other.TryGetComponent<EnemyHealth>(out var hp)) return;
 
+        hasHit = true;
         float dealt = hp.TakeDamage(damage);
 
         var fx = GetComponent<ProjectileEffects>();

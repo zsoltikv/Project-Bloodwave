@@ -16,6 +16,11 @@ public class OrbitingWeaponFactory : ScriptableObject
 
         float radius = context.weapon.GetRange();
 
+    
+        float baseRadius = context.weapon.definition.baseRange;
+        float baseAngularSpeed = 90f;
+        float angularSpeed = baseAngularSpeed * (baseRadius / radius) * context.weapon.GetOrbitalSpeed();
+
         for (int i = 0; i < count; i++)
         {
             float startAngle = (360f / count) * i;
@@ -27,8 +32,8 @@ public class OrbitingWeaponFactory : ScriptableObject
 
             orbit.Init(
                 context.owner.transform,
-                radius: 1.5f + context.weapon.level * 0.3f,
-                angularSpeed: 180f + context.weapon.level * 30f,
+                radius: radius,
+                angularSpeed: angularSpeed,
                 damage: context.weapon.GetDamage()
             );
 

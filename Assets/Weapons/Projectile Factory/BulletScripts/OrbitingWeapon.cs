@@ -35,7 +35,7 @@ public class OrbitingWeapon : MonoBehaviour
 
         Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * radius;
         transform.position = owner.position + offset;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle - 45f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

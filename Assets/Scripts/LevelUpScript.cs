@@ -15,6 +15,7 @@ public class LevelUpScript : MonoBehaviour
     [SerializeField] private int projectileIncrement = 1;
     [SerializeField] private float cooldownReduction = 0.1f;
     [SerializeField] private float rangeIncrease = 0.15f;
+    [SerializeField] private float orbitalSpeedIncrease = 0.2f;
 
     public GameObject DismissButton;
 
@@ -76,7 +77,22 @@ public class LevelUpScript : MonoBehaviour
     private WeaponUpgrade GenerateRandomUpgrade(List<WeaponInstance> weapons)
     {
         WeaponInstance randomWeapon = weapons[Random.Range(0, weapons.Count)];
-        UpgradeType randomType = (UpgradeType)Random.Range(0, System.Enum.GetValues(typeof(UpgradeType)).Length);
+        
+        bool isOrbitingOnly = randomWeapon.definition.orbitingFactory != null &&
+                              (randomWeapon.definition.targeting == null || 
+                               randomWeapon.definition.spawnPattern == null || 
+                               randomWeapon.definition.projectileFactory == null);
+        
+        UpgradeType randomType;
+        if (isOrbitingOnly)
+        {
+            UpgradeType[] orbitingUpgrades = { UpgradeType.Damage, UpgradeType.ProjectileCount, UpgradeType.Range, UpgradeType.OrbitalSpeed };
+            randomType = orbitingUpgrades[Random.Range(0, orbitingUpgrades.Length)];
+        }
+        else
+        {
+            randomType = (UpgradeType)Random.Range(0, System.Enum.GetValues(typeof(UpgradeType)).Length - 1);
+        }
 
         float value = 0f;
         switch (randomType)
@@ -92,6 +108,9 @@ public class LevelUpScript : MonoBehaviour
                 break;
             case UpgradeType.Range:
                 value = rangeIncrease;
+                break;
+            case UpgradeType.OrbitalSpeed:
+                value = orbitalSpeedIncrease;
                 break;
         }
 

@@ -42096,6 +42096,7 @@ MonoBehaviour:
   projectileIncrement: 1
   cooldownReduction: 0.1
   rangeIncrease: 0.15
+  orbitalSpeedIncrease: 0.2
   DismissButton: {fileID: 1323862083}
 --- !u!1 &1409647264
 GameObject:
@@ -43436,7 +43437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 1786332232}
   firePoint: {fileID: 1949533702}
-  startingWeapon: {fileID: 11400000, guid: 3c361e64f073b7f17ac7dbe7110416fd, type: 2}
+  startingWeapon: {fileID: 11400000, guid: fb589a0bbe111c957a41466a0ef5e88a, type: 2}
   weapons: []
 --- !u!95 &1786332234
 Animator:

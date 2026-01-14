@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7739220412068100446}
   - component: {fileID: 7199740984822142189}
   - component: {fileID: 1513599164186710897}
-  - component: {fileID: 8586148184465484131}
   - component: {fileID: -9170994530176962209}
   m_Layer: 0
   m_Name: OrbitingBlade
@@ -33,7 +32,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3958017411442503093}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &7739220412068100446
@@ -130,16 +130,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e9c0cb0a93d15547a6a0b86ab73451f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 1.5
-  angularSpeed: 180
-  damage: 10
---- !u!58 &8586148184465484131
-CircleCollider2D:
+--- !u!114 &-9170994530176962209
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829594800283663786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 056c955ae2bc05e82bb7440f3ac4f458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHitModifiers: []
+  OnKillModifiers: []
+--- !u!1 &6824753258552448961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3958017411442503093}
+  - component: {fileID: 9055052707958935813}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3958017411442503093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824753258552448961}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4689783821779617108}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
+--- !u!70 &9055052707958935813
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824753258552448961}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -167,19 +210,6 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0017692909, y: 0.00000013488427}
-  m_Radius: 0.29750195
---- !u!114 &-9170994530176962209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829594800283663786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 056c955ae2bc05e82bb7440f3ac4f458, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnHitModifiers: []
-  OnKillModifiers: []
+  m_Offset: {x: 0, y: -0.002745092}
+  m_Size: {x: 0.2254979, y: 0.8023585}
+  m_Direction: 0

@@ -13,6 +13,7 @@ public class WeaponInstance
     public int bonusProjectileCount = 0;
     public float cooldownMultiplier = 1f;
     public float rangeMultiplier = 1f;
+    public float orbitalSpeedMultiplier = 1f;
 
     public WeaponInstance(WeaponDefinition definition)
     {
@@ -22,4 +23,5 @@ public class WeaponInstance
     public int GetProjectileCount() => definition.ProjectileCount + bonusProjectileCount;
     public float GetCooldown() => definition.Cooldown * cooldownMultiplier;
     public float GetRange() => definition.baseRange * rangeMultiplier;
+    public float GetOrbitalSpeed() => orbitalSpeedMultiplier;
 }

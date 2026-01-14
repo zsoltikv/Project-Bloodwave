@@ -5,7 +5,8 @@ public enum UpgradeType
     Damage,
     ProjectileCount,
     Cooldown,
-    Range
+    Range,
+    OrbitalSpeed
 }
 
 [System.Serializable]
@@ -32,6 +33,8 @@ public class WeaponUpgrade
                 return $"{weaponName}: -{value * 100:F0}% Cooldown";
             case UpgradeType.Range:
                 return $"{weaponName}: +{value * 100:F0}% Range";
+            case UpgradeType.OrbitalSpeed:
+                return $"{weaponName}: +{value * 100:F0}% Orbital Speed";
             default:
                 return "Unknown Upgrade";
         }
@@ -46,7 +49,6 @@ public class WeaponUpgrade
                 break;
             case UpgradeType.ProjectileCount:
                 targetWeapon.bonusProjectileCount += (int)value;
-                // Refresh orbiting weapons when projectile count changes
                 if (weaponController != null)
                     weaponController.RefreshAllOrbitingWeapons();
                 break;
@@ -55,7 +57,11 @@ public class WeaponUpgrade
                 break;
             case UpgradeType.Range:
                 targetWeapon.rangeMultiplier *= (1f + value);
-                // Refresh orbiting weapons when range changes
+                if (weaponController != null)
+                    weaponController.RefreshAllOrbitingWeapons();
+                break;
+            case UpgradeType.OrbitalSpeed:
+                targetWeapon.orbitalSpeedMultiplier *= (1f + value);
                 if (weaponController != null)
                     weaponController.RefreshAllOrbitingWeapons();
                 break;
