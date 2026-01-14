@@ -62,7 +62,6 @@ public class EnemyHealth : MonoBehaviour
         {
             isSlowed = true;
             currentSpeed = baseSpeed * (1 - slowAmount);    
-            Debug.Log("Slow effect.");
             yield return new WaitForSeconds(duration);
             isSlowed = false;
             ResetSpeed();
@@ -84,7 +83,6 @@ public class EnemyHealth : MonoBehaviour
         {
             TakeDamage(bleedDamage * Time.deltaTime);
             timeElapsed += Time.deltaTime;
-            Debug.Log($"Bleed damage applied: {bleedDamage}");
             yield return null;
         }
         isBleeding = false;

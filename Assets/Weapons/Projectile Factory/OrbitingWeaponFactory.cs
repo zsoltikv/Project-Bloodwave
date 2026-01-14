@@ -10,11 +10,16 @@ public class OrbitingWeaponFactory : ScriptableObject
     {
         var orbitList = new List<GameObject>();
 
-        int count = context.weapon.definition.ProjectileCount;
+        int count = context.weapon.GetProjectileCount();
 
         if (count > 6) count = 6;
 
-        float radius = context.weapon.definition.baseRange;
+        float radius = context.weapon.GetRange();
+
+    
+        float baseRadius = context.weapon.definition.baseRange;
+        float baseAngularSpeed = 90f;
+        float angularSpeed = baseAngularSpeed * (baseRadius / radius) * context.weapon.GetOrbitalSpeed();
 
         for (int i = 0; i < count; i++)
         {
@@ -27,9 +32,9 @@ public class OrbitingWeaponFactory : ScriptableObject
 
             orbit.Init(
                 context.owner.transform,
-                radius: 1.5f + context.weapon.level * 0.3f,
-                angularSpeed: 180f + context.weapon.level * 30f,
-                damage: context.weapon.definition.Damage
+                radius: radius,
+                angularSpeed: angularSpeed,
+                damage: context.weapon.GetDamage()
             );
 
             orbit.SetStartAngle(startAngle);

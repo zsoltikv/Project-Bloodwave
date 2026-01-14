@@ -17,7 +17,7 @@ MonoBehaviour:
   Cooldown: 1
   ProjectileCount: 1
   Damage: 10
-  baseRange: 6
+  baseRange: 2
   targeting: {fileID: 0}
   spawnPattern: {fileID: 0}
   projectileFactory: {fileID: 0}
