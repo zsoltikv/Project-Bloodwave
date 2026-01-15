@@ -15,7 +15,21 @@ public class EnemyAI : MonoBehaviour
     
     private Vector2 lastPosition;
     private float stuckTimer;
-    
+
+    void LookAtPlayer()
+    {
+        if (!player) return;
+
+        Vector3 scale = transform.localScale; 
+        float dir = player.position.x - transform.position.x;
+
+        if (dir > 0)
+            scale.x = Mathf.Abs(scale.x);      
+        else if (dir < 0)
+            scale.x = -Mathf.Abs(scale.x);     
+
+        transform.localScale = scale;     
+    }
 
     void Awake()
     {

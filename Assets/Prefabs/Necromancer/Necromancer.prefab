@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: -180964997302808873}
   m_Layer: 6
   m_Name: Necromancer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +310,7 @@ MonoBehaviour:
   detectionDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 65
   rayCount: 7
   rayAngleRange: 70
   stuckCheckTime: 3

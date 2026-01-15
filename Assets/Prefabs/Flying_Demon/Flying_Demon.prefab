@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6218776136334365701}
   - component: {fileID: -2931723843077756635}
   m_Layer: 6
-  m_Name: FLYING
+  m_Name: Flying_Demon
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,6 +163,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionDistance: 2
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 65
+  rayCount: 7
+  rayAngleRange: 90
+  stuckCheckTime: 1
 --- !u!114 &600916752107895115
 MonoBehaviour:
   m_ObjectHideFlags: 0
