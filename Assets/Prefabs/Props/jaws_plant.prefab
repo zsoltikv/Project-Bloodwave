@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6382321303004479971}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1773989086429265907}
   - component: {fileID: 4811979436626099829}
   - component: {fileID: -384089879469363475}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: jaws_plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}

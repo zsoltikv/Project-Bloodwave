@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2903346974152559660}
   - component: {fileID: 6522083108673141522}
   - component: {fileID: -5185075566687253632}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: dead_bush_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6394517601922179621}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
