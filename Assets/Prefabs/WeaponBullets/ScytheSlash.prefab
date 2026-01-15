@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3158828897815091103}
   - component: {fileID: 2567673986096614661}
   - component: {fileID: -6710555208510593650}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ScytheSlash
   m_TagString: Untagged
   m_Icon: {fileID: 0}

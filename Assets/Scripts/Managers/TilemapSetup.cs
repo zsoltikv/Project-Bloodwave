@@ -112,7 +112,7 @@ public class TilemapSetup : MonoBehaviour
         }
         else if (roll < propsBehindChance + propsFrontChance)
         {
-            SpawnFrontProp(pos);
+            SpawnFrontProp(pos); 
         }
     }
 

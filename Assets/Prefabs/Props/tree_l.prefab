@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2032245760974913781}
   - component: {fileID: 6156943989723910018}
   - component: {fileID: -2622689707103093460}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tree_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8978311476658689525}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

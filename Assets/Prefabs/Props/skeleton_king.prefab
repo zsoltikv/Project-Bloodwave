@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 6784736197453885646}
   - component: {fileID: 5461576525658290107}
   - component: {fileID: 3543188635370159046}
-  - component: {fileID: 5620936356734563942}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: skeleton_king
   m_TagString: Untagged
   m_Icon: {fileID: 0}

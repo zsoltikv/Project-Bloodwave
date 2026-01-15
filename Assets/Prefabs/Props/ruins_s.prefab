@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7660677175903077537}
   - component: {fileID: 4002758186446594898}
   - component: {fileID: 555090047969606324}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ruins_s
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2323059336645685624}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7199740984822142189}
   - component: {fileID: 1513599164186710897}
   - component: {fileID: -9170994530176962209}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: OrbitingBlade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3958017411442503093}
   - component: {fileID: 9055052707958935813}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
