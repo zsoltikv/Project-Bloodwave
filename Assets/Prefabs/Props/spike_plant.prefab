@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2143055539289159779}
   - component: {fileID: 7137073445092346321}
   - component: {fileID: -3240320154457582940}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: spike_plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6801635458240750129}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

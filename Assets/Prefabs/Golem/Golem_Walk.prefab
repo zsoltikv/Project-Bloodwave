@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 523098670791292590}
   - component: {fileID: 6316969012669255189}
   - component: {fileID: 5070494694285527763}
-  m_Layer: 0
+  - component: {fileID: -600401459047399585}
+  m_Layer: 6
   m_Name: Golem_Walk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,6 +211,42 @@ MonoBehaviour:
   isSlowed: 0
   isBleeding: 0
   IsDead: 0
+--- !u!58 &-600401459047399585
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940687897850782227}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.19
 --- !u!1 &7820726545883305021
 GameObject:
   m_ObjectHideFlags: 0

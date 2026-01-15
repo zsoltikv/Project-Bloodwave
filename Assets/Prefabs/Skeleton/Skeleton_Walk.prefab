@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 8976965040823390701}
   - component: {fileID: 8377601988566333968}
   - component: {fileID: 8646362654396622078}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Skeleton_Walk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
