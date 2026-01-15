@@ -5,12 +5,12 @@ public class EnemyAI : MonoBehaviour
 {
     Transform player;
     Rigidbody2D rb;
+    Collider2D playerCollider;
 
     [Header("Pathfinding")]
     [SerializeField] private float detectionDistance = 2f;
     [SerializeField] private LayerMask obstacleLayer;
-    [SerializeField] private int rayCount = 7;
-    [SerializeField] private float rayAngleRange = 90f;
+    [SerializeField] private float avoidanceAngle = 45f;
     [SerializeField] private float stuckCheckTime = 1f;
     
     private Vector2 lastPosition;
@@ -24,7 +24,14 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObj)
+        {
+            player = playerObj.transform;
+            playerCollider = playerObj.GetComponent<Collider2D>();
+        }
+
         lastPosition = rb.position;
     }
 
@@ -32,59 +39,131 @@ public class EnemyAI : MonoBehaviour
     {
         if (!player || GameManagerScript.instance.FreezeGame) return;
 
-        Vector2 targetDir = (player.position - transform.position).normalized;
-        Vector2 bestDir = FindBestDirection(targetDir);
+        Vector2 playerTargetPos = playerCollider != null ? playerCollider.bounds.center : player.position;
+        Vector2 targetDir = (playerTargetPos - (Vector2)transform.position).normalized;
+        float distanceToPlayer = Vector2.Distance(transform.position, playerTargetPos);
 
-        CheckIfStuck(bestDir);
+        float checkDistance = Mathf.Min(detectionDistance, distanceToPlayer - 0.1f);
 
-        float speed = this.GetComponent<EnemyHealth>().currentSpeed;
-        rb.linearVelocity = bestDir * speed;
-    }
+        RaycastHit2D directHit = Physics2D.Raycast(
+            transform.position,
+            targetDir,
+            checkDistance,
+            obstacleLayer
+        );
 
-    Vector2 FindBestDirection(Vector2 targetDir)
-    {
-        float bestScore = -999f;
-        Vector2 bestDirection = targetDir;
+        Vector2 moveDir;
 
-        for (int i = 0; i < rayCount; i++)
+        if (directHit.collider == null || directHit.distance > distanceToPlayer) // Nincs akadály - egyenesen a player felé
         {
-            float t = rayCount > 1 ? i / (float)(rayCount - 1) : 0.5f;
-            float angle = Mathf.Lerp(-rayAngleRange, rayAngleRange, t);
-            Vector2 dir = Rotate(targetDir, angle);
-            
-            RaycastHit2D hit = Physics2D.Raycast(
-                transform.position, 
-                dir, 
-                detectionDistance, 
-                obstacleLayer
-            );
-            
-            // Pontozás: mennyire mutat a cél felé
-            float score = Vector2.Dot(dir, targetDir) * 100f;
-            
-            if (hit.collider == null)
-            {
-                score += 50f;
-            }
-            else
-            {
-                // Közel van akadály = büntetés
-                float distanceRatio = hit.distance / detectionDistance;
-                score -= (1f - distanceRatio) * 80f;
-            }
-
-            // Debug ray
-            Debug.DrawRay(transform.position, dir * detectionDistance, 
-                hit.collider == null ? Color.green : Color.red);
-
-            if (score > bestScore)
-            {
-                bestScore = score;
-                bestDirection = dir;
-            }
+            moveDir = targetDir;
+            Debug.DrawRay(transform.position, targetDir * checkDistance, Color.blue);
+        }
+        else // Akadály - kerüljön
+        {
+            Debug.Log($"Obstacle hit: {directHit.collider.name}");
+            moveDir = FindAvoidanceDirection(targetDir, checkDistance);
         }
 
-        return bestDirection;
+        CheckIfStuck(moveDir);
+
+        float speed = this.GetComponent<EnemyHealth>().currentSpeed;
+        rb.linearVelocity = moveDir * speed;
+    }
+
+    Vector2 FindAvoidanceDirection(Vector2 targetDir, float checkDistance)
+    {
+
+        RaycastHit2D hitForward = Physics2D.Raycast(
+            transform.position,
+            targetDir,
+            checkDistance,
+            obstacleLayer
+        );
+
+        if (hitForward.collider == null)
+        {
+            Debug.DrawRay(transform.position, targetDir * checkDistance, Color.green, 0.1f);
+            return targetDir;
+        }
+
+        Vector2 rightDir = Rotate(targetDir, avoidanceAngle);
+        Vector2 leftDir = Rotate(targetDir, -avoidanceAngle);
+
+        RaycastHit2D hitRight = Physics2D.Raycast(
+            transform.position,
+            rightDir,
+            checkDistance,
+            obstacleLayer
+        );
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(
+            transform.position,
+            leftDir,
+            checkDistance,
+            obstacleLayer
+        );
+
+        Debug.DrawRay(transform.position, targetDir * checkDistance, Color.red, 0.1f);
+        Debug.DrawRay(transform.position, rightDir * checkDistance, 
+            hitRight.collider == null ? Color.green : Color.yellow, 0.1f);
+        Debug.DrawRay(transform.position, leftDir * checkDistance, 
+            hitLeft.collider == null ? Color.green : Color.yellow, 0.1f);
+
+
+        if (hitLeft.collider == null && hitRight.collider == null)
+        {
+            Vector2 smallRightDir = Rotate(targetDir, avoidanceAngle / 2);
+            Vector2 smallLeftDir = Rotate(targetDir, -avoidanceAngle / 2);
+
+            RaycastHit2D hitSmallRight = Physics2D.Raycast(transform.position, smallRightDir, checkDistance, obstacleLayer);
+            Debug.DrawRay(transform.position, smallRightDir * checkDistance, 
+                hitSmallRight.collider == null ? Color.green : Color.yellow, 0.1f);
+                
+            RaycastHit2D hitSmallLeft = Physics2D.Raycast(transform.position, smallLeftDir, checkDistance, obstacleLayer);
+            Debug.DrawRay(transform.position, smallLeftDir * checkDistance, 
+                hitSmallLeft.collider == null ? Color.green : Color.yellow, 0.1f);
+
+            if (hitSmallRight.collider == null)
+            {
+                return smallRightDir;
+            }
+            if (hitSmallLeft.collider == null)
+            {
+                return smallLeftDir;
+            }
+
+            // MHa a kis szögek nem szabadok cross product
+            Vector2 playerPos = playerCollider != null ? playerCollider.bounds.center : player.position;
+            Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
+            
+            float cross = targetDir.x * toPlayer.y - targetDir.y * toPlayer.x;
+
+            return cross > 0 ? leftDir : rightDir;
+        }
+        else if (hitLeft.collider == null)
+        {
+            return leftDir;
+        }
+        else if (hitRight.collider == null)
+        {
+            return rightDir;
+        }
+        else
+        {
+            // Mindkét oldal zárva --> nagyobb kitérés
+            Vector2 hardRight = Rotate(targetDir, avoidanceAngle * 2);
+            Vector2 hardLeft = Rotate(targetDir, -avoidanceAngle * 2);
+            
+            RaycastHit2D hitHardRight = Physics2D.Raycast(transform.position, hardRight, checkDistance, obstacleLayer);
+            RaycastHit2D hitHardLeft = Physics2D.Raycast(transform.position, hardLeft, checkDistance, obstacleLayer);
+            
+            if (hitHardLeft.collider == null) return hardLeft;
+            if (hitHardRight.collider == null) return hardRight;
+            
+            // Végső megoldás: menj hátra
+            return -hitForward.normal;
+        }
     }
 
     void CheckIfStuck(Vector2 moveDir)
@@ -98,9 +177,14 @@ public class EnemyAI : MonoBehaviour
             if (stuckTimer > stuckCheckTime)
             {
                 // Random irány ha megakadt
-                float randomAngle = Random.Range(-90f, 90f);
+                float randomAngle = Random.Range(-120f, 120f);
                 Vector2 escapeDir = Rotate(moveDir, randomAngle);
-                rb.linearVelocity = escapeDir * GetComponent<EnemyHealth>().currentSpeed;
+
+                float speed = this.GetComponent<EnemyHealth>().currentSpeed;
+                rb.linearVelocity = escapeDir * speed * 1.5f;
+
+                rb.AddForce(escapeDir * speed * 2f, ForceMode2D.Impulse);
+
                 stuckTimer = 0f;
             }
         }
