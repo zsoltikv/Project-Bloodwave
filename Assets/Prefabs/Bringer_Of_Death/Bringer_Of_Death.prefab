@@ -128,6 +128,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionDistance: 2
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 65
+  rayCount: 7
+  rayAngleRange: 90
+  stuckCheckTime: 1
 --- !u!114 &1091813086287766567
 MonoBehaviour:
   m_ObjectHideFlags: 0

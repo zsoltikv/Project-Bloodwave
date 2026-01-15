@@ -15,7 +15,21 @@ public class EnemyAI : MonoBehaviour
     
     private Vector2 lastPosition;
     private float stuckTimer;
-    
+
+    void LookAtPlayer()
+    {
+        if (!player) return;
+
+        Vector3 scale = transform.localScale; 
+        float dir = player.position.x - transform.position.x;
+
+        if (dir > 0)
+            scale.x = Mathf.Abs(scale.x);      
+        else if (dir < 0)
+            scale.x = -Mathf.Abs(scale.x);     
+
+        transform.localScale = scale;     
+    }
 
     void Awake()
     {
@@ -31,6 +45,8 @@ public class EnemyAI : MonoBehaviour
     void FixedUpdate()
     {
         if (!player || GameManagerScript.instance.FreezeGame) return;
+
+        LookAtPlayer();
 
         Vector2 targetDir = (player.position - transform.position).normalized;
         Vector2 bestDir = FindBestDirection(targetDir);
@@ -59,7 +75,6 @@ public class EnemyAI : MonoBehaviour
                 obstacleLayer
             );
             
-            // Pontozás: mennyire mutat a cél felé
             float score = Vector2.Dot(dir, targetDir) * 100f;
             
             if (hit.collider == null)
@@ -68,12 +83,10 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                // Közel van akadály = büntetés
                 float distanceRatio = hit.distance / detectionDistance;
                 score -= (1f - distanceRatio) * 80f;
             }
 
-            // Debug ray
             Debug.DrawRay(transform.position, dir * detectionDistance, 
                 hit.collider == null ? Color.green : Color.red);
 
@@ -97,7 +110,6 @@ public class EnemyAI : MonoBehaviour
             
             if (stuckTimer > stuckCheckTime)
             {
-                // Random irány ha megakadt
                 float randomAngle = Random.Range(-90f, 90f);
                 Vector2 escapeDir = Rotate(moveDir, randomAngle);
                 rb.linearVelocity = escapeDir * GetComponent<EnemyHealth>().currentSpeed;

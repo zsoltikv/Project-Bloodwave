@@ -102,9 +102,9 @@ GameObject:
   - component: {fileID: 8377601988566333968}
   - component: {fileID: 8646362654396622078}
   - component: {fileID: 2728415387978888650}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,7 +119,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8160868955091181906}
@@ -241,6 +241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionDistance: 2
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 65
+  rayCount: 7
+  rayAngleRange: 90
+  stuckCheckTime: 1
 --- !u!114 &8646362654396622078
 MonoBehaviour:
   m_ObjectHideFlags: 0

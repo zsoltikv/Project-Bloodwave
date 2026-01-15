@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 5637296727085463674}
   - component: {fileID: 3665807631108787992}
   - component: {fileID: 3252001548109462865}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wizard
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,6 +213,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionDistance: 2
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 65
+  rayCount: 7
+  rayAngleRange: 90
+  stuckCheckTime: 1
 --- !u!114 &3252001548109462865
 MonoBehaviour:
   m_ObjectHideFlags: 0
