@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5240902594411643253
+--- !u!114 &-4767391446134433668
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterGlow
-  m_Shader: {fileID: -6465566751694194690, guid: 6a5f1ecd7be398b45a5708151562f3fb, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1ebc47fb20830764281b6d485f0bb3fe, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -36,10 +36,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _GlowTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -58,10 +54,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Intensity: 10
-    - _Tolerance: 0.8
+    - _GlowIntensity: 1
     m_Colors:
-    - _GlowColor: {r: 1, g: 0, b: 0, a: 0}
-    - _MaskColor: {r: 0.07036011, g: 0.010960094, b: 0.009134057, a: 0}
+    - _GlowColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

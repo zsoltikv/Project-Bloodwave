@@ -7,8 +7,8 @@ public class SortingBandManager : MonoBehaviour
 
     [Header("Band Settings")]
     public float bandHeight = 0.1f;
-    public int minOrder = 0;
-    public int maxOrder = 300;
+    public int minOrder = -1500;
+    public int maxOrder = 1500;
 
     void Awake()
     {
