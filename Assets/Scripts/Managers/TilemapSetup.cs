@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TilemapSetup : MonoBehaviour
@@ -22,8 +23,17 @@ public class TilemapSetup : MonoBehaviour
     public Transform propsFrontParent;
     public Transform playerFeet;
 
+    [Header("Props Front Spacing")]
+    public float minFrontPropDistance = 0.8f;
+
+    [Header("Props Behind Spacing")]
+    public float minBehindToFrontDistance = 0.6f;
+
     [Header("Random Offset")]
     [Range(0f, 0.5f)] public float maxOffset = 0.25f;
+
+    // runtime tracking
+    List<Vector3> spawnedFrontPropPositions = new List<Vector3>();
 
     void Awake()
     {
@@ -39,6 +49,8 @@ public class TilemapSetup : MonoBehaviour
 
         ClearChildren(propsBehindParent);
         ClearChildren(propsFrontParent);
+
+        spawnedFrontPropPositions.Clear();
 
         BoundsInt bounds = groundTilemap.cellBounds;
 
@@ -112,6 +124,9 @@ public class TilemapSetup : MonoBehaviour
 
         Vector3 worldPos = groundTilemap.GetCellCenterWorld(cellPos);
 
+        if (IsTooCloseToFrontProps(worldPos))
+            return;
+
         GameObject prefab =
             propsBehindPrefabs[Random.Range(0, propsBehindPrefabs.Length)];
 
@@ -131,6 +146,9 @@ public class TilemapSetup : MonoBehaviour
 
         Vector3 worldPos = groundTilemap.GetCellCenterWorld(cellPos);
 
+        if (!CanSpawnFrontProp(worldPos))
+            return;
+
         GameObject prefab =
             propsFrontPrefabs[Random.Range(0, propsFrontPrefabs.Length)];
 
@@ -142,11 +160,19 @@ public class TilemapSetup : MonoBehaviour
                 propsFrontParent
             );
 
-        var sorting = instance.GetComponent<PropFrontSorting>();
-        if (sorting != null)
+        spawnedFrontPropPositions.Add(worldPos);
+    }
+
+    // ---------- SPACING ----------
+    bool CanSpawnFrontProp(Vector3 position)
+    {
+        foreach (var existingPos in spawnedFrontPropPositions)
         {
-            sorting.Init(playerFeet);
+            if (Vector3.Distance(existingPos, position) < minFrontPropDistance)
+                return false;
         }
+
+        return true;
     }
 
     // ---------- HELPERS ----------
@@ -159,6 +185,17 @@ public class TilemapSetup : MonoBehaviour
         {
             DestroyImmediate(parent.GetChild(i).gameObject);
         }
+    }
+
+    bool IsTooCloseToFrontProps(Vector3 position)
+    {
+        foreach (var frontPos in spawnedFrontPropPositions)
+        {
+            if (Vector3.Distance(frontPos, position) < minBehindToFrontDistance)
+                return true;
+        }
+
+        return false;
     }
 
     // ---------- SURROUND CHECK ----------

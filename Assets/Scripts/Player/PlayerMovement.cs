@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.U2D;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     public RectTransform indicatorRoot;
     public RectTransform innerDot;
     public float indicatorRadius = 60f;
+
+    [Header("Canvas")]
+    [SerializeField] private Canvas uiCanvas;
+    [SerializeField] private Camera uiCamera;
 
     [Header("Shadow")]
     [SerializeField] private Transform shadow;
@@ -31,10 +34,14 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        indicatorRoot.gameObject.SetActive(false);
         aim = GetComponent<AimDirection2D>();
 
+        indicatorRoot.gameObject.SetActive(false);
+
         shadowBaseScale = shadow.localScale;
+
+        if (uiCamera == null && uiCanvas != null)
+            uiCamera = uiCanvas.worldCamera;
     }
 
     void Update()
@@ -63,17 +70,11 @@ public class PlayerMovement : MonoBehaviour
         Touch t = Input.GetTouch(0);
 
         if (t.phase == TouchPhase.Began)
-        {
             BeginDrag(t.position);
-        }
         else if (t.phase == TouchPhase.Moved && dragging)
-        {
             UpdateDrag(t.position);
-        }
         else if (t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled)
-        {
             EndDrag();
-        }
     }
 
     void HandleMouse()
@@ -88,17 +89,38 @@ public class PlayerMovement : MonoBehaviour
 
     void BeginDrag(Vector2 screenPos)
     {
-        startPos = screenPos;
         dragging = true;
 
-        indicatorRoot.position = screenPos;
-        indicatorRoot.gameObject.SetActive(true);
+        RectTransform canvasRect = uiCanvas.transform as RectTransform;
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            screenPos,
+            uiCamera,
+            out localPoint
+        );
+
+        startPos = localPoint;
+
+        indicatorRoot.anchoredPosition = localPoint;
         innerDot.anchoredPosition = Vector2.zero;
+        indicatorRoot.gameObject.SetActive(true);
     }
 
     void UpdateDrag(Vector2 screenPos)
     {
-        dragVector = screenPos - startPos;
+        RectTransform canvasRect = uiCanvas.transform as RectTransform;
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            screenPos,
+            uiCamera,
+            out localPoint
+        );
+
+        dragVector = localPoint - startPos;
 
         Vector2 clamped = Vector2.ClampMagnitude(dragVector, indicatorRadius);
         innerDot.anchoredPosition = clamped;

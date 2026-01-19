@@ -1,10 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] GameObject player;
+
+    [Header("Tilemap")]
+    public Tilemap groundTilemap;
 
     [Header("Spawn")]
     [SerializeField] float spawnInterval = 1.5f;
@@ -45,6 +50,13 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy()
     {
         Vector2 spawnPos = GetRandomSpawnPosition();
+
+        if (groundTilemap.GetTile(groundTilemap.WorldToCell(spawnPos)) == null)
+            return;
+
+        if (!IsFullySurrounded(spawnPos))
+            return;
+
         GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
         var health = enemy.GetComponent<EnemyHealth>();
@@ -52,6 +64,36 @@ public class EnemySpawner : MonoBehaviour
         {
             health.baseSpeed += difficultyMultiplier;
         }
+    }
+
+    bool IsFullySurrounded(Vector3Int pos)
+    {
+        Vector3Int[] neighbors =
+        {
+            Vector3Int.up,
+            Vector3Int.down,
+            Vector3Int.left,
+            Vector3Int.right,
+
+            new Vector3Int(1, 1, 0),
+            new Vector3Int(-1, 1, 0),
+            new Vector3Int(1, -1, 0),
+            new Vector3Int(-1, -1, 0)
+        };
+
+        foreach (var dir in neighbors)
+        {
+            if (groundTilemap.GetTile(pos + dir) == null)
+                return false;
+        }
+
+        return true;
+    }
+
+    bool IsFullySurrounded(Vector2 worldPos)
+    {
+        Vector3Int cellPos = groundTilemap.WorldToCell(worldPos);
+        return IsFullySurrounded(cellPos);
     }
 
     Vector2 GetRandomSpawnPosition()
