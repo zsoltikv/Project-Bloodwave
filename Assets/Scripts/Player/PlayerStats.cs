@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
