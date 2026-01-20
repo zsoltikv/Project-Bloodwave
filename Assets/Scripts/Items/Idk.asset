@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Idk
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: idk
   description: 
   icon: {fileID: 0}
   price: 0
-  statModifiers: []
+  statModifiers:
+  - statType: 0
+    modifierType: 0
+    value: 10
+  - statType: 1
+    modifierType: 0
+    value: 10
   isStackable: 0
   maxStackSize: 1
