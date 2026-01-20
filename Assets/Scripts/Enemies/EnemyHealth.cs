@@ -16,14 +16,26 @@ public class EnemyHealth : MonoBehaviour
 
     public bool IsDead = false;
 
+    [Header("Damage Indicator")]
+    public Vector3 damageTextWorldOffset = new Vector3(0f, 0.6f, 0f);
+
     private void Awake()
     {
         currentHealth = maxHealth;
         currentSpeed = baseSpeed;
     }
 
-    public float TakeDamage(float dmg)
+    public float TakeDamage(float dmg) => TakeDamage(dmg, true);
+
+    public float TakeDamage(float dmg, bool showText)
     {
+        if (IsDead) return 0f;
+
+        if (showText && DamageTextSpawner.Instance != null)
+        {
+            DamageTextSpawner.Instance.Spawn(dmg, transform.position + damageTextWorldOffset);
+        }
+
         currentHealth -= dmg;
 
         if (currentHealth <= 0)
