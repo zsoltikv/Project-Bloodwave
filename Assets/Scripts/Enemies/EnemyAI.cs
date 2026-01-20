@@ -5,36 +5,79 @@ public class EnemyAI : MonoBehaviour
 {
     Transform player;
     Rigidbody2D rb;
+    SpriteRenderer spriteRenderer;
     Collider2D playerCollider;
-    public EnemyHealth enemyHealth;
+    Collider2D myCollider;
+    EnemyHealth enemyHealth;
+
+    [Header("References")]
+    [SerializeField] private Transform feetPoint;
 
     [Header("Pathfinding")]
-    [SerializeField] private float detectionDistance = 2f;
+    [SerializeField] private float detectionDistance = 3f;
     [SerializeField] private LayerMask obstacleLayer;
-    [SerializeField] private float avoidanceAngle = 45f;
-    [SerializeField] private float stuckCheckTime = 1f;
-    
+    [SerializeField] private float avoidanceAngle = 30f;
+    [SerializeField] private float obstacleAvoidanceDistance = 0.8f; // Mennyire tartson távolságot az akadálytól
+
+    [Header("Stuck Detection")]
+    [SerializeField] private float stuckCheckTime = 0.8f;
+    [SerializeField] private float minMoveDistance = 0.08f;
+    [SerializeField] private int maxStuckAttempts = 3;
+
+    [Header("Movement Smoothing")]
+    [SerializeField] private float rotationSmoothness = 6f;
+    [SerializeField] private float accelerationSpeed = 10f;
+
     private Vector2 lastPosition;
     private float stuckTimer;
+    private int stuckAttempts;
+    private Vector2 currentMoveDir;
+    private Vector2 currentVelocity;
+    private Vector2 lastStuckEscapeDir;
+    private float timeSinceLastStuck;
+
+    private Vector2 CastOrigin
+    {
+        get
+        {
+            if (feetPoint != null) return feetPoint.position;
+
+            // Fallback: collider alja-közepe
+            if (myCollider != null)
+            {
+                var b = myCollider.bounds;
+                return new Vector2(b.center.x, b.min.y);
+            }
+
+            // Végső fallback
+            if (rb != null) return rb.position;
+            return (Vector2)transform.position;
+        }
+    }
 
     void LookAtPlayer()
     {
         if (!player) return;
 
-        Vector3 scale = transform.localScale; 
         float dir = player.position.x - transform.position.x;
 
-        if (dir > 0)
-            scale.x = Mathf.Abs(scale.x);      
-        else if (dir < 0)
-            scale.x = -Mathf.Abs(scale.x);     
-
-        transform.localScale = scale;     
+        if (dir != 0)
+            spriteRenderer.flipX = dir < 0;
     }
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        enemyHealth = GetComponent<EnemyHealth>();
+        myCollider = GetComponent<Collider2D>();
+
+        // Auto-find FeetPoint child, ha nincs Inspectorban beállítva
+        if (feetPoint == null)
+        {
+            var t = transform.Find("FeetPoint");
+            if (t != null) feetPoint = t;
+        }
     }
 
     void Start()
@@ -48,177 +91,264 @@ public class EnemyAI : MonoBehaviour
         }
 
         lastPosition = rb.position;
+        currentMoveDir = Vector2.right;
     }
 
     void FixedUpdate()
     {
-        // if (!player || GameManagerScript.instance.FreezeGame) return;
+        if (!player) return;
+        // if (GameManagerScript.instance.FreezeGame) return;
+
+        timeSinceLastStuck += Time.fixedDeltaTime;
 
         Vector2 playerTargetPos = playerCollider != null ? playerCollider.bounds.center : player.position;
         Vector2 targetDir = (playerTargetPos - (Vector2)transform.position).normalized;
         float distanceToPlayer = Vector2.Distance(transform.position, playerTargetPos);
 
-        float checkDistance = Mathf.Min(detectionDistance, distanceToPlayer - 0.1f);
+        // Saját collider méretének figyelembevétele
+        float myRadius = myCollider != null ? Mathf.Max(myCollider.bounds.extents.x, myCollider.bounds.extents.y) : 0.5f;
+        float checkDistance = Mathf.Min(detectionDistance, distanceToPlayer - myRadius);
 
-        RaycastHit2D directHit = Physics2D.Raycast(
-            transform.position,
+        // Közvetlen útvonal ellenőrzése (feetpointból!)
+        Vector2 rayOrigin = CastOrigin;
+
+        RaycastHit2D directHit = Physics2D.CircleCast(
+            rayOrigin,
+            myRadius * 0.8f, // Kicsit kisebb mint az actual size
             targetDir,
             checkDistance,
             obstacleLayer
         );
 
-        Vector2 moveDir;
+        Vector2 desiredMoveDir;
 
-        if (directHit.collider == null || directHit.distance > distanceToPlayer) // Nincs akadály - egyenesen a player felé
+        if (directHit.collider == null)
         {
-            moveDir = targetDir;
-            Debug.DrawRay(transform.position, targetDir * checkDistance, Color.blue);
+            desiredMoveDir = targetDir;
+            Debug.DrawRay(rayOrigin, targetDir * checkDistance, Color.blue, Time.fixedDeltaTime);
         }
-        else // Akadály - kerüljön
+        else
         {
-            Debug.Log($"Obstacle hit: {directHit.collider.name}");
-            moveDir = FindAvoidanceDirection(targetDir, checkDistance);
+            desiredMoveDir = FindAvoidanceDirection(targetDir, directHit, myRadius);
         }
 
-        CheckIfStuck(moveDir);
+        // Simított irányváltozás
+        currentMoveDir = Vector2.Lerp(currentMoveDir, desiredMoveDir, Time.fixedDeltaTime * rotationSmoothness).normalized;
 
+        bool isStuck = CheckIfStuck(currentMoveDir);
+
+        // Simított gyorsítás/lassulás
         float speed = this.enemyHealth.currentSpeed;
-        rb.linearVelocity = moveDir * speed;
+        Vector2 targetVelocity = currentMoveDir * speed;
+
+        // Ha megakadt, adjunk extra boost-ot
+        if (isStuck && timeSinceLastStuck > 0.3f)
+        {
+            targetVelocity *= 1.3f;
+        }
+
+        currentVelocity = Vector2.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime * accelerationSpeed);
+        rb.linearVelocity = currentVelocity;
+
+        LookAtPlayer();
     }
 
-    Vector2 FindAvoidanceDirection(Vector2 targetDir, float checkDistance)
+    Vector2 FindAvoidanceDirection(Vector2 targetDir, RaycastHit2D obstacleHit, float myRadius)
     {
+        Vector2 origin = CastOrigin;
 
-        RaycastHit2D hitForward = Physics2D.Raycast(
-            transform.position,
-            targetDir,
-            checkDistance,
-            obstacleLayer
-        );
-
-        if (hitForward.collider == null)
-        {
-            Debug.DrawRay(transform.position, targetDir * checkDistance, Color.green, 0.1f);
-            return targetDir;
-        }
-
-        Vector2 rightDir = Rotate(targetDir, avoidanceAngle);
-        Vector2 leftDir = Rotate(targetDir, -avoidanceAngle);
-
-        RaycastHit2D hitRight = Physics2D.Raycast(
-            transform.position,
-            rightDir,
-            checkDistance,
-            obstacleLayer
-        );
-
-        RaycastHit2D hitLeft = Physics2D.Raycast(
-            transform.position,
-            leftDir,
-            checkDistance,
-            obstacleLayer
-        );
-
-        Debug.DrawRay(transform.position, targetDir * checkDistance, Color.red, 0.1f);
-        Debug.DrawRay(transform.position, rightDir * checkDistance, 
-            hitRight.collider == null ? Color.green : Color.yellow, 0.1f);
-        Debug.DrawRay(transform.position, leftDir * checkDistance, 
-            hitLeft.collider == null ? Color.green : Color.yellow, 0.1f);
-
-        // Játékos tényleges iránya (nem a targetDir ami az akadályba megy)
         Vector2 playerPos = playerCollider != null ? playerCollider.bounds.center : player.position;
         Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
 
-        if (hitLeft.collider == null && hitRight.collider == null)
-        {
-            Vector2 smallRightDir = Rotate(targetDir, avoidanceAngle / 2);
-            Vector2 smallLeftDir = Rotate(targetDir, -avoidanceAngle / 2);
+        // Ha túl közel vagyunk az akadályhoz, prioritizáljuk a távolodást
+        bool tooClose = obstacleHit.distance < myRadius + obstacleAvoidanceDistance;
 
-            RaycastHit2D hitSmallRight = Physics2D.Raycast(transform.position, smallRightDir, checkDistance, obstacleLayer);
-            Debug.DrawRay(transform.position, smallRightDir * checkDistance, 
-                hitSmallRight.collider == null ? Color.green : Color.yellow, 0.1f);
-                
-            RaycastHit2D hitSmallLeft = Physics2D.Raycast(transform.position, smallLeftDir, checkDistance, obstacleLayer);
-            Debug.DrawRay(transform.position, smallLeftDir * checkDistance, 
-                hitSmallLeft.collider == null ? Color.green : Color.yellow, 0.1f);
+        // Szélesebb szögtartomány ha stuck vagyunk
+        float maxAngle = stuckAttempts > 0 ? avoidanceAngle * 3f : avoidanceAngle * 2f;
 
-            // Válasszuk azt az irányt amelyik jobban mutat a játékos TÉNYLEGES iránya felé
-            if (hitSmallRight.collider == null && hitSmallLeft.collider == null)
+        // Teszteljük az irányokat finomabb lépésekben
+        float[] angleSteps = tooClose
+            ? new float[] { 90f, -90f, 60f, -60f, 120f, -120f, 45f, -45f, 135f, -135f }
+            : new float[] {
+                avoidanceAngle * 0.5f, -avoidanceAngle * 0.5f,
+                avoidanceAngle, -avoidanceAngle,
+                avoidanceAngle * 1.5f, -avoidanceAngle * 1.5f,
+                avoidanceAngle * 2f, -avoidanceAngle * 2f,
+                avoidanceAngle * 2.5f, -avoidanceAngle * 2.5f
+              };
+
+        Vector2 bestDirection = Vector2.zero;
+        float bestScore = -1000f;
+
+        foreach (float angle in angleSteps)
+        {
+            if (Mathf.Abs(angle) > maxAngle) continue;
+
+            Vector2 testDir = Rotate(targetDir, angle);
+
+            // CircleCast használata hogy figyelembe vegye az ellenség méretét (feetpointból!)
+            RaycastHit2D hit = Physics2D.CircleCast(
+                origin,
+                myRadius * 0.7f,
+                testDir,
+                detectionDistance,
+                obstacleLayer
+            );
+
+            float score = 0f;
+
+            if (hit.collider == null)
             {
-                float dotRight = Vector2.Dot(smallRightDir, toPlayer);
-                float dotLeft = Vector2.Dot(smallLeftDir, toPlayer);
-                return dotRight > dotLeft ? smallRightDir : smallLeftDir;
+                score += 20f; // Teljesen szabad út
             }
-            else if (hitSmallRight.collider == null)
+            else if (hit.distance > myRadius + obstacleAvoidanceDistance)
             {
-                return smallRightDir;
+                // Van akadály de elég messze
+                score += 10f + (hit.distance * 2f);
             }
-            else if (hitSmallLeft.collider == null)
+            else
             {
-                return smallLeftDir;
+                // Túl közel az akadály
+                score -= 20f;
+                continue; // Skip this direction
             }
 
-            // Ha a kis szögek sem szabadok, válasszuk a nagy szögből azt amelyik a játékos felé mutat
-            float dotRightBig = Vector2.Dot(rightDir, toPlayer);
-            float dotLeftBig = Vector2.Dot(leftDir, toPlayer);
-            return dotRightBig > dotLeftBig ? rightDir : leftDir;
+            // Játékos irányába mutatás
+            float alignment = Vector2.Dot(testDir, toPlayer);
+            score += alignment * 8f;
+
+            // Kisebb szög preferálása
+            score -= Mathf.Abs(angle) * 0.03f;
+
+            // Smooth transitions - jelenlegi irányhoz hasonlóság
+            float similarity = Vector2.Dot(testDir, currentMoveDir);
+            score += similarity * 4f;
+
+            // Ha nemrég megakadtunk, kerüljük azt az irányt
+            if (lastStuckEscapeDir != Vector2.zero)
+            {
+                float avoidLastStuck = Vector2.Dot(testDir, lastStuckEscapeDir);
+                if (avoidLastStuck < 0) // Ellenkező irány
+                {
+                    score += 3f;
+                }
+            }
+
+            // Debug visualization (feetpointból!)
+            Color debugColor = Color.green;
+            if (hit.collider != null)
+            {
+                debugColor = hit.distance > myRadius + obstacleAvoidanceDistance ? Color.yellow : Color.red;
+            }
+            Debug.DrawRay(origin, testDir * detectionDistance, debugColor, Time.fixedDeltaTime);
+
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestDirection = testDir;
+            }
         }
-        else if (hitLeft.collider == null)
+
+        // Ha nem találtunk jó irányt, menjünk az akadály normálisa mentén
+        if (bestScore < 0 && obstacleHit.normal != Vector2.zero)
         {
-            return leftDir;
+            bestDirection = obstacleHit.normal;
         }
-        else if (hitRight.collider == null)
+        else if (bestDirection == Vector2.zero)
         {
-            return rightDir;
+            // Végső megoldás: random irány
+            bestDirection = Rotate(targetDir, Random.Range(-90f, 90f));
         }
-        else
-        {
-            // Mindkét oldal zárva --> nagyobb kitérés
-            Vector2 hardRight = Rotate(targetDir, avoidanceAngle * 2);
-            Vector2 hardLeft = Rotate(targetDir, -avoidanceAngle * 2);
-            
-            RaycastHit2D hitHardRight = Physics2D.Raycast(transform.position, hardRight, checkDistance, obstacleLayer);
-            RaycastHit2D hitHardLeft = Physics2D.Raycast(transform.position, hardLeft, checkDistance, obstacleLayer);
-            
-            if (hitHardLeft.collider == null) return hardLeft;
-            if (hitHardRight.collider == null) return hardRight;
-            
-            // Végső megoldás: menj hátra
-            return -hitForward.normal;
-        }
+
+        // Legjobb irány megjelölése (feetpointból!)
+        Debug.DrawRay(origin, bestDirection * detectionDistance, Color.cyan, Time.fixedDeltaTime);
+
+        return bestDirection;
     }
 
-    void CheckIfStuck(Vector2 moveDir)
+    bool CheckIfStuck(Vector2 moveDir)
     {
         float movedDistance = Vector2.Distance(transform.position, lastPosition);
-        
-        if (movedDistance < 0.1f)
+
+        if (movedDistance < minMoveDistance)
         {
             stuckTimer += Time.fixedDeltaTime;
-            
+
             if (stuckTimer > stuckCheckTime)
             {
-                // Random irány ha megakadt
-                float randomAngle = Random.Range(-120f, 120f);
-                Vector2 escapeDir = Rotate(moveDir, randomAngle);
+                stuckAttempts++;
 
-                float speed = this.enemyHealth.currentSpeed;
-                rb.linearVelocity = escapeDir * speed * 1.5f;
+                // Progresszíven drasztikusabb megoldások
+                float escapeAngle;
+                if (stuckAttempts == 1)
+                {
+                    // Első próbálkozás: enyhe korrekció
+                    escapeAngle = Random.Range(70f, 110f) * (Random.value > 0.5f ? 1f : -1f);
+                }
+                else if (stuckAttempts == 2)
+                {
+                    // Második próbálkozás: nagyobb szög
+                    escapeAngle = Random.Range(120f, 150f) * (Random.value > 0.5f ? 1f : -1f);
+                }
+                else
+                {
+                    // Harmadik+: random irány, akár vissza is
+                    escapeAngle = Random.Range(-180f, 180f);
+                }
 
-                rb.AddForce(escapeDir * speed * 2f, ForceMode2D.Impulse);
+                Vector2 escapeDir = Rotate(moveDir, escapeAngle);
+
+                // Ellenőrizzük hogy az escape irány szabad-e (feetpointból!)
+                float myRadius = myCollider != null ? Mathf.Max(myCollider.bounds.extents.x, myCollider.bounds.extents.y) : 0.5f;
+                Vector2 origin = CastOrigin;
+
+                RaycastHit2D escapeCheck = Physics2D.CircleCast(
+                    origin,
+                    myRadius * 0.7f,
+                    escapeDir,
+                    1f,
+                    obstacleLayer
+                );
+
+                if (escapeCheck.collider != null && escapeCheck.distance < myRadius + 0.5f)
+                {
+                    // Ha ez az irány is zárva, próbáljuk az ellenkező irányba
+                    escapeDir = -escapeDir;
+                }
+
+                currentVelocity = escapeDir * enemyHealth.currentSpeed * 1.4f;
+                currentMoveDir = escapeDir;
+                lastStuckEscapeDir = escapeDir;
 
                 stuckTimer = 0f;
+                timeSinceLastStuck = 0f;
+
+                // Reset stuck attempts ha túl sokszor próbálkoztunk
+                if (stuckAttempts >= maxStuckAttempts)
+                {
+                    stuckAttempts = 0;
+                }
+
+                lastPosition = transform.position;
+                return true;
             }
         }
         else
         {
-            stuckTimer = 0f;
+            // Fokozatosan csökkentjük a timer-t és az attempts-et ha mozgunk
+            stuckTimer = Mathf.Max(0f, stuckTimer - Time.fixedDeltaTime * 2f);
+
+            if (movedDistance > minMoveDistance * 3f) // Jól mozgunk
+            {
+                stuckAttempts = Mathf.Max(0, stuckAttempts - 1);
+            }
         }
-        
+
         lastPosition = transform.position;
+        return false;
     }
 
-        Vector2 Rotate(Vector2 v, float degrees)
+    Vector2 Rotate(Vector2 v, float degrees)
     {
         float radians = degrees * Mathf.Deg2Rad;
         float sin = Mathf.Sin(radians);
@@ -236,6 +366,6 @@ public class EnemyAI : MonoBehaviour
                 playerStats.TakeDamage(10f);
             }
             Destroy(this.gameObject);
-        } 
+        }
     }
-}   
+}

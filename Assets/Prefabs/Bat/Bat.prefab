@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6841007948161374906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5129039964598112790}
+  m_Layer: 6
+  m_Name: FeetPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5129039964598112790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6841007948161374906}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0356, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7305296385395517400}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8077796248658267710
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,6 +46,7 @@ GameObject:
   - component: {fileID: 4602990688831824416}
   - component: {fileID: 8904827622628656009}
   - component: {fileID: 781621398883004828}
+  - component: {fileID: 3728566374444919992}
   m_Layer: 6
   m_Name: Bat
   m_TagString: Enemy
@@ -34,7 +66,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5129039964598112790}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6812879665595462564
@@ -173,13 +206,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionDistance: 2
+  feetPoint: {fileID: 5129039964598112790}
+  detectionDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 65
-  rayCount: 7
-  rayAngleRange: 90
-  stuckCheckTime: 1
+    m_Bits: 129
+  avoidanceAngle: 45
+  obstacleAvoidanceDistance: 0.8
+  stuckCheckTime: 3
+  minMoveDistance: 0.08
+  maxStuckAttempts: 3
+  rotationSmoothness: 6
+  accelerationSpeed: 10
 --- !u!60 &781621398883004828
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -236,3 +274,17 @@ PolygonCollider2D:
       - {x: -0.14999999, y: 0.065}
       - {x: -0.17999999, y: 0.024999999}
   m_UseDelaunayMesh: 0
+--- !u!114 &3728566374444919992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8077796248658267710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e70237b195e807e44a2c1cb90e86899c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feetPoint: {fileID: 5129039964598112790}
+  shadowRenderer: {fileID: 0}
