@@ -6,6 +6,7 @@ public class EnemyAI : MonoBehaviour
     Transform player;
     Rigidbody2D rb;
     Collider2D playerCollider;
+    public EnemyHealth enemyHealth;
 
     [Header("Pathfinding")]
     [SerializeField] private float detectionDistance = 2f;
@@ -51,7 +52,7 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!player || GameManagerScript.instance.FreezeGame) return;
+        // if (!player || GameManagerScript.instance.FreezeGame) return;
 
         Vector2 playerTargetPos = playerCollider != null ? playerCollider.bounds.center : player.position;
         Vector2 targetDir = (playerTargetPos - (Vector2)transform.position).normalized;
@@ -81,7 +82,7 @@ public class EnemyAI : MonoBehaviour
 
         CheckIfStuck(moveDir);
 
-        float speed = this.GetComponent<EnemyHealth>().currentSpeed;
+        float speed = this.enemyHealth.currentSpeed;
         rb.linearVelocity = moveDir * speed;
     }
 
@@ -124,6 +125,9 @@ public class EnemyAI : MonoBehaviour
         Debug.DrawRay(transform.position, leftDir * checkDistance, 
             hitLeft.collider == null ? Color.green : Color.yellow, 0.1f);
 
+        // Játékos tényleges iránya (nem a targetDir ami az akadályba megy)
+        Vector2 playerPos = playerCollider != null ? playerCollider.bounds.center : player.position;
+        Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
 
         if (hitLeft.collider == null && hitRight.collider == null)
         {
@@ -138,22 +142,26 @@ public class EnemyAI : MonoBehaviour
             Debug.DrawRay(transform.position, smallLeftDir * checkDistance, 
                 hitSmallLeft.collider == null ? Color.green : Color.yellow, 0.1f);
 
-            if (hitSmallRight.collider == null)
+            // Válasszuk azt az irányt amelyik jobban mutat a játékos TÉNYLEGES iránya felé
+            if (hitSmallRight.collider == null && hitSmallLeft.collider == null)
+            {
+                float dotRight = Vector2.Dot(smallRightDir, toPlayer);
+                float dotLeft = Vector2.Dot(smallLeftDir, toPlayer);
+                return dotRight > dotLeft ? smallRightDir : smallLeftDir;
+            }
+            else if (hitSmallRight.collider == null)
             {
                 return smallRightDir;
             }
-            if (hitSmallLeft.collider == null)
+            else if (hitSmallLeft.collider == null)
             {
                 return smallLeftDir;
             }
 
-            // MHa a kis szögek nem szabadok cross product
-            Vector2 playerPos = playerCollider != null ? playerCollider.bounds.center : player.position;
-            Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
-            
-            float cross = targetDir.x * toPlayer.y - targetDir.y * toPlayer.x;
-
-            return cross > 0 ? leftDir : rightDir;
+            // Ha a kis szögek sem szabadok, válasszuk a nagy szögből azt amelyik a játékos felé mutat
+            float dotRightBig = Vector2.Dot(rightDir, toPlayer);
+            float dotLeftBig = Vector2.Dot(leftDir, toPlayer);
+            return dotRightBig > dotLeftBig ? rightDir : leftDir;
         }
         else if (hitLeft.collider == null)
         {
@@ -194,7 +202,7 @@ public class EnemyAI : MonoBehaviour
                 float randomAngle = Random.Range(-120f, 120f);
                 Vector2 escapeDir = Rotate(moveDir, randomAngle);
 
-                float speed = this.GetComponent<EnemyHealth>().currentSpeed;
+                float speed = this.enemyHealth.currentSpeed;
                 rb.linearVelocity = escapeDir * speed * 1.5f;
 
                 rb.AddForce(escapeDir * speed * 2f, ForceMode2D.Impulse);

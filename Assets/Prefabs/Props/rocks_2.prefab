@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2104721568261359547}
   - component: {fileID: 683107196614515804}
   - component: {fileID: 8223956637980680854}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: rocks_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7559404144712675252}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3724262016868600552}
   - component: {fileID: 8402593511121170621}
   - component: {fileID: 8294155083579574284}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: dripstone_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2713008572350074808}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

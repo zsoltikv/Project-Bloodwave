@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3398976020050506116}
   - component: {fileID: 8104129957909280076}
   - component: {fileID: 240537916128026}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ruins_gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1406038064210280339}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

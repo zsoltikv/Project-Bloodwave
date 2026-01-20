@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7361196214213488020}
   - component: {fileID: 685282208720769768}
   - component: {fileID: 1660755160589812855}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: crack_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7566841198697865098}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PropBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

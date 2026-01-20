@@ -307,12 +307,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealth: {fileID: -5771614079683844753}
   detectionDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 65
-  rayCount: 7
-  rayAngleRange: 70
+    m_Bits: 129
+  avoidanceAngle: 45
   stuckCheckTime: 3
 --- !u!50 &-180964997302808873
 Rigidbody2D:
