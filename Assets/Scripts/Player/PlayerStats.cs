@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Base")]
     public float Health = 100f;
+    public float MaxHealth = 100f;
     public int Level = 1;
     public float baseDamageMultiplier = 1f;
     public float baseCooldownMultiplier = 1f; // 1 = normál, 0.8 = gyorsabb
@@ -70,7 +71,7 @@ public class PlayerStats : MonoBehaviour
 
     public void RefreshHpBar()
     {
-        HpBar.transform.GetChild(1).GetComponent<UnityEngine.UI.Image>().fillAmount = Health / 100f;
+        HpBar.transform.GetChild(1).GetComponent<UnityEngine.UI.Image>().fillAmount = Health / MaxHealth;
     }
 
     public void RefreshXpBar()
