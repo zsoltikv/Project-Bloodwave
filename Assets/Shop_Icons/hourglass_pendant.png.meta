@@ -1,0 +1,1530 @@
+fileFormatVersion: 2
+guid: 12d504f4721024645abbbffc66227547
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2581913926585664437
+    second: hourglass_pendant_0
+  - first:
+      213: 1030916927004974414
+    second: hourglass_pendant_1
+  - first:
+      213: 698019056854168082
+    second: hourglass_pendant_2
+  - first:
+      213: -6560660112840648909
+    second: hourglass_pendant_3
+  - first:
+      213: -6739924074344568460
+    second: hourglass_pendant_4
+  - first:
+      213: 2797681492764222594
+    second: hourglass_pendant_5
+  - first:
+      213: -2738814755743385363
+    second: hourglass_pendant_6
+  - first:
+      213: -9033648937841373924
+    second: hourglass_pendant_7
+  - first:
+      213: 9167387770798930991
+    second: hourglass_pendant_8
+  - first:
+      213: -4234915138415379017
+    second: hourglass_pendant_9
+  - first:
+      213: 3504740103275942405
+    second: hourglass_pendant_10
+  - first:
+      213: -2377442746615532829
+    second: hourglass_pendant_11
+  - first:
+      213: -896398343740522898
+    second: hourglass_pendant_12
+  - first:
+      213: 4848235235945222987
+    second: hourglass_pendant_13
+  - first:
+      213: 2017774533042827041
+    second: hourglass_pendant_14
+  - first:
+      213: -1593645949981512510
+    second: hourglass_pendant_15
+  - first:
+      213: 6973566260841226382
+    second: hourglass_pendant_16
+  - first:
+      213: 9081911420258053831
+    second: hourglass_pendant_17
+  - first:
+      213: -6789246952810759491
+    second: hourglass_pendant_18
+  - first:
+      213: 241673192712790811
+    second: hourglass_pendant_19
+  - first:
+      213: 3882505734178020152
+    second: hourglass_pendant_20
+  - first:
+      213: -2372457830165275147
+    second: hourglass_pendant_21
+  - first:
+      213: -7867352535985161922
+    second: hourglass_pendant_22
+  - first:
+      213: 8077442132191796024
+    second: hourglass_pendant_23
+  - first:
+      213: -1645243281419358787
+    second: hourglass_pendant_24
+  - first:
+      213: -4169986765012901845
+    second: hourglass_pendant_25
+  - first:
+      213: -3940225314146601990
+    second: hourglass_pendant_26
+  - first:
+      213: 6967796675456765846
+    second: hourglass_pendant_27
+  - first:
+      213: 5885038240559297505
+    second: hourglass_pendant_28
+  - first:
+      213: 5181072232579935311
+    second: hourglass_pendant_29
+  - first:
+      213: 2575974251682940637
+    second: hourglass_pendant_30
+  - first:
+      213: -4464283529614896852
+    second: hourglass_pendant_31
+  - first:
+      213: 5172404526324544640
+    second: hourglass_pendant_32
+  - first:
+      213: -2607124253820408509
+    second: hourglass_pendant_33
+  - first:
+      213: -2473506880127954252
+    second: hourglass_pendant_34
+  - first:
+      213: -2521022891247825119
+    second: hourglass_pendant_35
+  - first:
+      213: -4731578221357839908
+    second: hourglass_pendant_36
+  - first:
+      213: 8544126340193866024
+    second: hourglass_pendant_37
+  - first:
+      213: 3811931050070401066
+    second: hourglass_pendant_38
+  - first:
+      213: 4383754133065777109
+    second: hourglass_pendant_39
+  - first:
+      213: -9010991941865817486
+    second: hourglass_pendant_40
+  - first:
+      213: 4932457661640436927
+    second: hourglass_pendant_41
+  - first:
+      213: 5017952165970789290
+    second: hourglass_pendant_42
+  - first:
+      213: 3739236041037513840
+    second: hourglass_pendant_43
+  - first:
+      213: -5138528678045599844
+    second: hourglass_pendant_44
+  - first:
+      213: 2213026793101424524
+    second: hourglass_pendant_45
+  - first:
+      213: -4917401551378986398
+    second: hourglass_pendant_46
+  - first:
+      213: 2008281935943366916
+    second: hourglass_pendant_47
+  - first:
+      213: -5359569847233891440
+    second: hourglass_pendant_48
+  - first:
+      213: -8011164430944297733
+    second: hourglass_pendant_49
+  - first:
+      213: -1097921705518155231
+    second: hourglass_pendant_50
+  - first:
+      213: -9048759335410573058
+    second: hourglass_pendant_51
+  - first:
+      213: -3442259447681296339
+    second: hourglass_pendant_52
+  - first:
+      213: 5996640300542596534
+    second: hourglass_pendant_53
+  - first:
+      213: -1505918420936825722
+    second: hourglass_pendant_54
+  - first:
+      213: 7551990744077499249
+    second: hourglass_pendant_55
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hourglass_pendant_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1024
+        height: 1536
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4c3a3d96f23b2cd0800000000000000
+      internalID: -2581913926585664437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_1
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1353
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4d911bab7d8e4e00800000000000000
+      internalID: 1030916927004974414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_2
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 1353
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 212fe3a42acdfa900800000000000000
+      internalID: 698019056854168082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_3
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1353
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3371f02236ad3f4a0800000000000000
+      internalID: -6560660112840648909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1352
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 479a69793caf672a0800000000000000
+      internalID: -6739924074344568460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_5
+      rect:
+        serializedVersion: 2
+        x: 982
+        y: 1353
+        width: 17
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28465e2be7c53d620800000000000000
+      internalID: 2797681492764222594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_6
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 1353
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de831529d76cdf9d0800000000000000
+      internalID: -2738814755743385363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_7
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 1352
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1d4162472802a280800000000000000
+      internalID: -9033648937841373924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_8
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 1353
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2cfabc4b9a193f70800000000000000
+      internalID: 9167387770798930991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_9
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 1259
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bdb3d08e1f8a35c0800000000000000
+      internalID: -4234915138415379017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_10
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 1233
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50214d51e8653a030800000000000000
+      internalID: 3504740103275942405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1210
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e2f62e0b60a10fd0800000000000000
+      internalID: -2377442746615532829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_12
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 1210
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6ef818a47a5f83f0800000000000000
+      internalID: -896398343740522898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_13
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 1209
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b431c029244684340800000000000000
+      internalID: 4848235235945222987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_14
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 1210
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12fe8d64f33900c10800000000000000
+      internalID: 2017774533042827041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_15
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 1207
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ccac95b37b32e9e0800000000000000
+      internalID: -1593645949981512510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_16
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 1210
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e802713119517c060800000000000000
+      internalID: 6973566260841226382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_17
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 1209
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ce6b06915e690e70800000000000000
+      internalID: 9081911420258053831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_18
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 1207
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbabf4d0edfb7c1a0800000000000000
+      internalID: -6789246952810759491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_19
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 1162
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1361630d789a5300800000000000000
+      internalID: 241673192712790811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_20
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 1114
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83b1914156e61e530800000000000000
+      internalID: 3882505734178020152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_21
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 1114
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fd976c5c26531fd0800000000000000
+      internalID: -2372457830165275147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_22
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 1019
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e39f5d13d8c81d290800000000000000
+      internalID: -7867352535985161922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_23
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 1019
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83bd017b2d6d81070800000000000000
+      internalID: 8077442132191796024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_24
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 926
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbda6e1d3fbea29e0800000000000000
+      internalID: -1645243281419358787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_25
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 487
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b206359712b3126c0800000000000000
+      internalID: -4169986765012901845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_26
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 466
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af33a47f3f18159c0800000000000000
+      internalID: -3940225314146601990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_27
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 467
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69f8fbbc82692b060800000000000000
+      internalID: 6967796675456765846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_28
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 467
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e3702a791bdba150800000000000000
+      internalID: 5885038240559297505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_29
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 465
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4c219abebdd6e740800000000000000
+      internalID: 5181072232579935311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_30
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 443
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd64d1e0fe2bfb320800000000000000
+      internalID: 2575974251682940637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_31
+      rect:
+        serializedVersion: 2
+        x: 1010
+        y: 443
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c215da858cdab02c0800000000000000
+      internalID: -4464283529614896852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_32
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 415
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 084723a138218c740800000000000000
+      internalID: 5172404526324544640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_33
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 415
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34daab5ed42a1dbd0800000000000000
+      internalID: -2607124253820408509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_34
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 415
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b21d7409965cadd0800000000000000
+      internalID: -2473506880127954252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_35
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 415
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12f8b809907830dd0800000000000000
+      internalID: -2521022891247825119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_36
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 415
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd9cdf83dae065eb0800000000000000
+      internalID: -4731578221357839908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_37
+      rect:
+        serializedVersion: 2
+        x: 982
+        y: 415
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 821505f33a5d29670800000000000000
+      internalID: 8544126340193866024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_38
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 415
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a206ab3f713b6e430800000000000000
+      internalID: 3811931050070401066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_39
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 271
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5df390c682936dc30800000000000000
+      internalID: 4383754133065777109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_40
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 130
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27a3e27329682f280800000000000000
+      internalID: -9010991941865817486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_41
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 107
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbc6bb72c1c937440800000000000000
+      internalID: 4932457661640436927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_42
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 107
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa34790a8e853a540800000000000000
+      internalID: 5017952165970789290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_43
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 107
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07401653e5f64e330800000000000000
+      internalID: 3739236041037513840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_44
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 107
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c973fe4746740b8b0800000000000000
+      internalID: -5138528678045599844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_45
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 107
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c877b39a42046be10800000000000000
+      internalID: 2213026793101424524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_46
+      rect:
+        serializedVersion: 2
+        x: 1016
+        y: 107
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26ac910b751e1cbb0800000000000000
+      internalID: -4917401551378986398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_47
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 409fcb8c7c9dedb10800000000000000
+      internalID: 2008281935943366916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_48
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 80
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 093bab2ce9bfe95b0800000000000000
+      internalID: -5359569847233891440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_49
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 82
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfc12502560a2d090800000000000000
+      internalID: -8011164430944297733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_50
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 82
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12a366f960663c0f0800000000000000
+      internalID: -1097921705518155231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_51
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 80
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef06adaa3595c6280800000000000000
+      internalID: -9048759335410573058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_52
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 1
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d28593c2543aa30d0800000000000000
+      internalID: -3442259447681296339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_53
+      rect:
+        serializedVersion: 2
+        x: 620
+        y: 2
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b512afe498583350800000000000000
+      internalID: 5996640300542596534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_54
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 2
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 684e753cc27e91be0800000000000000
+      internalID: -1505918420936825722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hourglass_pendant_55
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 0
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17bf6cfc19f0ec860800000000000000
+      internalID: 7551990744077499249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

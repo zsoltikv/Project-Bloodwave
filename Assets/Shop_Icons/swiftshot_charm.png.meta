@@ -1,0 +1,1180 @@
+fileFormatVersion: 2
+guid: ca990588a463c094cb94907a04f423af
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 608787128665827707
+    second: swiftshot_charm_0
+  - first:
+      213: 8518320034530141629
+    second: swiftshot_charm_1
+  - first:
+      213: 1983756188260986836
+    second: swiftshot_charm_2
+  - first:
+      213: 5053968252278902053
+    second: swiftshot_charm_3
+  - first:
+      213: -7039257688024173869
+    second: swiftshot_charm_4
+  - first:
+      213: -3199406147057555899
+    second: swiftshot_charm_5
+  - first:
+      213: -6386429639854913246
+    second: swiftshot_charm_6
+  - first:
+      213: -7959295915598053008
+    second: swiftshot_charm_7
+  - first:
+      213: -7902658562593201956
+    second: swiftshot_charm_8
+  - first:
+      213: 4864354896032243175
+    second: swiftshot_charm_9
+  - first:
+      213: -2699081060645138631
+    second: swiftshot_charm_10
+  - first:
+      213: 1176820935270835432
+    second: swiftshot_charm_11
+  - first:
+      213: -621352802856490883
+    second: swiftshot_charm_12
+  - first:
+      213: 525439943070534895
+    second: swiftshot_charm_13
+  - first:
+      213: 8603439628605149825
+    second: swiftshot_charm_14
+  - first:
+      213: 2984776984253587405
+    second: swiftshot_charm_15
+  - first:
+      213: 5500304173626569490
+    second: swiftshot_charm_16
+  - first:
+      213: 6831696496073714535
+    second: swiftshot_charm_17
+  - first:
+      213: -2320273950784782721
+    second: swiftshot_charm_18
+  - first:
+      213: 6939336842706426597
+    second: swiftshot_charm_19
+  - first:
+      213: 5137543048803627529
+    second: swiftshot_charm_20
+  - first:
+      213: -6353653342744354677
+    second: swiftshot_charm_21
+  - first:
+      213: 6286765856944306227
+    second: swiftshot_charm_22
+  - first:
+      213: -1156117718498253727
+    second: swiftshot_charm_23
+  - first:
+      213: 8095163418878237688
+    second: swiftshot_charm_24
+  - first:
+      213: -3345477027797108548
+    second: swiftshot_charm_25
+  - first:
+      213: -877732922877133907
+    second: swiftshot_charm_26
+  - first:
+      213: -7484383454531914221
+    second: swiftshot_charm_27
+  - first:
+      213: -5123070820959594815
+    second: swiftshot_charm_28
+  - first:
+      213: 7614176249983044800
+    second: swiftshot_charm_29
+  - first:
+      213: 6076887910775354554
+    second: swiftshot_charm_30
+  - first:
+      213: -2213563228248160442
+    second: swiftshot_charm_31
+  - first:
+      213: -2922302488964235889
+    second: swiftshot_charm_32
+  - first:
+      213: 938209296106612109
+    second: swiftshot_charm_33
+  - first:
+      213: -6972924481520349025
+    second: swiftshot_charm_34
+  - first:
+      213: 2789383602640579686
+    second: swiftshot_charm_35
+  - first:
+      213: 616182305270046851
+    second: swiftshot_charm_36
+  - first:
+      213: 8297480109444775839
+    second: swiftshot_charm_37
+  - first:
+      213: 7162361690972089352
+    second: swiftshot_charm_38
+  - first:
+      213: -1744987394473091806
+    second: swiftshot_charm_39
+  - first:
+      213: -43965068290170053
+    second: swiftshot_charm_40
+  - first:
+      213: 7623283006855669334
+    second: swiftshot_charm_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: swiftshot_charm_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1024
+        height: 1536
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b79e4f30ba8d27800800000000000000
+      internalID: 608787128665827707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_1
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 1353
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db5234d70f6273670800000000000000
+      internalID: 8518320034530141629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_2
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 1210
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4df674a2eb7b78b10800000000000000
+      internalID: 1983756188260986836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_3
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 415
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52d8f2f295d432640800000000000000
+      internalID: 5053968252278902053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_4
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 48
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d2b1e6ad688f4e90800000000000000
+      internalID: -7039257688024173869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_5
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 31
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 546ee687f0d6993d0800000000000000
+      internalID: -3199406147057555899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_6
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 31
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2290c6d4418de57a0800000000000000
+      internalID: -6386429639854913246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_7
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 31
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0718f80f886ea8190800000000000000
+      internalID: -7959295915598053008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_8
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 31
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd0ee6b48ed145290800000000000000
+      internalID: -7902658562593201956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_9
+      rect:
+        serializedVersion: 2
+        x: 373
+        y: 31
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ed1f676109a18340800000000000000
+      internalID: 4864354896032243175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_10
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 31
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93f03406310fa8ad0800000000000000
+      internalID: -2699081060645138631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_11
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 31
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e4af03d768e45010800000000000000
+      internalID: 1176820935270835432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_12
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 31
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d78ab89fae28067f0800000000000000
+      internalID: -621352802856490883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_13
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 31
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fec458528dcba4700800000000000000
+      internalID: 525439943070534895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_14
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 31
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 182578d52ce856770800000000000000
+      internalID: 8603439628605149825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_15
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 31
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcf52386ade0c6920800000000000000
+      internalID: 2984776984253587405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_16
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 30
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2133c990181055c40800000000000000
+      internalID: 5500304173626569490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_17
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 31
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76b21cd64cf0fce50800000000000000
+      internalID: 6831696496073714535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_18
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 28
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7e71e5922bbccfd0800000000000000
+      internalID: -2320273950784782721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_19
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 31
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ea1c4e971a7d4060800000000000000
+      internalID: 6939336842706426597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_20
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 31
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 902b73ade283c4740800000000000000
+      internalID: 5137543048803627529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_21
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 31
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b80efb7a2f943d7a0800000000000000
+      internalID: -6353653342744354677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_22
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 29
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3383839fc341f3750800000000000000
+      internalID: 6286765856944306227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_23
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 31
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16460667f05a4ffe0800000000000000
+      internalID: -1156117718498253727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_24
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 31
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fb59fc4d3cc75070800000000000000
+      internalID: 8095163418878237688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_25
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 31
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb87ce94e5a7291d0800000000000000
+      internalID: -3345477027797108548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_26
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 29
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dab3e3c9e8aa1d3f0800000000000000
+      internalID: -877732922877133907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_27
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 31
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31670dde6e0222890800000000000000
+      internalID: -7484383454531914221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_28
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 31
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c6d8854b3237e8b0800000000000000
+      internalID: -5123070820959594815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_29
+      rect:
+        serializedVersion: 2
+        x: 706
+        y: 31
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cc847d25fcfaa960800000000000000
+      internalID: 7614176249983044800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_30
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 31
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab471adab51755450800000000000000
+      internalID: 6076887910775354554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_31
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 31
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 647c66cc8f7d741e0800000000000000
+      internalID: -2213563228248160442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_32
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 29
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8dfb0b8e55e177d0800000000000000
+      internalID: -2922302488964235889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_33
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 31
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d85676b4260350d00800000000000000
+      internalID: 938209296106612109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_34
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 34
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f90da51d0223b3f90800000000000000
+      internalID: -6972924481520349025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_35
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 29
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66ce0b99b91e5b620800000000000000
+      internalID: 2789383602640579686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_36
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 31
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 380a08eba8e1d8800800000000000000
+      internalID: 616182305270046851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_37
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 31
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9f33569232962370800000000000000
+      internalID: 8297480109444775839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_38
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 31
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80ce1479202d56360800000000000000
+      internalID: 7162361690972089352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_39
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 31
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22d95e6c53f88c7e0800000000000000
+      internalID: -1744987394473091806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_40
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 11
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b33e90ad00ec36ff0800000000000000
+      internalID: -43965068290170053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swiftshot_charm_41
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 11
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65667ed31875bc960800000000000000
+      internalID: 7623283006855669334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
