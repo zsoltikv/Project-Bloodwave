@@ -16,7 +16,7 @@ MonoBehaviour:
   description: A mystical pendant that hastens the flow of time for the bearer, reducing
     attack cooldowns by 5%.
   icon: {fileID: -2581913926585664437, guid: 12d504f4721024645abbbffc66227547, type: 3}
-  price: 0
+  price: 350
   statModifiers:
   - statType: 2
     modifierType: 1

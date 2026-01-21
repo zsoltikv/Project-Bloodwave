@@ -191,13 +191,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feetPoint: {fileID: 0}
   detectionDistance: 2
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 65
-  rayCount: 7
-  rayAngleRange: 90
+  avoidanceAngle: 30
+  obstacleAvoidanceDistance: 0.8
   stuckCheckTime: 1
+  minMoveDistance: 0.08
+  maxStuckAttempts: 3
+  rotationSmoothness: 6
+  accelerationSpeed: 10
 --- !u!114 &6257620912992478370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,14 +215,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1f1ceb0d4aea547bc96ebe35316ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  baseSpeed: 2
+  maxHealth: 500
+  baseSpeed: 2.75
   currentSpeed: 0
-  xpReward: 1
-  coinReward: 1
+  xpReward: 20
+  coinReward: 40
   isSlowed: 0
   isBleeding: 0
   IsDead: 0
+  damageTextWorldOffset: {x: 0, y: 0.6, z: 0}
 --- !u!58 &6117053532690974090
 CircleCollider2D:
   m_ObjectHideFlags: 0

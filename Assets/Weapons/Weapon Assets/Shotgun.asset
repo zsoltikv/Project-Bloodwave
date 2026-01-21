@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   weaponName: Shotgun
-  icon: {fileID: 0}
-  baseCooldown: 1
-  baseProjectileCount: 1
-  baseDamage: 20
+  icon: {fileID: 1275589539659018210, guid: bb0215ff6ab7f4d48ac4720e578365f4, type: 3}
+  Cooldown: 1
+  ProjectileCount: 1
+  Damage: 30
   baseRange: 2
   targeting: {fileID: 11400000, guid: 41fae851b86d40bfcb2d58961a7b7304, type: 2}
   spawnPattern: {fileID: 11400000, guid: 6527d83b37bcb3114926e37fc1d9cae9, type: 2}
   projectileFactory: {fileID: 11400000, guid: eac33f18b4681bd23a384211fd3500a8, type: 2}
+  orbitingFactory: {fileID: 0}
   modifiersOnHit: []
   modifiersOnKill: []

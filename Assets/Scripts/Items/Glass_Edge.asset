@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 'Glass Edge '
   description: "A sharp-edged artifact that boosts the bearer\u2019s damage by 15%,
     while reducing attack range by 2."
-  icon: {fileID: 0}
+  icon: {fileID: -1699894025572665357, guid: b411dfa8f0989834d9ded94a95e20201, type: 3}
   price: 800
   statModifiers:
   - statType: 1
