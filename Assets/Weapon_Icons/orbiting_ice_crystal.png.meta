@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7ea057c81b940d24e81a8f04375e0eae
+guid: 6430b743caf31db4fbd5da0030daa54f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3245933848102918058
-    second: app_icon_0
+      213: 6667835865486427368
+    second: orbiting_ice_crystal_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,19 +100,6 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 47
-    textureCompression: 1
-    compressionQuality: 100
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -126,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: app_icon_0
+      name: orbiting_ice_crystal_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 37
-        width: 447
-        height: 444
+        x: 77
+        y: 226
+        width: 326
+        height: 449
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa7579c13afdb0d20800000000000000
-      internalID: 3245933848102918058
+      spriteID: 8e48de65469e88c50800000000000000
+      internalID: 6667835865486427368
       vertices: []
       indices: 
       edges: []
@@ -151,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 754710a9274216a4aa92ea2ea3d409aa
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      app_icon_0: 3245933848102918058
+      orbiting_ice_crystal_0: 6667835865486427368
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

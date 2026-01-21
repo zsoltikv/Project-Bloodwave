@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 7ea057c81b940d24e81a8f04375e0eae
+guid: 4ccf36b5154ff2345b980d12ebdc17ef
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3245933848102918058
-    second: app_icon_0
+      213: 3473679617974972202
+    second: orbiting_sword_0
+  - first:
+      213: -6304330365643867245
+    second: orbiting_sword_1
+  - first:
+      213: 8443811926637186094
+    second: orbiting_sword_2
+  - first:
+      213: 5605925986371395736
+    second: orbiting_sword_3
+  - first:
+      213: -5831215431185381541
+    second: orbiting_sword_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,19 +112,6 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 47
-    textureCompression: 1
-    compressionQuality: 100
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -126,23 +125,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: app_icon_0
+      name: orbiting_sword_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 37
-        width: 447
-        height: 444
+        x: 12
+        y: 79
+        width: 476
+        height: 616
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: aa7579c13afdb0d20800000000000000
-      internalID: 3245933848102918058
+      spriteID: eff979ec1e73e1e4fafb44e4f886d0a4
+      internalID: 1938844011
       vertices: []
       indices: 
       edges: []
@@ -151,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f069daf0773ea8546b585e02cb3baac2
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +160,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      app_icon_0: 3245933848102918058
+      orbiting_sword_0: 1938844011
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
