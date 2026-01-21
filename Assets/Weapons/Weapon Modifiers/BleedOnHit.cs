@@ -15,7 +15,7 @@ public class BleedOnHit : WeaponModifier
         var targetStats = hit.target.GetComponent<EnemyHealth>();
         if (targetStats != null)
         {
-            targetStats.ApplyBleed(bleedDamage, bleedDuration);
+            targetStats.ApplyBleed(2, 5f, 0.5f);
         }
     }
 }

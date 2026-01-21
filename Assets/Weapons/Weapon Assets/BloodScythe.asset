@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Blood Scythe
   icon: {fileID: 1137465368987919916, guid: 7e8fcd6b60512b746a1ace6644eeb719, type: 3}
-  Cooldown: 2
+  Cooldown: 5
   ProjectileCount: 1
-  Damage: 20
+  Damage: 50
   baseRange: 3
   targeting: {fileID: 11400000, guid: f96974fa6bbc3fac8bf072abc9006a9e, type: 2}
   spawnPattern: {fileID: 11400000, guid: 8a40dbd80f62a9e93b849777b42ef771, type: 2}

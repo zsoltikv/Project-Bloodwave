@@ -25,15 +25,17 @@ public class EnemyHealth : MonoBehaviour
         currentSpeed = baseSpeed;
     }
 
-    public float TakeDamage(float dmg) => TakeDamage(dmg, true);
+    public float TakeDamage(float dmg) => TakeDamage(dmg, true, "none");
 
-    public float TakeDamage(float dmg, bool showText)
+    public float TakeDamage(float dmg, string damageType) => TakeDamage(dmg, true, damageType);
+
+    public float TakeDamage(float dmg, bool showText, string damageType)
     {
         if (IsDead) return 0f;
 
         if (showText && DamageTextSpawner.Instance != null)
         {
-            DamageTextSpawner.Instance.Spawn(dmg, transform.position + damageTextWorldOffset);
+            DamageTextSpawner.Instance.Spawn(dmg, transform.position + damageTextWorldOffset, damageType);
         }
 
         currentHealth -= dmg;
@@ -80,23 +82,26 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void ApplyBleed(float bleedDamage, float bleedDuration)
+    public void ApplyBleed(int tickDamage, float duration, float tickInterval = 1f, bool showText = true)
     {
-        StartCoroutine(BleedCoroutine(bleedDamage, bleedDuration));
+        StartCoroutine(BleedCoroutine(tickDamage, duration, tickInterval, showText));
     }
 
-    private IEnumerator BleedCoroutine(float bleedDamage, float bleedDuration)
+    private IEnumerator BleedCoroutine(int tickDamage, float duration, float tickInterval, bool showText)
     {
-        if (isBleeding)
-            yield break;
+        if (isBleeding) yield break;
         isBleeding = true;
-        float timeElapsed = 0f;
-        while (timeElapsed < bleedDuration)
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            TakeDamage(bleedDamage * Time.deltaTime);
-            timeElapsed += Time.deltaTime;
-            yield return null;
+            TakeDamage(tickDamage, showText, "bleed");
+
+            yield return new WaitForSeconds(tickInterval);
+            elapsed += tickInterval;
         }
+
         isBleeding = false;
     }
 }
