@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   weaponName: Sword
-  icon: {fileID: 0}
-  baseCooldown: 1
-  baseProjectileCount: 1
-  baseDamage: 15
+  icon: {fileID: -3753825769889500098, guid: ec1127581a8f5a2438b800580b1b53db, type: 3}
+  Cooldown: 1
+  ProjectileCount: 1
+  Damage: 10
   baseRange: 6
   targeting: {fileID: 11400000, guid: f96974fa6bbc3fac8bf072abc9006a9e, type: 2}
   spawnPattern: {fileID: 11400000, guid: 8a40dbd80f62a9e93b849777b42ef771, type: 2}
   projectileFactory: {fileID: 11400000, guid: 7470f1edfd14a64859eb6fbf88a0dff5, type: 2}
+  orbitingFactory: {fileID: 0}
   modifiersOnHit: []
   modifiersOnKill: []
