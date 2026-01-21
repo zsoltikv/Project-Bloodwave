@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 6ac2b5c777dc04a488e740936a27f47b
+guid: 7e8fcd6b60512b746a1ace6644eeb719
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6398319564783469161
-    second: longreach_emblem_0
+      213: 1137465368987919916
+    second: blood_scythe_0
+  - first:
+      213: 6755133624258368996
+    second: blood_scythe_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +116,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: longreach_emblem_0
+      name: blood_scythe_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 18
-        width: 396
-        height: 593
+        x: 29
+        y: 36
+        width: 460
+        height: 666
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 79d36ad614a9437a0800000000000000
-      internalID: -6398319564783469161
+      spriteID: c2665def9b619cf00800000000000000
+      internalID: 1137465368987919916
       vertices: []
       indices: 
       edges: []
@@ -138,7 +141,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 486518da14e345b4191a051620c305e6
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +151,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      longreach_emblem_0: -6398319564783469161
+      blood_scythe_0: 1137465368987919916
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

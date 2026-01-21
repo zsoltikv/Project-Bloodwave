@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ac2b5c777dc04a488e740936a27f47b
+guid: bb0215ff6ab7f4d48ac4720e578365f4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6398319564783469161
-    second: longreach_emblem_0
+      213: 1275589539659018210
+    second: shotgun_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: longreach_emblem_0
+      name: shotgun_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 18
-        width: 396
-        height: 593
+        x: 60
+        y: 84
+        width: 648
+        height: 307
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 79d36ad614a9437a0800000000000000
-      internalID: -6398319564783469161
+      spriteID: 2ef649e8dedc3b110800000000000000
+      internalID: 1275589539659018210
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      longreach_emblem_0: -6398319564783469161
+      shotgun_0: 1275589539659018210
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

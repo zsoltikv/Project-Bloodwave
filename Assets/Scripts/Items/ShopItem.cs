@@ -17,7 +17,6 @@ public class ShopItem : ScriptableObject
     public bool isStackable = false;
     public int maxStackSize = 1;
 
-    // Alkalmazd az item hatásait a játékosra
     public void ApplyToPlayer(PlayerStats playerStats)
     {
         if (playerStats == null)
@@ -34,7 +33,6 @@ public class ShopItem : ScriptableObject
         }
     }
 
-    // Vedd el az item hatásait a játékosról
     public void RemoveFromPlayer(PlayerStats playerStats)
     {
         if (playerStats == null) return;
@@ -168,6 +166,6 @@ public enum StatType
 
 public enum ModifierType
 {
-    Flat,           // +10 HP
-    Percentage      // +20% HP
+    Flat,           
+    Percentage    
 }

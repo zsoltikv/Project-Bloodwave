@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ac2b5c777dc04a488e740936a27f47b
+guid: 70945c41742984d40adcb88a280e3e4e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6398319564783469161
-    second: longreach_emblem_0
+      213: -7830417706996075216
+    second: heart_of_ascendance_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: longreach_emblem_0
+      name: heart_of_ascendance_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 18
-        width: 396
-        height: 593
+        x: 234
+        y: 144
+        width: 240
+        height: 268
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 79d36ad614a9437a0800000000000000
-      internalID: -6398319564783469161
+      spriteID: 035f1933594c45390800000000000000
+      internalID: -7830417706996075216
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f9677335c1b59ad4eac2caa0a7514b10
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      longreach_emblem_0: -6398319564783469161
+      heart_of_ascendance_0: -7830417706996075216
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

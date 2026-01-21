@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ac2b5c777dc04a488e740936a27f47b
+guid: caac882bb146e5d418b0f59f37a34e06
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6398319564783469161
-    second: longreach_emblem_0
+      213: -5954504086726685928
+    second: bloodforged_sigil_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: longreach_emblem_0
+      name: bloodforged_sigil_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 18
-        width: 396
-        height: 593
+        x: 2
+        y: 9
+        width: 462
+        height: 528
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 79d36ad614a9437a0800000000000000
-      internalID: -6398319564783469161
+      spriteID: 81b4b09d41a5d5da0800000000000000
+      internalID: -5954504086726685928
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      longreach_emblem_0: -6398319564783469161
+      bloodforged_sigil_0: -5954504086726685928
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
