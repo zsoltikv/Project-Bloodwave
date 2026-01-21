@@ -5,6 +5,7 @@ public class GameManagerScript : MonoBehaviour
     public static GameManagerScript instance;
 
     public bool FreezeGame = false;
+    public bool saveUsedThisRun = false;
     
     void Awake()
     {

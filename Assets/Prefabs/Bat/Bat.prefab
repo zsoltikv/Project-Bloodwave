@@ -186,14 +186,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1f1ceb0d4aea547bc96ebe35316ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  baseSpeed: 2
+  maxHealth: 5
+  baseSpeed: 4
   currentSpeed: 0
   xpReward: 1
   coinReward: 1
   isSlowed: 0
   isBleeding: 0
   IsDead: 0
+  damageTextWorldOffset: {x: 0, y: 0.6, z: 0}
 --- !u!114 &8904827622628656009
 MonoBehaviour:
   m_ObjectHideFlags: 0
