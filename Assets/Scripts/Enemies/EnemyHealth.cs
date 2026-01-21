@@ -19,6 +19,9 @@ public class EnemyHealth : MonoBehaviour
     [Header("Damage Indicator")]
     public Vector3 damageTextWorldOffset = new Vector3(0f, 0.6f, 0f);
 
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem bloodPrefab;
+
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -58,6 +61,7 @@ public class EnemyHealth : MonoBehaviour
         }
 
         IsDead = true;
+        if (bloodPrefab != null) Instantiate(bloodPrefab, transform.position, Quaternion.identity);
     }
 
     private void ResetSpeed()

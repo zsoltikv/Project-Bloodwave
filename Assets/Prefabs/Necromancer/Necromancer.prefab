@@ -261,6 +261,8 @@ MonoBehaviour:
   isSlowed: 0
   isBleeding: 0
   IsDead: 0
+  damageTextWorldOffset: {x: 0, y: 0.6, z: 0}
+  bloodPrefab: {fileID: 3617557571189390448, guid: dcde4ee5bd6503546857f5e0878001dc, type: 3}
 --- !u!58 &4862490074762893965
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -309,7 +311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: {fileID: -5771614079683844753}
   feetPoint: {fileID: 583816729511995289}
   detectionDistance: 4
   obstacleLayer:
