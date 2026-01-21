@@ -23,7 +23,7 @@ public class LevelUpScript : MonoBehaviour
 
     private void Start()
     {
-        weaponController = FindObjectOfType<WeaponController>();
+        weaponController = FindAnyObjectByType<WeaponController>();
     }
 
     void OnEnable()
@@ -35,7 +35,7 @@ public class LevelUpScript : MonoBehaviour
     {
         if (weaponController == null)
         {
-            weaponController = FindObjectOfType<WeaponController>();
+            weaponController = FindAnyObjectByType<WeaponController>();
             if (weaponController == null) return;
         }
 

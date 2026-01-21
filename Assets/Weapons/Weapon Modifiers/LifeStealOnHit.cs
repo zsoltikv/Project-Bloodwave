@@ -14,7 +14,7 @@ public class LifeStealOnHit : WeaponModifier
         
         if (cachedPlayerStats == null)
         {
-            cachedPlayerStats = Object.FindObjectOfType<PlayerStats>();
+            cachedPlayerStats = Object.FindAnyObjectByType<PlayerStats>();
         }
         
         if (cachedPlayerStats != null)

@@ -162,7 +162,8 @@ public enum StatType
     Cooldown,
     Range,
     ProjectileSpeed,
-    ProjectileCount
+    ProjectileCount,
+    asd
 }
 
 public enum ModifierType

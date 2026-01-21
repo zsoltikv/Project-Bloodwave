@@ -3,7 +3,7 @@ using UnityEngine;
 public class OrbitingWeapon : MonoBehaviour
 {
     private float radius = 1.5f;
-    private float angularSpeed = 180f; // fok / mp
+    private float OrbitalSpeed = 180f; // fok / mp
     private float damage;
 
     private Transform owner;
@@ -13,7 +13,7 @@ public class OrbitingWeapon : MonoBehaviour
     {
         this.owner = owner;
         this.radius = radius;
-        this.angularSpeed = angularSpeed;
+        this.OrbitalSpeed = angularSpeed;
         this.damage = damage;
     }
 
@@ -30,7 +30,7 @@ public class OrbitingWeapon : MonoBehaviour
             return;
         }
 
-        angle += angularSpeed * Time.deltaTime;
+        angle += OrbitalSpeed * Time.deltaTime;
         float rad = angle * Mathf.Deg2Rad;
 
         Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * radius;

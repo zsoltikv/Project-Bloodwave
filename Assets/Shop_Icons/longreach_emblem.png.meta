@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      longreach_emblem_0: -6398319564783469161
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

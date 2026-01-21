@@ -46,6 +46,8 @@ public class WeaponUpgrade
         {
             case UpgradeType.Damage:
                 targetWeapon.bonusDamage += value;
+                if (weaponController != null)
+                    weaponController.RefreshAllOrbitingWeapons();
                 break;
             case UpgradeType.ProjectileCount:
                 targetWeapon.bonusProjectileCount += (int)value;
@@ -54,6 +56,8 @@ public class WeaponUpgrade
                 break;
             case UpgradeType.Cooldown:
                 targetWeapon.cooldownMultiplier *= (1f - value);
+                if (weaponController != null)
+                    weaponController.RefreshAllOrbitingWeapons();
                 break;
             case UpgradeType.Range:
                 targetWeapon.rangeMultiplier *= (1f + value);

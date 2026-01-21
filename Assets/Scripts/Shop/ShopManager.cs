@@ -12,7 +12,7 @@ public class ShopManager : MonoBehaviour
     [Header("Shop Items")]
     [SerializeField] private List<ShopItem> availableItems = new List<ShopItem>();
     private List<ShopItem> currentShopItems = new List<ShopItem>();
-    [SerializeField] private float refreshinterval = 180f;
+    [SerializeField] private float refreshinterval = 60f;
     
     [Header("Events")]
     public UnityEvent<ShopItem> OnItemPurchased;
@@ -87,6 +87,9 @@ public class ShopManager : MonoBehaviour
             button3.onClick.RemoveAllListeners();
             button3.onClick.AddListener(() => PurchaseItem(currentShopItems[2]));
         }
+        
+        OnShopRefreshed?.Invoke();
+        Debug.Log("Shop refresh completed.");
     }
 
 
@@ -127,6 +130,7 @@ public class ShopManager : MonoBehaviour
         {
             OnItemPurchased?.Invoke(item);
             Debug.Log($"Purchased: {item.itemName} for {item.price} Coins");
+            RefreshShop();
             return true;
         }
         else
