@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
+  m_Name: Marksman_Core
+  m_EditorClassIdentifier: 
+  itemName: 'Marksman Core '
+  description: A refined core that enhances ranged mastery, increasing projectile
+    speed by 5%, adding 3 additional projectiles, and extending range by 3.
+  icon: {fileID: 0}
+  price: 750
+  statModifiers:
+  - statType: 3
+    modifierType: 0
+    value: 3
+  - statType: 4
+    modifierType: 1
+    value: 5
+  - statType: 5
+    modifierType: 0
+    value: 3
+  isStackable: 0
+  maxStackSize: 1

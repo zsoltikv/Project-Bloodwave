@@ -232,7 +232,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -270,7 +270,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -1772,7 +1772,73 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      volley_stone_0: 4607906074392689071
+      volley_stone_1: 6914284501129945561
+      volley_stone_10: -4850342648331305770
+      volley_stone_11: -219790146209390875
+      volley_stone_12: -8567980576043886894
+      volley_stone_13: -7904086366942273266
+      volley_stone_14: 4372514712314679797
+      volley_stone_15: 5785686760237853021
+      volley_stone_16: 7602008446997119121
+      volley_stone_17: -1591243650915525934
+      volley_stone_18: 2166753790352683985
+      volley_stone_19: 258507555424985226
+      volley_stone_2: -5036223523253685699
+      volley_stone_20: 6002121101608714804
+      volley_stone_21: 1031015704013702139
+      volley_stone_22: -7530270026763668376
+      volley_stone_23: 515773199841672905
+      volley_stone_24: 9044998964378179824
+      volley_stone_25: 1646055863102763590
+      volley_stone_26: -3556892315667055146
+      volley_stone_27: -2883364580838198501
+      volley_stone_28: -9093229751365697632
+      volley_stone_29: 8385942449185315100
+      volley_stone_3: -8094757604104618163
+      volley_stone_30: 7618111173660022830
+      volley_stone_31: -129884998627287102
+      volley_stone_32: -3053239504091200591
+      volley_stone_33: 4486948687508203463
+      volley_stone_34: -128610681307347450
+      volley_stone_35: 2828443625225414923
+      volley_stone_36: 3243475655965917672
+      volley_stone_37: 8991984543640160316
+      volley_stone_38: -2547606449140174670
+      volley_stone_39: -7464774166453111182
+      volley_stone_4: 4942172960994587115
+      volley_stone_40: 9143559763979002952
+      volley_stone_41: 2302970655339919948
+      volley_stone_42: 576673091486825300
+      volley_stone_43: 2795788433137203476
+      volley_stone_44: -1722353548765764592
+      volley_stone_45: 6065542135285055717
+      volley_stone_46: -850133477638594245
+      volley_stone_47: -9005103289085185883
+      volley_stone_48: -3303742078739790496
+      volley_stone_49: -3626618826686699139
+      volley_stone_5: 9129597621044773230
+      volley_stone_50: 3515468865391610646
+      volley_stone_51: 7711350141535351352
+      volley_stone_52: -3355084052277522630
+      volley_stone_53: -737313992145546820
+      volley_stone_54: -3997145173964147317
+      volley_stone_55: -8275613270884841716
+      volley_stone_56: -6731501370599776575
+      volley_stone_57: 8301194339908840646
+      volley_stone_58: 1376314542695433038
+      volley_stone_59: -5214384896421564024
+      volley_stone_6: 3494831412868536184
+      volley_stone_60: 1927263769565794913
+      volley_stone_61: -5474020561938723026
+      volley_stone_62: -5703359213994812641
+      volley_stone_63: -3331848259982397573
+      volley_stone_64: -196288291021910936
+      volley_stone_65: -3532625628890794379
+      volley_stone_7: -3128284423531572353
+      volley_stone_8: 5656786086052881683
+      volley_stone_9: 5392707455812399752
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
