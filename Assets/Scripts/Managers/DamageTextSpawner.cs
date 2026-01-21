@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class DamageTextSpawner : MonoBehaviour
@@ -31,28 +32,34 @@ public class DamageTextSpawner : MonoBehaviour
             uiCamera = Camera.main;
     }
 
-    public void Spawn(float dmg, Vector3 worldPos)
+    public void Spawn(float dmg, Vector3 worldPos, string critType)
     {
-        if (damageTextPrefab == null || parent == null || uiCanvas == null || canvasRect == null) return;
-        if (uiCamera == null) return;
+        if (damageTextPrefab == null || parent == null || uiCanvas == null) return;
 
-        // 1) world -> screen
-        Vector2 screenPos = uiCamera.WorldToScreenPoint(worldPos);
+        Camera camForRect = (uiCanvas.renderMode == RenderMode.ScreenSpaceOverlay) ? null : uiCamera;
+        if (camForRect == null && uiCanvas.renderMode != RenderMode.ScreenSpaceOverlay && uiCamera == null) return;
 
-        // 2) screen -> canvas local
-        Vector2 localPoint;
-        bool ok = RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvasRect,
-            screenPos,
-            uiCamera,
-            out localPoint
-        );
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(camForRect, worldPos);
 
-        if (!ok) return;
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                uiCanvas.transform as RectTransform, screenPos, camForRect, out var localPoint))
+            return;
 
-        // 3) spawn és anchoredPosition beállítás
         var dt = Instantiate(damageTextPrefab, parent);
         dt.SetStartAnchoredPosition(localPoint);
+
+        Color32 color = new Color32(255, 255, 255, 255);
+        switch ((critType ?? "").ToLowerInvariant())
+        {
+            case "normal": color = new Color32(255, 255, 0, 255); break;
+            case "extra": color = new Color32(255, 155, 0, 255); break;
+            case "bleed": color = new Color32(255, 0, 0, 255); break;
+        }
+
+        var tmp = dt.GetComponentInChildren<TMP_Text>();
+        if (tmp != null) tmp.color = color;
+
         dt.Init(dmg);
     }
+
 }

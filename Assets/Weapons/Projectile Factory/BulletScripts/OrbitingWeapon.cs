@@ -8,6 +8,7 @@ public class OrbitingWeapon : MonoBehaviour
 
     private Transform owner;
     private float angle;
+    private System.Random rnd = new();
 
     public void Init(Transform owner, float radius, float angularSpeed, float damage)
     {
@@ -43,7 +44,21 @@ public class OrbitingWeapon : MonoBehaviour
         if (other.gameObject == owner) return;
         if (!other.TryGetComponent<EnemyHealth>(out var hp)) return;
 
-        float dealt = hp.TakeDamage(damage);
+        int rndNum = rnd.Next(100);
+        float chance = owner.GetComponent<PlayerStats>().baseCritChance * 100;
+        float mult = 1F;
+        string damageType = "none";
+        if (rndNum < chance / 2)
+        {
+            mult = 1.4F;
+            damageType = "extra";
+        }
+        else if (rndNum < chance)
+        {
+            mult = 1.2F;
+            damageType = "normal";
+        }
+        float dealt = hp.TakeDamage(damage * mult, damageType);
 
         var fx = GetComponent<ProjectileEffects>();
         if (fx != null)

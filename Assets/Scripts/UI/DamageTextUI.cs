@@ -21,7 +21,6 @@ public class DamageTextUI : MonoBehaviour
     {
         rt = (RectTransform)transform;
         if (text == null) text = GetComponent<TMP_Text>();
-        baseColor = text.color;
     }
 
     // Spawner hívja még Init elõtt
@@ -45,10 +44,6 @@ public class DamageTextUI : MonoBehaviour
         end = start + offset;
 
         t = 0f;
-
-        var c = baseColor;
-        c.a = 1f;
-        text.color = c;
     }
 
     private void Update()
