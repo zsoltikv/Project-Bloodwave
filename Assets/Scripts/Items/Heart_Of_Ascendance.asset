@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 'Heart of Ascendance '
   description: "A powerful relic that fully restores the bearer\u2019s health, increases
     damage by 10%, and shortens all cooldowns by 0.5 seconds."
-  icon: {fileID: 0}
+  icon: {fileID: -7830417706996075216, guid: 70945c41742984d40adcb88a280e3e4e, type: 3}
   price: 1000
   statModifiers:
   - statType: 0

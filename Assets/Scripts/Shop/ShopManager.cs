@@ -69,6 +69,7 @@ public class ShopManager : MonoBehaviour
             // Első item (child 1)
             Transform item1 = shopUI.transform.GetChild(1);
             item1.GetComponentInChildren<TextMeshProUGUI>().text = currentShopItems[0].itemName + " - " + currentShopItems[0].price + " Coins";
+            item1.GetComponent<Image>().sprite = currentShopItems[0].icon;
             Button button1 = item1.GetComponent<Button>();
             button1.onClick.RemoveAllListeners(); 
             button1.onClick.AddListener(() => PurchaseItem(currentShopItems[0]));
@@ -76,6 +77,7 @@ public class ShopManager : MonoBehaviour
             // Második item (child 2)
             Transform item2 = shopUI.transform.GetChild(2);
             item2.GetComponentInChildren<TextMeshProUGUI>().text = currentShopItems[1].itemName + " - " + currentShopItems[1].price + " Coins";
+            item2.GetComponent<Image>().sprite = currentShopItems[1].icon;
             Button button2 = item2.GetComponent<Button>();
             button2.onClick.RemoveAllListeners();
             button2.onClick.AddListener(() => PurchaseItem(currentShopItems[1]));
@@ -83,6 +85,7 @@ public class ShopManager : MonoBehaviour
             // Harmadik item (child 3)
             Transform item3 = shopUI.transform.GetChild(3);
             item3.GetComponentInChildren<TextMeshProUGUI>().text = currentShopItems[2].itemName + " - " + currentShopItems[2].price + " Coins";
+            item3.GetComponent<Image>().sprite = currentShopItems[2].icon;
             Button button3 = item3.GetComponent<Button>();
             button3.onClick.RemoveAllListeners();
             button3.onClick.AddListener(() => PurchaseItem(currentShopItems[2]));

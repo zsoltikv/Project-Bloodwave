@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 'Haste Rune '
   description: "A rune of swift power that reduces the bearer\u2019s damage by 5%
     but shortens all cooldowns by 1 second."
-  icon: {fileID: 0}
+  icon: {fileID: 6797890767253113778, guid: d09c3544106d7294d82030ceaf18e595, type: 3}
   price: 1000
   statModifiers:
   - statType: 1

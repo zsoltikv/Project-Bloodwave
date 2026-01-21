@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 'Marksman Core '
   description: A refined core that enhances ranged mastery, increasing projectile
     speed by 5%, adding 3 additional projectiles, and extending range by 3.
-  icon: {fileID: 0}
+  icon: {fileID: -2454249009384032651, guid: 29424583dab14384bb71c24122927c3b, type: 3}
   price: 750
   statModifiers:
   - statType: 3

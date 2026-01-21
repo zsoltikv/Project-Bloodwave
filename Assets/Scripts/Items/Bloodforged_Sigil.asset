@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 'Bloodforged Sigil '
   description: A ruthless sigil that greatly empowers the bearer, increasing damage
     by 25% at the cost of 50 health.
-  icon: {fileID: 0}
+  icon: {fileID: -5954504086726685928, guid: caac882bb146e5d418b0f59f37a34e06, type: 3}
   price: 1500
   statModifiers:
   - statType: 1

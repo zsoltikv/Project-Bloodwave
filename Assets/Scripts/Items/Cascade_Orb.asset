@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 'Cascade Orb '
   description: "A mystical orb that fully restores the bearer\u2019s health, slows
     projectile speed by 10%, but adds 3 extra projectiles to each attack."
-  icon: {fileID: 0}
+  icon: {fileID: -6786452434386311821, guid: 7381d207a45a3684cb2d77a52310ec3f, type: 3}
   price: 750
   statModifiers:
   - statType: 0

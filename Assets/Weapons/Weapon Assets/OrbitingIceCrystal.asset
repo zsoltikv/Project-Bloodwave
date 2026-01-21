@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OrbitingIceCrystal
   m_EditorClassIdentifier: 
   weaponName: Ice Crystal
-  icon: {fileID: 0}
+  icon: {fileID: 6667835865486427368, guid: 6430b743caf31db4fbd5da0030daa54f, type: 3}
   Cooldown: 1
   ProjectileCount: 1
   Damage: 10
