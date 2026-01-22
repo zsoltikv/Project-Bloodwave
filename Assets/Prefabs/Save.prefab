@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 5487758905559975964}
   - component: {fileID: 740334315097803924}
   m_Layer: 5
-  m_Name: HighScore
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,9 +128,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'HighScore
-
-'
+  m_text: Score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ae6812e92070ead438e5d29c4ff3125e, type: 2}
   m_sharedMaterial: {fileID: 300099609840616277, guid: ae6812e92070ead438e5d29c4ff3125e, type: 2}
@@ -157,7 +155,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.7
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

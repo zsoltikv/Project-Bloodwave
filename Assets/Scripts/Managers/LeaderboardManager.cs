@@ -22,8 +22,8 @@ public class LeaderboardManager : MonoBehaviour
     public void PopulateLeaderboard()
     {
         var header = Instantiate(SavePrefab, Content.transform);
-        header.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Player Name";
-        header.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "High Score";
+        header.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Player";
+        header.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = "Score";
         header.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = "Time";
 
         foreach (var save in saveDataList)

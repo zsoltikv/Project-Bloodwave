@@ -33,10 +33,18 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] public int XP = 0;
     [SerializeField] public int Coins = 0;
 
-    public void AddXP(int amount)
+    private void Start()
     {
-        XP += amount;
+        XpBar.GetComponent<Slider>().maxValue = CalculateXPForLevel(Level);
         RefreshXpBar();
+    }
+
+    int CalculateXPForLevel(int level)
+    {
+        int linearPart = level * 40;
+        float exponentialPart = 120f * Mathf.Pow(1.18f, level);
+
+        return Mathf.RoundToInt(linearPart + exponentialPart);
     }
 
     public void AddCoins(int amount)
@@ -78,25 +86,34 @@ public class PlayerStats : MonoBehaviour
 
     public void RefreshXpBar()
     {
-        XpBar.GetComponent<UnityEngine.UI.Slider>().value = XP;
-
-        if (XpBar.GetComponent<UnityEngine.UI.Slider>().value >= XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue)
-        {
-
-            LevelUp();
-        }
+        XpBar.GetComponent<Slider>().value = XP;
     }
 
-    public void LevelUp() 
+    public void LevelUp()
     {
-        XpBar.GetComponent<UnityEngine.UI.Slider>().value = 0f;
-        XP = 0;
-        Level += 1;
-        LevelText.GetComponent<TMPro.TextMeshProUGUI>().text = "Level " + Level.ToString();
-        XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue = Mathf.RoundToInt(XpBar.GetComponent<UnityEngine.UI.Slider>().maxValue * 1.5f);
-        RefreshXpBar();
+        Level++;
+
+        LevelText.GetComponent<TMPro.TextMeshProUGUI>().text =
+            "Level " + Level.ToString();
+
+        XpBar.GetComponent<Slider>().maxValue =
+            CalculateXPForLevel(Level);
+
         GameManagerScript.instance.PauseGame();
         LevelupPanel.SetActive(true);
+    }
+
+    public void AddXP(int amount)
+    {
+        XP += amount;
+
+        while (XP >= XpBar.GetComponent<Slider>().maxValue)
+        {
+            XP -= Mathf.RoundToInt(XpBar.GetComponent<Slider>().maxValue);
+            LevelUp();
+        }
+
+        RefreshXpBar();
     }
 
 }
