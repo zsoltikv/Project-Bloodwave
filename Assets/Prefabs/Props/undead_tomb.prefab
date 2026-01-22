@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2382147505307930873}
   - component: {fileID: 5346417797244203806}
   - component: {fileID: -4390749612030723826}
+  - component: {fileID: 599749387301068455}
   m_Layer: 7
   m_Name: undead_tomb
   m_TagString: Untagged
@@ -203,3 +204,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propBottom: {fileID: 1004496319216325911}
+--- !u!208 &599749387301068455
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5693744178474943037}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.1395844, y: 0.13972154, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.01331192, y: 0.2574721, z: 0}
+  m_TimeToStationary: 0.5

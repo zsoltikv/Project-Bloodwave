@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7660677175903077537}
   - component: {fileID: 4002758186446594898}
   - component: {fileID: 555090047969606324}
+  - component: {fileID: 6962213761456898875}
   m_Layer: 7
   m_Name: ruins_s
   m_TagString: Untagged
@@ -149,6 +150,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propBottom: {fileID: 2323059336645685624}
+--- !u!208 &6962213761456898875
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5788568584495095793}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.1438641, y: 0.07324205, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.006280452, y: 0.2597182, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7579862625850767121
 GameObject:
   m_ObjectHideFlags: 0

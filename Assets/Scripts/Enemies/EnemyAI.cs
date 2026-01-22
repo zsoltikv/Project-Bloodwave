@@ -62,7 +62,7 @@ public class EnemyAI : MonoBehaviour
         float dir = player.position.x - transform.position.x;
 
         if (dir != 0)
-            spriteRenderer.flipX = dir < 0;
+            spriteRenderer.transform.localEulerAngles = new Vector3(0, dir < 0 ? 180f : 0f, 0);
     }
 
     void Awake()
@@ -363,7 +363,7 @@ public class EnemyAI : MonoBehaviour
             var playerStats = collision.GetComponent<PlayerStats>();
             if (playerStats != null)
             {
-                playerStats.TakeDamage(10f);
+                playerStats.TakeDamage(enemyHealth.baseDamage);
             }
             Destroy(this.gameObject);
         }
