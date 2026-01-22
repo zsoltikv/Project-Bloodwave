@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Heart_Of_Ascendance
   m_EditorClassIdentifier: 
-  itemName: 'Heart of Ascendance '
+  itemName: c
   description: "A powerful relic that fully restores the bearer\u2019s health, increases
     damage by 10%, and shortens all cooldowns by 0.5 seconds."
   icon: {fileID: -7830417706996075216, guid: 70945c41742984d40adcb88a280e3e4e, type: 3}
