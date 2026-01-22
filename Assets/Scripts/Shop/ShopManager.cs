@@ -67,25 +67,33 @@ public class ShopManager : MonoBehaviour
         if (shopUI != null)
         {
             // Első item (child 1)
-            Transform item1 = shopUI.transform.GetChild(1);
-            item1.GetComponentInChildren<TextMeshProUGUI>().text = currentShopItems[0].itemName + " - " + currentShopItems[0].price + " Coins";
+            Transform item1 = shopUI.transform.GetChild(2);
             item1.GetComponent<Image>().sprite = currentShopItems[0].icon;
+            item1.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[0].itemName;
+            item1.GetChild(1).GetComponent<TextMeshProUGUI>().text = currentShopItems[0].description;
+            item1.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + currentShopItems[0].price;
             Button button1 = item1.GetComponent<Button>();
             button1.onClick.RemoveAllListeners(); 
             button1.onClick.AddListener(() => PurchaseItem(currentShopItems[0]));
 
+
             // Második item (child 2)
-            Transform item2 = shopUI.transform.GetChild(2);
-            item2.GetComponentInChildren<TextMeshProUGUI>().text = currentShopItems[1].itemName + " - " + currentShopItems[1].price + " Coins";
+            Transform item2 = shopUI.transform.GetChild(3);
             item2.GetComponent<Image>().sprite = currentShopItems[1].icon;
+            item2.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[1].itemName;
+            item2.GetChild(1).GetComponent<TextMeshProUGUI>().text = currentShopItems[1].description;
+            item2.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + currentShopItems[1].price;
             Button button2 = item2.GetComponent<Button>();
-            button2.onClick.RemoveAllListeners();
+            button2.onClick.RemoveAllListeners(); 
             button2.onClick.AddListener(() => PurchaseItem(currentShopItems[1]));
 
+
             // Harmadik item (child 3)
-            Transform item3 = shopUI.transform.GetChild(3);
-            item3.GetComponentInChildren<TextMeshProUGUI>().text = currentShopItems[2].itemName + " - " + currentShopItems[2].price + " Coins";
+            Transform item3 = shopUI.transform.GetChild(4);
             item3.GetComponent<Image>().sprite = currentShopItems[2].icon;
+            item3.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[2].itemName;
+            item3.GetChild(1).GetComponent<TextMeshProUGUI>().text = currentShopItems[2].description;
+            item3.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + currentShopItems[2].price;
             Button button3 = item3.GetComponent<Button>();
             button3.onClick.RemoveAllListeners();
             button3.onClick.AddListener(() => PurchaseItem(currentShopItems[2]));
@@ -176,6 +184,7 @@ public class ShopManager : MonoBehaviour
         if (shopUI != null)
         {
             shopUI.SetActive(!shopUI.activeSelf);
+             shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
         }
     }
 }
