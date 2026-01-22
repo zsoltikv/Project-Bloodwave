@@ -10,4 +10,8 @@ public class GameLoader : MonoBehaviour
         FadeManager.Instance.LoadSceneWithFade("MainScene");
     }
 
+    public void LeaderBoard()
+    {
+        FadeManager.Instance.LoadSceneWithFade("LeaderBoardScene");
+    }
 }

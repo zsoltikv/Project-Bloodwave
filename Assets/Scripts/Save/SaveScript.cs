@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
 using TMPro;
 
@@ -36,13 +35,12 @@ public class SaveScript : MonoBehaviour
             {
                 playerName = inputField.text;
             }
+            else
+            {
+                return;
+            }
         }
 
-        // Ha még mindig nincs név, default
-        if (string.IsNullOrEmpty(playerName))
-        {
-            playerName = "Player";
-        }
 
         // Score és idő lekérése
         PlayerStats playerStats = FindAnyObjectByType<PlayerStats>();
@@ -65,6 +63,12 @@ public class SaveScript : MonoBehaviour
         
         // Rendezés score szerint csökkenő sorrendben
         saveDataList.Sort((a, b) => b.highScore.CompareTo(a.highScore));
+        
+        // Maximum 10 bejegyzés megtartása
+        if (saveDataList.Count > 10)
+        {
+            saveDataList.RemoveRange(10, saveDataList.Count - 10);
+        }
 
         SaveToFile();
         
@@ -118,16 +122,11 @@ public class SaveScript : MonoBehaviour
         }
     }
 
-    public List<SaveData> GetTopScores(int count = 10)
+    public List<SaveData> GetLeaderboard()
     {
-        int actualCount = Mathf.Min(count, saveDataList.Count);
-        return saveDataList.GetRange(0, actualCount);
+        return saveDataList;
     }
 
-    public void SetPlayerName(string name)
-    {
-        playerName = name;
-    }
 }
 
 [System.Serializable]

@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3fb15fc4093979ca2c5efc3d6589f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NameInputField: {fileID: 0}
+  NameInputField: {fileID: 1839009541}
   saveDataList: []
 --- !u!4 &1281022865
 Transform:
