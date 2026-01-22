@@ -31,6 +31,12 @@ public class ShopItem : ScriptableObject
         {
             modifier.ApplyModifier(playerStats);
         }
+        
+        WeaponController weaponController = playerStats.GetComponent<WeaponController>();
+        if (weaponController != null)
+        {
+            weaponController.RefreshAllOrbitingWeapons();
+        }
     }
 
     public void RemoveFromPlayer(PlayerStats playerStats)

@@ -10,6 +10,7 @@ public class WeaponDefinition : ScriptableObject
     public int ProjectileCount = 1;
     public float Damage = 10f;
     public float baseRange = 6f;
+    public float ProjectileSpeed = 1f;
 
     public TargetingStrategy targeting;
     public SpawnPattern spawnPattern;
