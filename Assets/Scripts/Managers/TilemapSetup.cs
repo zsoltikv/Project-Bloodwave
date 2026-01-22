@@ -199,27 +199,16 @@ public class TilemapSetup : MonoBehaviour
     }
 
     // ---------- SURROUND CHECK ----------
-    bool IsFullySurrounded(Vector3Int pos)
+    bool IsFullySurrounded(Vector3Int pos, string expectedName="Wall_Middle")
     {
-        Vector3Int[] neighbors =
-        {
-            Vector3Int.up,
-            Vector3Int.down,
-            Vector3Int.left,
-            Vector3Int.right,
+        if (groundTilemap == null) return false;
 
-            new Vector3Int(1, 1, 0),
-            new Vector3Int(-1, 1, 0),
-            new Vector3Int(1, -1, 0),
-            new Vector3Int(-1, -1, 0)
-        };
+        var tile = groundTilemap.GetTile(pos);
+        if (tile == null) return false;
 
-        foreach (var dir in neighbors)
-        {
-            if (groundTilemap.GetTile(pos + dir) == null)
-                return false;
-        }
+        var data = new TileData();
+        tile.GetTileData(pos, groundTilemap, ref data);
 
-        return true;
+        return data.sprite != null && data.sprite.name == expectedName;
     }
 }

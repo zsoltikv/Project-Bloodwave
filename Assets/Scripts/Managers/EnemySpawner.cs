@@ -254,32 +254,17 @@ public class EnemySpawner : MonoBehaviour
         return availableEnemies[availableEnemies.Count - 1];
     }
 
-    bool IsFullySurrounded(Vector3Int pos)
+    bool IsFullySurrounded(Vector3Int pos, string expectedName = "Wall_Middle")
     {
-        Vector3Int[] neighbors =
-        {
-            Vector3Int.up,
-            Vector3Int.down,
-            Vector3Int.left,
-            Vector3Int.right,
-            new Vector3Int(1, 1, 0),
-            new Vector3Int(-1, 1, 0),
-            new Vector3Int(1, -1, 0),
-            new Vector3Int(-1, -1, 0)
-        };
+        if (groundTilemap == null) return false;
 
-        foreach (var dir in neighbors)
-        {
-            if (groundTilemap.GetTile(pos + dir) == null)
-                return false;
-        }
-        return true;
-    }
+        var tile = groundTilemap.GetTile(pos);
+        if (tile == null) return false;
 
-    bool IsFullySurrounded(Vector2 worldPos)
-    {
-        Vector3Int cellPos = groundTilemap.WorldToCell(worldPos);
-        return IsFullySurrounded(cellPos);
+        var data = new TileData();
+        tile.GetTileData(pos, groundTilemap, ref data);
+
+        return data.sprite != null && data.sprite.name == expectedName;
     }
 
     Vector2 GetRandomSpawnPosition()

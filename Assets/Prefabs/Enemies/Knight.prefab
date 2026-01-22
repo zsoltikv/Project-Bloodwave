@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2440943205465818339}
   - component: {fileID: 253324462424537319}
   - component: {fileID: 7484654992161936416}
+  - component: {fileID: 5270797095528862419}
   m_Layer: 6
   m_Name: Knight
   m_TagString: Enemy
@@ -126,7 +127,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3841493091265023851}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -212,18 +213,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feetPoint: {fileID: 930137472021551149}
-  detectionDistance: 4
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 129
-  avoidanceAngle: 50
-  obstacleAvoidanceDistance: 1.4
-  stuckCheckTime: 0.3
-  minMoveDistance: 0.02
-  maxStuckAttempts: 5
-  rotationSmoothness: 3
-  accelerationSpeed: 30
+  approachMode: 2
+  modeChangeInterval: 5
+  randomizeModeOnStart: 0
+  changeModePeriodically: 0
+  straightStoppingDistance: 0.5
+  circleRadius: 3
+  circleSpeed: 2
+  circleClockwise: 1
+  zigzagAmplitude: 4
+  zigzagFrequency: 1
+  strafeDistance: 0
+  strafeRange: 3
+  strafeChangeInterval: 2
+  ambushDistance: 6
+  ambushWaitTime: 1
+  ambushChargeSpeed: 8
+  retreatDistance: 5
+  retreatDuration: 2
+  retreatCooldown: 5
 --- !u!114 &2440943205465818339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +305,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.004444694, y: -0.12635657}
   m_Radius: 0.028008502
+--- !u!195 &5270797095528862419
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3841493091265023851}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.135
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.31
+  m_BaseOffset: 0.155
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4755403987620085854
 GameObject:
   m_ObjectHideFlags: 0
