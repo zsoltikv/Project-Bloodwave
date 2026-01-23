@@ -10,7 +10,7 @@ public class EnemySpawnData
     public GameObject enemyPrefab;
     public int unlockLevel = 1;
     [Range(0f, 1f)] public float spawnWeight = 1f;
-    [Tooltip("Ha true, ez az enemy t�pus mindig spawnolja a t�bbi t�pust is")]
+    [Tooltip("Ha true, ez az enemy típus mindig spawnolja a többi típust is")]
     public bool alwaysSpawn = false;
 }
 
@@ -22,10 +22,6 @@ public class EnemySpawner : MonoBehaviour
     [Header("Tilemap")]
     public Tilemap groundTilemap;
 
-    [Header("Level System")]
-    [SerializeField] int currentLevel = 1;
-    [SerializeField] float timePerLevel = 30f;
-
     [Header("Spawn Settings")]
     [SerializeField] float spawnInterval = 1.5f;
     [SerializeField] float minSpawnInterval = 0.3f;
@@ -35,7 +31,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] bool preventSpawnInView = true;
 
     [Header("Difficulty Progression")]
-    [SerializeField] float difficultyIncreaseInterval = 20f;
+    [Tooltip("Hány szintenként növekedjen a nehézség")]
+    [SerializeField] int difficultyIncreaseEveryXLevels = 2;
     [SerializeField] float speedIncreasePerStep = 0.2f;
     [SerializeField] float healthIncreasePerStep = 0.15f;
     [SerializeField] bool increaseEnemiesPerSpawn = true;
@@ -57,12 +54,21 @@ public class EnemySpawner : MonoBehaviour
     // Private variables
     float difficultyMultiplier = 0f;
     int currentWave = 0;
+    int lastDifficultyIncreaseLevel = 0;
+    int lastCheckedPlayerLevel = 1;
     List<GameObject> activeEnemies = new List<GameObject>();
     bool isSpawning = true;
     List<EnemySpawnData> availableEnemies = new List<EnemySpawnData>();
+    PlayerStats playerStats;
 
     void Start()
     {
+        playerStats = player.GetComponent<PlayerStats>();
+        if (playerStats == null)
+        {
+            Debug.LogError("PlayerStats component not found on player!");
+        }
+
         UpdateAvailableEnemies();
 
         if (useWaveSystem)
@@ -70,25 +76,67 @@ public class EnemySpawner : MonoBehaviour
         else
             StartCoroutine(ContinuousSpawnSystem());
 
-        StartCoroutine(DifficultyLoop());
-        StartCoroutine(LevelProgressionLoop());
+        StartCoroutine(CheckPlayerLevel());
         StartCoroutine(CleanupDestroyedEnemies());
     }
 
-    IEnumerator LevelProgressionLoop()
+    IEnumerator CheckPlayerLevel()
     {
         while (true)
         {
-            yield return new WaitForSeconds(timePerLevel);
-            currentLevel++;
-            UpdateAvailableEnemies();
-            Debug.Log($"Level UP! Now at level {currentLevel}. Available enemies: {availableEnemies.Count}");
+            yield return new WaitForSeconds(0.5f);
+
+            if (playerStats != null)
+            {
+                int currentPlayerLevel = playerStats.Level;
+
+                // Ha a player szintje változott
+                if (currentPlayerLevel != lastCheckedPlayerLevel)
+                {
+                    lastCheckedPlayerLevel = currentPlayerLevel;
+                    UpdateAvailableEnemies();
+
+                    // Nehézség növelés szintenként
+                    CheckAndIncreaseDifficulty(currentPlayerLevel);
+
+                    Debug.Log($"Player Level: {currentPlayerLevel}. Available enemies: {availableEnemies.Count}");
+                }
+            }
+        }
+    }
+
+    void CheckAndIncreaseDifficulty(int currentPlayerLevel)
+    {
+        // Ellenőrizzük, hogy elértük-e a következő nehézség növelési szintet
+        if (currentPlayerLevel - lastDifficultyIncreaseLevel >= difficultyIncreaseEveryXLevels)
+        {
+            lastDifficultyIncreaseLevel = currentPlayerLevel;
+
+            difficultyMultiplier += speedIncreasePerStep;
+            spawnInterval = Mathf.Max(minSpawnInterval, spawnInterval - spawnIntervalDecreaseRate);
+
+            if (increaseEnemiesPerSpawn && !useWaveSystem)
+            {
+                if (difficultyMultiplier % 1f == 0)
+                {
+                    enemiesPerSpawn = Mathf.Min(enemiesPerSpawn + 1, 5);
+                }
+            }
+
+            if (spawnElites)
+            {
+                eliteSpawnChance = Mathf.Min(eliteSpawnChance + 0.02f, 0.3f);
+            }
+
+            Debug.Log($"Difficulty increased at player level {currentPlayerLevel}! Speed: +{difficultyMultiplier}, Spawn interval: {spawnInterval}s");
         }
     }
 
     void UpdateAvailableEnemies()
     {
         availableEnemies.Clear();
+
+        int currentLevel = playerStats != null ? playerStats.Level : 1;
 
         foreach (var enemyData in enemyTypes)
         {
@@ -141,37 +189,11 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    IEnumerator DifficultyLoop()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(difficultyIncreaseInterval);
-
-            difficultyMultiplier += speedIncreasePerStep;
-            spawnInterval = Mathf.Max(minSpawnInterval, spawnInterval - spawnIntervalDecreaseRate);
-
-            if (increaseEnemiesPerSpawn && !useWaveSystem)
-            {
-                if (difficultyMultiplier % 1f == 0)
-                {
-                    enemiesPerSpawn = Mathf.Min(enemiesPerSpawn + 1, 5);
-                }
-            }
-
-            if (spawnElites)
-            {
-                eliteSpawnChance = Mathf.Min(eliteSpawnChance + 0.02f, 0.3f);
-            }
-
-            Debug.Log($"Difficulty increased! Speed: +{difficultyMultiplier}, Spawn interval: {spawnInterval}s");
-        }
-    }
-
     void SpawnEnemy()
     {
         if (availableEnemies.Count == 0) return;
 
-        // T�bb pr�b�lkoz�s valid spawn poz�ci�ra
+        // Több próbálkozás valid spawn pozícióra
         Vector2 spawnPos = Vector2.zero;
         bool foundValidPosition = false;
 
@@ -180,11 +202,11 @@ public class EnemySpawner : MonoBehaviour
             spawnPos = GetRandomSpawnPosition();
             Vector3Int cellPos = groundTilemap.WorldToCell(spawnPos);
 
-            // Ellen�rizz�k hogy van-e tile ezen a poz�ci�n
+            // Ellenőrizzük hogy van-e tile ezen a pozíción
             if (groundTilemap.GetTile(cellPos) == null)
                 continue;
 
-            // Ellen�rizz�k hogy teljesen k�rbe van-e v�ve
+            // Ellenőrizzük hogy teljesen körbe van-e véve
             if (!IsFullySurrounded(cellPos))
                 continue;
 
@@ -205,7 +227,7 @@ public class EnemySpawner : MonoBehaviour
         // Elite spawning
         bool isElite = spawnElites && Random.value < eliteSpawnChance;
 
-        // Enemy stats be�ll�t�sa
+        // Enemy stats beállítása
         var health = enemy.GetComponent<EnemyHealth>();
         if (health != null)
         {
@@ -218,7 +240,7 @@ public class EnemySpawner : MonoBehaviour
                 health.baseSpeed *= eliteSpeedMultiplier;
                 enemy.transform.localScale *= eliteScaleMultiplier;
 
-                // Vizu�lis jelz�s (pl. sz�n v�ltoztat�s)
+                // Vizuális jelzés (pl. szín változtatás)
                 var renderer = enemy.GetComponent<SpriteRenderer>();
                 if (renderer != null)
                 {
@@ -230,7 +252,7 @@ public class EnemySpawner : MonoBehaviour
 
     EnemySpawnData SelectEnemyByWeight()
     {
-        // Always spawn enemyk kezel�se
+        // Always spawn enemyk kezelése
         var alwaysSpawnEnemies = availableEnemies.Where(e => e.alwaysSpawn).ToList();
         if (alwaysSpawnEnemies.Count > 0 && Random.value < 0.3f)
         {
@@ -311,15 +333,9 @@ public class EnemySpawner : MonoBehaviour
             StartCoroutine(ContinuousSpawnSystem());
     }
 
-    public void SetLevel(int level)
-    {
-        currentLevel = level;
-        UpdateAvailableEnemies();
-    }
-
     public int GetCurrentLevel()
     {
-        return currentLevel;
+        return playerStats != null ? playerStats.Level : 1;
     }
 
     public int GetActiveEnemyCount()

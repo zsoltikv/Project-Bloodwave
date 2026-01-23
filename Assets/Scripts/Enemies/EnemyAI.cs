@@ -98,7 +98,7 @@ public class EnemyAI : MonoBehaviour
         // Set initial speed from EnemyHealth
         if (enemyHealth != null)
         {
-            agent.speed = enemyHealth.baseSpeed;
+            agent.speed = enemyHealth.currentSpeed;
         }
     }
 
@@ -107,7 +107,7 @@ public class EnemyAI : MonoBehaviour
         if (!player || enemyHealth == null) return;
 
         // Update agent speed based on current speed
-        //agent.speed = enemyHealth.currentSpeed;
+        agent.speed = enemyHealth.currentSpeed;
 
         // Handle periodic mode changes
         if (changeModePeriodically)
@@ -285,7 +285,7 @@ public class EnemyAI : MonoBehaviour
             {
                 isAmbushing = false;
                 ambushTimer = 0f;
-                agent.speed = enemyHealth.baseSpeed;
+                agent.speed = enemyHealth.currentSpeed;
             }
         }
     }

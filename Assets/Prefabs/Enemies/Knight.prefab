@@ -12,12 +12,11 @@ GameObject:
   - component: {fileID: 6308614192765631970}
   - component: {fileID: 8409198759619103232}
   - component: {fileID: 1033885300589902143}
-  - component: {fileID: 9192988624260705511}
   - component: {fileID: 2391591454083444967}
   - component: {fileID: 2440943205465818339}
   - component: {fileID: 253324462424537319}
-  - component: {fileID: 7484654992161936416}
   - component: {fileID: 5270797095528862419}
+  - component: {fileID: 8568865478851478913}
   m_Layer: 6
   m_Name: Knight
   m_TagString: Enemy
@@ -146,61 +145,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &9192988624260705511
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3841493091265023851}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0.22999999, y: 0.17, z: 0, w: 0.13}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.27, y: 0.31}
-    newSize: {x: 0.27, y: 0.31}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.065, y: 0.155}
-      - {x: -0.13499999, y: 0.085}
-      - {x: -0.13499999, y: -0.125}
-      - {x: -0.095, y: -0.155}
-      - {x: 0.024999999, y: -0.155}
-      - {x: 0.13499999, y: -0.065}
-      - {x: 0.13499999, y: 0.024999999}
-      - {x: 0.015, y: 0.155}
-  m_UseDelaunayMesh: 0
 --- !u!114 &2391591454083444967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +192,7 @@ MonoBehaviour:
   baseSpeed: 3
   baseDamage: 10
   currentSpeed: 0
-  xpReward: 20
+  xpReward: 100
   coinReward: 30
   isSlowed: 0
   isBleeding: 0
@@ -269,8 +213,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   feetPoint: {fileID: 930137472021551149}
   shadowRenderer: {fileID: 3627294258355083852}
---- !u!58 &7484654992161936416
-CircleCollider2D:
+--- !u!195 &5270797095528862419
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3841493091265023851}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.135
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.31
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!60 &8568865478851478913
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -303,30 +269,27 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.004444694, y: -0.12635657}
-  m_Radius: 0.028008502
---- !u!195 &5270797095528862419
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3841493091265023851}
-  m_Enabled: 1
-  m_AgentTypeID: -1372625422
-  m_Radius: 0.135
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.31
-  m_BaseOffset: 0.155
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.22999999, y: 0.17, z: 0, w: 0.13}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.27, y: 0.31}
+    newSize: {x: 0.27, y: 0.31}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.065, y: 0.31}
+      - {x: -0.13499999, y: 0.24}
+      - {x: -0.13499999, y: 0.03}
+      - {x: -0.095, y: 0}
+      - {x: 0.024999999, y: 0}
+      - {x: 0.13499999, y: 0.089999996}
+      - {x: 0.13499999, y: 0.17999999}
+      - {x: 0.015, y: 0.31}
+  m_UseDelaunayMesh: 0
 --- !u!1 &4755403987620085854
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 4755403987620085854}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.141, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
