@@ -9,11 +9,10 @@ public class RunTimer : MonoBehaviour
 
     void Start()
     {
-        // Ellenõrizzük, hogy a játék a Start Game gombbal indult-e
         if (PlayerPrefs.GetInt("GameStarted", 0) == 1)
         {
             isRunning = true;
-            PlayerPrefs.SetInt("GameStarted", 0); // reseteljük
+            PlayerPrefs.SetInt("GameStarted", 0);
         }
     }
 
