@@ -131,10 +131,10 @@ TextureImporter:
       name: swordslashsprite_0
       rect:
         serializedVersion: 2
-        x: 61
-        y: 29
-        width: 467
-        height: 347
+        x: 0
+        y: 0
+        width: 550
+        height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +153,10 @@ TextureImporter:
       name: swordslashsprite_1
       rect:
         serializedVersion: 2
-        x: 2276
-        y: 83
-        width: 43
-        height: 214
+        x: 550
+        y: 0
+        width: 550
+        height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,10 +175,10 @@ TextureImporter:
       name: swordslashsprite_2
       rect:
         serializedVersion: 2
-        x: 2775
-        y: 279
-        width: 25
-        height: 57
+        x: 1100
+        y: 0
+        width: 550
+        height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: swordslashsprite_3
       rect:
         serializedVersion: 2
-        x: 629
-        y: 40
-        width: 465
-        height: 198
+        x: 1650
+        y: 0
+        width: 550
+        height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,10 +219,10 @@ TextureImporter:
       name: swordslashsprite_4
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 30
-        width: 375
-        height: 89
+        x: 2200
+        y: 0
+        width: 550
+        height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,10 +241,10 @@ TextureImporter:
       name: swordslashsprite_5
       rect:
         serializedVersion: 2
-        x: 1738
-        y: 31
-        width: 121
-        height: 183
+        x: 2750
+        y: 0
+        width: 550
+        height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 70599bd65a4a95892b444bc4f5fdaf63
     internalID: 0
     vertices: []
     indices: 
