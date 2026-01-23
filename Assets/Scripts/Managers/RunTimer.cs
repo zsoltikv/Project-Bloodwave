@@ -3,18 +3,14 @@ using TMPro;
 
 public class RunTimer : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI timerText;
+    TextMeshProUGUI timerText;
     float timeElapsed = 0f;
     bool isRunning = false;
 
-    void Start()
+    void Awake()
     {
-        // Ellenõrizzük, hogy a játék a Start Game gombbal indult-e
-        if (PlayerPrefs.GetInt("GameStarted", 0) == 1)
-        {
-            isRunning = true;
-            PlayerPrefs.SetInt("GameStarted", 0); // reseteljük
-        }
+        timerText = GetComponent<TextMeshProUGUI>();
+        isRunning = true;
     }
 
     void Update()
