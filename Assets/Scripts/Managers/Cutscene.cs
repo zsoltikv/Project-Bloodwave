@@ -62,6 +62,7 @@ public class Cutscene : MonoBehaviour
         if (videoPlayer.isPlaying)
             videoPlayer.Stop();
 
+        PlayerPrefs.SetInt("GameStarted", 0);
         FadeManager.Instance.LoadSceneWithFade("MainScene");
 
     }
