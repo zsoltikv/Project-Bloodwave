@@ -192,7 +192,7 @@ MonoBehaviour:
   baseSpeed: 3.25
   baseDamage: 2
   currentSpeed: 0
-  xpReward: 5
+  xpReward: 20
   coinReward: 1
   isSlowed: 0
   isBleeding: 0
