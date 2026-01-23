@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7110749273917697900}
   - component: {fileID: 7882620973073496995}
   - component: {fileID: 5589202998753091529}
-  - component: {fileID: 7800129434310608124}
+  - component: {fileID: -5211622837120287574}
   m_Layer: 9
   m_Name: Slash
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: -1, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,15 +81,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -119862914712318835, guid: 7fb481e3d16b5a10a9396d579d13fb0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.674565, y: 3.47}
+  m_Size: {x: 5.5053763, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &8429296844570133633
@@ -126,17 +126,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.8349579, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.674565, y: 3.47}
-    newSize: {x: 4.674565, y: 3.47}
+    oldSize: {x: 5.5053763, y: 4}
+    newSize: {x: 5.5053763, y: 4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6, y: 4}
+  m_Size: {x: 3.4693036, y: 4}
   m_EdgeRadius: 0
 --- !u!50 &7110749273917697900
 Rigidbody2D:
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnHitModifiers: []
   OnKillModifiers: []
---- !u!95 &7800129434310608124
+--- !u!95 &-5211622837120287574
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -202,7 +202,7 @@ Animator:
   m_GameObject: {fileID: 4569951793561007473}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0a81ab14e68da3383bc82dd2388c7a62, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9163bfa95c53262008390a14bb0d2385, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
