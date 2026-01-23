@@ -11,6 +11,7 @@ public class SwordSlashFactory : ProjectileFactory
     {
         Vector3 dir = shot.direction.normalized;
 
+
         // Pozíció: firePoint + irány * offset
         Vector3 pos = context.firePoint.position + (Vector3)( (Vector2)dir * hitboxOffset.x );
 
@@ -19,6 +20,16 @@ public class SwordSlashFactory : ProjectileFactory
 
         var go = Object.Instantiate(slashPrefab, pos, rot);
         go.transform.SetParent(context.owner.transform, worldPositionStays: true); 
+
+
+        var x = go.transform.localScale.x;
+        var y = go.transform.localScale.y;
+        var rangeModifier = context.weapon.GetRange();
+
+        go.transform.localScale = new Vector3(
+            x * rangeModifier,
+            y * rangeModifier,
+            1f);
 
         var slash = go.GetComponent<SwordSlash>();
         if (slash != null)
