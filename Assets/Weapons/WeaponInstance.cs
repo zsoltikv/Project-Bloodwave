@@ -20,10 +20,10 @@ public class WeaponInstance
     {
         this.definition = definition;
     }
-    public float GetDamage() => definition.Damage * bonusDamage * playerStats.baseDamageMultiplier;
-    public int GetProjectileCount() => (definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus;
-    public float GetCooldown() => definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier);
-    public float GetRange() => definition.baseRange * rangeMultiplier * playerStats.baseRangeMultiplier;
-    public float GetProjectileSpeed() => definition.ProjectileSpeed * playerStats.baseProjectileSpeed;
-    public float GetOrbitalSpeed() => orbitalSpeedMultiplier * playerStats.baseProjectileSpeed;
+    public float GetDamage() => Mathf.Max(definition.Damage * bonusDamage * playerStats.baseDamageMultiplier, 0F);
+    public int GetProjectileCount() => Mathf.Max((definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus, 1);
+    public float GetCooldown() => Mathf.Max(definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier), 0F);
+    public float GetRange() => Mathf.Max(definition.baseRange * rangeMultiplier * playerStats.baseRangeMultiplier, 0.5F);
+    public float GetProjectileSpeed() => Mathf.Max(definition.ProjectileSpeed * playerStats.baseProjectileSpeed, 1F);
+    public float GetOrbitalSpeed() => Mathf.Max(orbitalSpeedMultiplier * playerStats.baseProjectileSpeed, 1F);
 }
