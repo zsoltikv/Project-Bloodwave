@@ -32,5 +32,16 @@ public class GameManagerScript : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void PauseResumeGame()
+    {
+        if (FreezeGame)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
 
 }
