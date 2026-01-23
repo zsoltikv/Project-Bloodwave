@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth = 3;
     private float currentHealth;
     public float baseSpeed = 2f;
+    public float baseDamage = 10f;
     public float currentSpeed;
     public int xpReward = 1;
     public int coinReward = 1;
@@ -61,7 +62,12 @@ public class EnemyHealth : MonoBehaviour
         }
 
         IsDead = true;
-        if (bloodPrefab != null) Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+        if (bloodPrefab != null)
+        {
+            ParticleSystem blood = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+            blood.GetComponent<ParticleSystemRenderer>().sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+            Destroy(gameObject);
+        }
     }
 
     private void ResetSpeed()

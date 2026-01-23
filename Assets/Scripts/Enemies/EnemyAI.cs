@@ -1,83 +1,79 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    Transform player;
-    Rigidbody2D rb;
-    SpriteRenderer spriteRenderer;
-    Collider2D playerCollider;
-    Collider2D myCollider;
-    EnemyHealth enemyHealth;
-
     [Header("References")]
-    [SerializeField] private Transform feetPoint;
+    private Transform player;
+    private NavMeshAgent agent;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D playerCollider;
+    private EnemyHealth enemyHealth;
 
-    [Header("Pathfinding")]
-    [SerializeField] private float detectionDistance = 3f;
-    [SerializeField] private LayerMask obstacleLayer;
-    [SerializeField] private float avoidanceAngle = 30f;
-    [SerializeField] private float obstacleAvoidanceDistance = 0.8f; // Mennyire tartson távolságot az akadálytól
+    [Header("Approach Mode")]
+    [SerializeField] private ApproachMode approachMode = ApproachMode.Straight;
+    [SerializeField] private float modeChangeInterval = 5f; // Time between random mode changes (if enabled)
+    [SerializeField] private bool randomizeModeOnStart = false;
+    [SerializeField] private bool changeModePeriodically = false;
 
-    [Header("Stuck Detection")]
-    [SerializeField] private float stuckCheckTime = 0.8f;
-    [SerializeField] private float minMoveDistance = 0.08f;
-    [SerializeField] private int maxStuckAttempts = 3;
+    [Header("Straight Mode Settings")]
+    [SerializeField] private float straightStoppingDistance = 0.5f;
 
-    [Header("Movement Smoothing")]
-    [SerializeField] private float rotationSmoothness = 6f;
-    [SerializeField] private float accelerationSpeed = 10f;
+    [Header("Circle Mode Settings")]
+    [SerializeField] private float circleRadius = 3f;
+    [SerializeField] private float circleSpeed = 2f;
+    [SerializeField] private bool circleClockwise = true;
+    private float circleAngle = 0f;
 
-    private Vector2 lastPosition;
-    private float stuckTimer;
-    private int stuckAttempts;
-    private Vector2 currentMoveDir;
-    private Vector2 currentVelocity;
-    private Vector2 lastStuckEscapeDir;
-    private float timeSinceLastStuck;
+    [Header("Zigzag Mode Settings")]
+    [SerializeField] private float zigzagAmplitude = 2f;
+    [SerializeField] private float zigzagFrequency = 1f;
+    private float zigzagTime = 0f;
 
-    private Vector2 CastOrigin
+    [Header("Strafe Mode Settings")]
+    [SerializeField] private float strafeDistance = 4f;
+    [SerializeField] private float strafeRange = 3f;
+    [SerializeField] private float strafeChangeInterval = 2f;
+    private float strafeTimer = 0f;
+    private Vector2 strafeDirection;
+
+    [Header("Ambush Mode Settings")]
+    [SerializeField] private float ambushDistance = 6f;
+    [SerializeField] private float ambushWaitTime = 1f;
+    [SerializeField] private float ambushChargeSpeed = 8f;
+    private bool isAmbushing = false;
+    private float ambushTimer = 0f;
+    private Vector3 ambushPosition;
+
+    [Header("Retreat Mode Settings")]
+    [SerializeField] private float retreatDistance = 5f;
+    [SerializeField] private float retreatDuration = 2f;
+    [SerializeField] private float retreatCooldown = 5f;
+    private float retreatTimer = 0f;
+    private float retreatCooldownTimer = 0f;
+    private bool isRetreating = false;
+
+    private float modeTimer = 0f;
+
+    public enum ApproachMode
     {
-        get
-        {
-            if (feetPoint != null) return feetPoint.position;
-
-            // Fallback: collider alja-közepe
-            if (myCollider != null)
-            {
-                var b = myCollider.bounds;
-                return new Vector2(b.center.x, b.min.y);
-            }
-
-            // Végső fallback
-            if (rb != null) return rb.position;
-            return (Vector2)transform.position;
-        }
-    }
-
-    void LookAtPlayer()
-    {
-        if (!player) return;
-
-        float dir = player.position.x - transform.position.x;
-
-        if (dir != 0)
-            spriteRenderer.flipX = dir < 0;
+        Straight,    // Direct path to player
+        Circle,      // Circle around player
+        Zigzag,      // Zigzag pattern while approaching
+        Strafe,      // Move side to side while maintaining distance
+        Ambush,      // Wait at distance then charge
+        Retreat      // Periodically retreat and re-engage
     }
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         enemyHealth = GetComponent<EnemyHealth>();
-        myCollider = GetComponent<Collider2D>();
 
-        // Auto-find FeetPoint child, ha nincs Inspectorban beállítva
-        if (feetPoint == null)
-        {
-            var t = transform.Find("FeetPoint");
-            if (t != null) feetPoint = t;
-        }
+        // Setup NavMeshAgent for 2D
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     void Start()
@@ -90,270 +86,281 @@ public class EnemyAI : MonoBehaviour
             playerCollider = playerObj.GetComponent<Collider2D>();
         }
 
-        lastPosition = rb.position;
-        currentMoveDir = Vector2.right;
+        // Initialize random mode if enabled
+        if (randomizeModeOnStart)
+        {
+            approachMode = (ApproachMode)Random.Range(0, System.Enum.GetValues(typeof(ApproachMode)).Length);
+        }
+
+        // Initialize strafe direction
+        strafeDirection = Random.value > 0.5f ? Vector2.right : Vector2.left;
+
+        // Set initial speed from EnemyHealth
+        if (enemyHealth != null)
+        {
+            agent.speed = enemyHealth.baseSpeed;
+        }
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (!player) return;
-        // if (GameManagerScript.instance.FreezeGame) return;
+        if (!player || enemyHealth == null) return;
 
-        timeSinceLastStuck += Time.fixedDeltaTime;
+        // Update agent speed based on current speed
+        //agent.speed = enemyHealth.currentSpeed;
 
-        Vector2 playerTargetPos = playerCollider != null ? playerCollider.bounds.center : player.position;
-        Vector2 targetDir = (playerTargetPos - (Vector2)transform.position).normalized;
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTargetPos);
-
-        // Saját collider méretének figyelembevétele
-        float myRadius = myCollider != null ? Mathf.Max(myCollider.bounds.extents.x, myCollider.bounds.extents.y) : 0.5f;
-        float checkDistance = Mathf.Min(detectionDistance, distanceToPlayer - myRadius);
-
-        // Közvetlen útvonal ellenőrzése (feetpointból!)
-        Vector2 rayOrigin = CastOrigin;
-
-        RaycastHit2D directHit = Physics2D.CircleCast(
-            rayOrigin,
-            myRadius * 0.8f, // Kicsit kisebb mint az actual size
-            targetDir,
-            checkDistance,
-            obstacleLayer
-        );
-
-        Vector2 desiredMoveDir;
-
-        if (directHit.collider == null)
+        // Handle periodic mode changes
+        if (changeModePeriodically)
         {
-            desiredMoveDir = targetDir;
-            Debug.DrawRay(rayOrigin, targetDir * checkDistance, Color.blue, Time.fixedDeltaTime);
-        }
-        else
-        {
-            desiredMoveDir = FindAvoidanceDirection(targetDir, directHit, myRadius);
+            modeTimer += Time.deltaTime;
+            if (modeTimer >= modeChangeInterval)
+            {
+                modeTimer = 0f;
+                approachMode = (ApproachMode)Random.Range(0, System.Enum.GetValues(typeof(ApproachMode)).Length);
+            }
         }
 
-        // Simított irányváltozás
-        currentMoveDir = Vector2.Lerp(currentMoveDir, desiredMoveDir, Time.fixedDeltaTime * rotationSmoothness).normalized;
-
-        bool isStuck = CheckIfStuck(currentMoveDir);
-
-        // Simított gyorsítás/lassulás
-        float speed = this.enemyHealth.currentSpeed;
-        Vector2 targetVelocity = currentMoveDir * speed;
-
-        // Ha megakadt, adjunk extra boost-ot
-        if (isStuck && timeSinceLastStuck > 0.3f)
+        // Execute behavior based on current approach mode
+        switch (approachMode)
         {
-            targetVelocity *= 1.3f;
+            case ApproachMode.Straight:
+                HandleStraightApproach();
+                break;
+            case ApproachMode.Circle:
+                HandleCircleApproach();
+                break;
+            case ApproachMode.Zigzag:
+                HandleZigzagApproach();
+                break;
+            case ApproachMode.Strafe:
+                HandleStrafeApproach();
+                break;
+            case ApproachMode.Ambush:
+                HandleAmbushApproach();
+                break;
+            case ApproachMode.Retreat:
+                HandleRetreatApproach();
+                break;
         }
-
-        currentVelocity = Vector2.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime * accelerationSpeed);
-        rb.linearVelocity = currentVelocity;
 
         LookAtPlayer();
     }
 
-    Vector2 FindAvoidanceDirection(Vector2 targetDir, RaycastHit2D obstacleHit, float myRadius)
+    void HandleStraightApproach()
     {
-        Vector2 origin = CastOrigin;
+        // Simple direct approach to player
+        Vector3 targetPos = GetPlayerPosition();
+        agent.stoppingDistance = straightStoppingDistance;
+        agent.SetDestination(targetPos);
+    }
 
-        Vector2 playerPos = playerCollider != null ? playerCollider.bounds.center : player.position;
-        Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
+    void HandleCircleApproach()
+    {
+        // Approach player in a circular/spiral path instead of straight line
+        Vector3 playerPos = GetPlayerPosition();
+        Vector3 directionToPlayer = (playerPos - transform.position).normalized;
+        float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
 
-        // Ha túl közel vagyunk az akadályhoz, prioritizáljuk a távolodást
-        bool tooClose = obstacleHit.distance < myRadius + obstacleAvoidanceDistance;
+        // Calculate perpendicular direction for circular motion
+        float direction = circleClockwise ? 1f : -1f;
+        Vector3 perpendicular = new Vector3(-directionToPlayer.y, directionToPlayer.x, 0f) * direction;
 
-        // Szélesebb szögtartomány ha stuck vagyunk
-        float maxAngle = stuckAttempts > 0 ? avoidanceAngle * 3f : avoidanceAngle * 2f;
+        // Mix forward movement with circular movement
+        // As we get closer, reduce the circular component
+        float circularWeight = Mathf.Clamp01(distanceToPlayer / circleRadius);
+        Vector3 circularOffset = perpendicular * circleRadius * circularWeight;
 
-        // Teszteljük az irányokat finomabb lépésekben
-        float[] angleSteps = tooClose
-            ? new float[] { 90f, -90f, 60f, -60f, 120f, -120f, 45f, -45f, 135f, -135f }
-            : new float[] {
-                avoidanceAngle * 0.5f, -avoidanceAngle * 0.5f,
-                avoidanceAngle, -avoidanceAngle,
-                avoidanceAngle * 1.5f, -avoidanceAngle * 1.5f,
-                avoidanceAngle * 2f, -avoidanceAngle * 2f,
-                avoidanceAngle * 2.5f, -avoidanceAngle * 2.5f
-              };
+        Vector3 targetPos = playerPos + circularOffset;
+        agent.stoppingDistance = straightStoppingDistance;
+        agent.SetDestination(targetPos);
+    }
 
-        Vector2 bestDirection = Vector2.zero;
-        float bestScore = -1000f;
+    void HandleZigzagApproach()
+    {
+        // Zigzag pattern while moving towards player
+        Vector3 playerPos = GetPlayerPosition();
+        Vector3 directionToPlayer = (playerPos - transform.position).normalized;
 
-        foreach (float angle in angleSteps)
+        // Calculate perpendicular direction for zigzag
+        Vector3 perpendicular = new Vector3(-directionToPlayer.y, directionToPlayer.x, 0f);
+
+        // Calculate zigzag offset
+        zigzagTime += Time.deltaTime * zigzagFrequency;
+        float offset = Mathf.Sin(zigzagTime) * zigzagAmplitude;
+
+        Vector3 targetPos = playerPos + perpendicular * offset;
+        agent.stoppingDistance = straightStoppingDistance;
+        agent.SetDestination(targetPos);
+    }
+
+    void HandleStrafeApproach()
+    {
+        // Maintain distance while moving side to side
+        Vector3 playerPos = GetPlayerPosition();
+        float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
+
+        strafeTimer += Time.deltaTime;
+
+        // Change strafe direction periodically
+        if (strafeTimer >= strafeChangeInterval)
         {
-            if (Mathf.Abs(angle) > maxAngle) continue;
+            strafeTimer = 0f;
+            strafeDirection = -strafeDirection; // Reverse direction
+        }
 
-            Vector2 testDir = Rotate(targetDir, angle);
+        Vector3 directionToPlayer = (playerPos - transform.position).normalized;
+        Vector3 perpendicular = new Vector3(-directionToPlayer.y, directionToPlayer.x, 0f);
 
-            // CircleCast használata hogy figyelembe vegye az ellenség méretét (feetpointból!)
-            RaycastHit2D hit = Physics2D.CircleCast(
-                origin,
-                myRadius * 0.7f,
-                testDir,
-                detectionDistance,
-                obstacleLayer
-            );
+        Vector3 targetPos;
 
-            float score = 0f;
+        if (distanceToPlayer > strafeDistance + 0.5f)
+        {
+            // Too far, move closer while strafing
+            targetPos = playerPos + perpendicular * strafeDirection.x * strafeRange - directionToPlayer * strafeDistance;
+        }
+        else if (distanceToPlayer < strafeDistance - 0.5f)
+        {
+            // Too close, back away while strafing
+            targetPos = transform.position + perpendicular * strafeDirection.x * strafeRange + directionToPlayer * 0.5f;
+        }
+        else
+        {
+            // Good distance, just strafe
+            targetPos = transform.position + perpendicular * strafeDirection.x * strafeRange;
+        }
 
-            if (hit.collider == null)
+        agent.stoppingDistance = 0.1f;
+        agent.SetDestination(targetPos);
+    }
+
+    void HandleAmbushApproach()
+    {
+        Vector3 playerPos = GetPlayerPosition();
+        float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
+
+        if (!isAmbushing)
+        {
+            // Position at ambush distance
+            if (distanceToPlayer > ambushDistance + 0.5f)
             {
-                score += 20f; // Teljesen szabad út
+                // Move to ambush distance
+                Vector3 directionToPlayer = (playerPos - transform.position).normalized;
+                Vector3 targetPos = playerPos - directionToPlayer * ambushDistance;
+                agent.stoppingDistance = 0.5f;
+                agent.SetDestination(targetPos);
             }
-            else if (hit.distance > myRadius + obstacleAvoidanceDistance)
+            else if (distanceToPlayer < ambushDistance - 0.5f)
             {
-                // Van akadály de elég messze
-                score += 10f + (hit.distance * 2f);
+                // Too close, back away
+                Vector3 awayFromPlayer = (transform.position - playerPos).normalized;
+                Vector3 targetPos = playerPos + awayFromPlayer * ambushDistance;
+                agent.stoppingDistance = 0.5f;
+                agent.SetDestination(targetPos);
             }
             else
             {
-                // Túl közel az akadály
-                score -= 20f;
-                continue; // Skip this direction
-            }
+                // At correct distance, wait before charging
+                ambushTimer += Time.deltaTime;
+                agent.isStopped = true;
 
-            // Játékos irányába mutatás
-            float alignment = Vector2.Dot(testDir, toPlayer);
-            score += alignment * 8f;
-
-            // Kisebb szög preferálása
-            score -= Mathf.Abs(angle) * 0.03f;
-
-            // Smooth transitions - jelenlegi irányhoz hasonlóság
-            float similarity = Vector2.Dot(testDir, currentMoveDir);
-            score += similarity * 4f;
-
-            // Ha nemrég megakadtunk, kerüljük azt az irányt
-            if (lastStuckEscapeDir != Vector2.zero)
-            {
-                float avoidLastStuck = Vector2.Dot(testDir, lastStuckEscapeDir);
-                if (avoidLastStuck < 0) // Ellenkező irány
+                if (ambushTimer >= ambushWaitTime)
                 {
-                    score += 3f;
+                    isAmbushing = true;
+                    ambushTimer = 0f;
+                    ambushPosition = playerPos;
+                    agent.isStopped = false;
+                    agent.speed = ambushChargeSpeed;
                 }
-            }
-
-            // Debug visualization (feetpointból!)
-            Color debugColor = Color.green;
-            if (hit.collider != null)
-            {
-                debugColor = hit.distance > myRadius + obstacleAvoidanceDistance ? Color.yellow : Color.red;
-            }
-            Debug.DrawRay(origin, testDir * detectionDistance, debugColor, Time.fixedDeltaTime);
-
-            if (score > bestScore)
-            {
-                bestScore = score;
-                bestDirection = testDir;
-            }
-        }
-
-        // Ha nem találtunk jó irányt, menjünk az akadály normálisa mentén
-        if (bestScore < 0 && obstacleHit.normal != Vector2.zero)
-        {
-            bestDirection = obstacleHit.normal;
-        }
-        else if (bestDirection == Vector2.zero)
-        {
-            // Végső megoldás: random irány
-            bestDirection = Rotate(targetDir, Random.Range(-90f, 90f));
-        }
-
-        // Legjobb irány megjelölése (feetpointból!)
-        Debug.DrawRay(origin, bestDirection * detectionDistance, Color.cyan, Time.fixedDeltaTime);
-
-        return bestDirection;
-    }
-
-    bool CheckIfStuck(Vector2 moveDir)
-    {
-        float movedDistance = Vector2.Distance(transform.position, lastPosition);
-
-        if (movedDistance < minMoveDistance)
-        {
-            stuckTimer += Time.fixedDeltaTime;
-
-            if (stuckTimer > stuckCheckTime)
-            {
-                stuckAttempts++;
-
-                // Progresszíven drasztikusabb megoldások
-                float escapeAngle;
-                if (stuckAttempts == 1)
-                {
-                    // Első próbálkozás: enyhe korrekció
-                    escapeAngle = Random.Range(70f, 110f) * (Random.value > 0.5f ? 1f : -1f);
-                }
-                else if (stuckAttempts == 2)
-                {
-                    // Második próbálkozás: nagyobb szög
-                    escapeAngle = Random.Range(120f, 150f) * (Random.value > 0.5f ? 1f : -1f);
-                }
-                else
-                {
-                    // Harmadik+: random irány, akár vissza is
-                    escapeAngle = Random.Range(-180f, 180f);
-                }
-
-                Vector2 escapeDir = Rotate(moveDir, escapeAngle);
-
-                // Ellenőrizzük hogy az escape irány szabad-e (feetpointból!)
-                float myRadius = myCollider != null ? Mathf.Max(myCollider.bounds.extents.x, myCollider.bounds.extents.y) : 0.5f;
-                Vector2 origin = CastOrigin;
-
-                RaycastHit2D escapeCheck = Physics2D.CircleCast(
-                    origin,
-                    myRadius * 0.7f,
-                    escapeDir,
-                    1f,
-                    obstacleLayer
-                );
-
-                if (escapeCheck.collider != null && escapeCheck.distance < myRadius + 0.5f)
-                {
-                    // Ha ez az irány is zárva, próbáljuk az ellenkező irányba
-                    escapeDir = -escapeDir;
-                }
-
-                currentVelocity = escapeDir * enemyHealth.currentSpeed * 1.4f;
-                currentMoveDir = escapeDir;
-                lastStuckEscapeDir = escapeDir;
-
-                stuckTimer = 0f;
-                timeSinceLastStuck = 0f;
-
-                // Reset stuck attempts ha túl sokszor próbálkoztunk
-                if (stuckAttempts >= maxStuckAttempts)
-                {
-                    stuckAttempts = 0;
-                }
-
-                lastPosition = transform.position;
-                return true;
             }
         }
         else
         {
-            // Fokozatosan csökkentjük a timer-t és az attempts-et ha mozgunk
-            stuckTimer = Mathf.Max(0f, stuckTimer - Time.fixedDeltaTime * 2f);
+            // Charge at player
+            agent.stoppingDistance = straightStoppingDistance;
+            agent.SetDestination(ambushPosition);
 
-            if (movedDistance > minMoveDistance * 3f) // Jól mozgunk
+            // Reset after reaching player or timeout
+            ambushTimer += Time.deltaTime;
+            if (distanceToPlayer < 1f || ambushTimer > 3f)
             {
-                stuckAttempts = Mathf.Max(0, stuckAttempts - 1);
+                isAmbushing = false;
+                ambushTimer = 0f;
+                agent.speed = enemyHealth.baseSpeed;
             }
         }
-
-        lastPosition = transform.position;
-        return false;
     }
 
-    Vector2 Rotate(Vector2 v, float degrees)
+    void HandleRetreatApproach()
     {
-        float radians = degrees * Mathf.Deg2Rad;
-        float sin = Mathf.Sin(radians);
-        float cos = Mathf.Cos(radians);
-        return new Vector2(cos * v.x - sin * v.y, sin * v.x + cos * v.y);
+        Vector3 playerPos = GetPlayerPosition();
+        float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
+
+        retreatCooldownTimer += Time.deltaTime;
+
+        if (!isRetreating && retreatCooldownTimer >= retreatCooldown)
+        {
+            // Start retreating
+            isRetreating = true;
+            retreatTimer = 0f;
+            retreatCooldownTimer = 0f;
+        }
+
+        if (isRetreating)
+        {
+            retreatTimer += Time.deltaTime;
+
+            // Move away from player
+            Vector3 awayFromPlayer = (transform.position - playerPos).normalized;
+            Vector3 targetPos = transform.position + awayFromPlayer * retreatDistance;
+            agent.stoppingDistance = 0.1f;
+            agent.SetDestination(targetPos);
+
+            // Stop retreating after duration
+            if (retreatTimer >= retreatDuration)
+            {
+                isRetreating = false;
+                retreatTimer = 0f;
+            }
+        }
+        else
+        {
+            // Normal approach when not retreating
+            agent.stoppingDistance = straightStoppingDistance;
+            agent.SetDestination(playerPos);
+        }
+    }
+
+    Vector3 GetPlayerPosition()
+    {
+        if (playerCollider != null)
+            return playerCollider.bounds.center;
+        return player.position;
+    }
+
+    void LookAtPlayer()
+    {
+        if (!player || !spriteRenderer) return;
+
+        float dir = player.position.x - transform.position.x;
+
+        if (dir != 0)
+            spriteRenderer.transform.localEulerAngles = new Vector3(0, dir < 0 ? 180f : 0f, 0);
+    }
+
+    // Public method to change approach mode at runtime
+    public void SetApproachMode(ApproachMode newMode)
+    {
+        approachMode = newMode;
+
+        // Reset mode-specific variables
+        circleAngle = 0f;
+        zigzagTime = 0f;
+        strafeTimer = 0f;
+        isAmbushing = false;
+        isRetreating = false;
+        ambushTimer = 0f;
+        retreatTimer = 0f;
+        agent.isStopped = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -363,7 +370,7 @@ public class EnemyAI : MonoBehaviour
             var playerStats = collision.GetComponent<PlayerStats>();
             if (playerStats != null)
             {
-                playerStats.TakeDamage(10f);
+                playerStats.TakeDamage(enemyHealth.baseDamage);
             }
             Destroy(this.gameObject);
         }
