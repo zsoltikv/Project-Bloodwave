@@ -49,6 +49,7 @@ public class Intro : MonoBehaviour
         if (!introSkipped)
         {
             FadeManager.Instance.LoadSceneWithFade("MenuScene");
+
         }
     }
 
@@ -61,6 +62,7 @@ public class Intro : MonoBehaviour
             videoPlayer.Stop();
 
         FadeManager.Instance.LoadSceneWithFade("MenuScene");
+
     }
 
 }

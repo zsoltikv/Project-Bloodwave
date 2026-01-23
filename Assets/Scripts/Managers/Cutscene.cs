@@ -62,7 +62,7 @@ public class Cutscene : MonoBehaviour
         if (videoPlayer.isPlaying)
             videoPlayer.Stop();
 
-        // Átirányítás a MainScene-re
-        SceneManager.LoadScene("MainScene");
+        FadeManager.Instance.LoadSceneWithFade("MainScene");
+
     }
 }
