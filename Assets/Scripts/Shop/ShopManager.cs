@@ -184,7 +184,10 @@ public class ShopManager : MonoBehaviour
         if (shopUI != null)
         {
             shopUI.SetActive(!shopUI.activeSelf);
-             shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+            shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+
+            if(shopUI.activeSelf) GameManagerScript.instance.PauseGame();
+            else GameManagerScript.instance.ResumeGame();
         }
     }
 }

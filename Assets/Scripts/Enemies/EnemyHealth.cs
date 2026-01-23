@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth = 3;
-    private float currentHealth;
+    public float currentHealth;
     public float baseSpeed = 2f;
     public float baseDamage = 10f;
     public float currentSpeed;
@@ -62,12 +62,23 @@ public class EnemyHealth : MonoBehaviour
         }
 
         IsDead = true;
+
         if (bloodPrefab != null)
         {
-            ParticleSystem blood = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
-            blood.GetComponent<ParticleSystemRenderer>().sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
-            Destroy(gameObject);
+            Vector3 spawnPos = transform.position;
+
+            var sr = GetComponentInChildren<SpriteRenderer>();
+            if (sr != null)
+                spawnPos = sr.bounds.center;
+
+            ParticleSystem blood = Instantiate(bloodPrefab, spawnPos, Quaternion.identity);
+
+            var bloodRenderer = blood.GetComponent<ParticleSystemRenderer>();
+            if (bloodRenderer != null && sr != null)
+                bloodRenderer.sortingOrder = sr.sortingOrder;
         }
+
+        Destroy(gameObject);
     }
 
     private void ResetSpeed()
