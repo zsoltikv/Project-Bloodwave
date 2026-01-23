@@ -7,8 +7,9 @@ public class FadeManager : MonoBehaviour
 {
     public static FadeManager Instance;
 
-    [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeDuration = 0.5f;
+
+    private CanvasGroup canvasGroup;
 
     private void Awake()
     {
@@ -20,6 +21,8 @@ public class FadeManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        CreateFadeCanvas();
     }
 
     private void OnEnable()
@@ -34,7 +37,40 @@ public class FadeManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
         StartCoroutine(FadeIn());
+    }
+
+    private void CreateFadeCanvas()
+    {
+        // Canvas
+        GameObject canvasGO = new GameObject("FadeCanvas");
+        canvasGO.transform.SetParent(transform);
+
+        Canvas canvas = canvasGO.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 10000;
+
+        canvasGO.AddComponent<CanvasScaler>();
+        canvasGO.AddComponent<GraphicRaycaster>();
+
+        // Panel
+        GameObject panelGO = new GameObject("FadePanel");
+        panelGO.transform.SetParent(canvasGO.transform, false);
+
+        Image image = panelGO.AddComponent<Image>();
+        image.color = Color.black;
+
+        RectTransform rt = panelGO.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+
+        canvasGroup = panelGO.AddComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
     }
 
     public void LoadSceneWithFade(string sceneName)
@@ -54,10 +90,10 @@ public class FadeManager : MonoBehaviour
         while (t < fadeDuration)
         {
             t += Time.unscaledDeltaTime;
-            SetAlpha(Mathf.Lerp(0f, 1f, t / fadeDuration));
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, t / fadeDuration);
             yield return null;
         }
-        SetAlpha(1f);
+        canvasGroup.alpha = 1f;
     }
 
     private IEnumerator FadeIn()
@@ -66,16 +102,10 @@ public class FadeManager : MonoBehaviour
         while (t < fadeDuration)
         {
             t += Time.unscaledDeltaTime;
-            SetAlpha(Mathf.Lerp(1f, 0f, t / fadeDuration));
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
             yield return null;
         }
-        SetAlpha(0f);
-    }
-
-    private void SetAlpha(float a)
-    {
-        Color c = fadeImage.color;
-        c.a = a;
-        fadeImage.color = c;
+        canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
     }
 }

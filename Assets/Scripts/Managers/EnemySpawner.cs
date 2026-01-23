@@ -10,7 +10,7 @@ public class EnemySpawnData
     public GameObject enemyPrefab;
     public int unlockLevel = 1;
     [Range(0f, 1f)] public float spawnWeight = 1f;
-    [Tooltip("Ha true, ez az enemy típus mindig spawnolja a többi típust is")]
+    [Tooltip("Ha true, ez az enemy tï¿½pus mindig spawnolja a tï¿½bbi tï¿½pust is")]
     public bool alwaysSpawn = false;
 }
 
@@ -171,7 +171,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (availableEnemies.Count == 0) return;
 
-        // Több próbálkozás valid spawn pozícióra
+        // Tï¿½bb prï¿½bï¿½lkozï¿½s valid spawn pozï¿½ciï¿½ra
         Vector2 spawnPos = Vector2.zero;
         bool foundValidPosition = false;
 
@@ -180,11 +180,11 @@ public class EnemySpawner : MonoBehaviour
             spawnPos = GetRandomSpawnPosition();
             Vector3Int cellPos = groundTilemap.WorldToCell(spawnPos);
 
-            // Ellenõrizzük hogy van-e tile ezen a pozíción
+            // Ellenï¿½rizzï¿½k hogy van-e tile ezen a pozï¿½ciï¿½n
             if (groundTilemap.GetTile(cellPos) == null)
                 continue;
 
-            // Ellenõrizzük hogy teljesen körbe van-e véve
+            // Ellenï¿½rizzï¿½k hogy teljesen kï¿½rbe van-e vï¿½ve
             if (!IsFullySurrounded(cellPos))
                 continue;
 
@@ -205,7 +205,7 @@ public class EnemySpawner : MonoBehaviour
         // Elite spawning
         bool isElite = spawnElites && Random.value < eliteSpawnChance;
 
-        // Enemy stats beállítása
+        // Enemy stats beï¿½llï¿½tï¿½sa
         var health = enemy.GetComponent<EnemyHealth>();
         if (health != null)
         {
@@ -218,7 +218,7 @@ public class EnemySpawner : MonoBehaviour
                 health.baseSpeed *= eliteSpeedMultiplier;
                 enemy.transform.localScale *= eliteScaleMultiplier;
 
-                // Vizuális jelzés (pl. szín változtatás)
+                // Vizuï¿½lis jelzï¿½s (pl. szï¿½n vï¿½ltoztatï¿½s)
                 var renderer = enemy.GetComponent<SpriteRenderer>();
                 if (renderer != null)
                 {
@@ -230,7 +230,7 @@ public class EnemySpawner : MonoBehaviour
 
     EnemySpawnData SelectEnemyByWeight()
     {
-        // Always spawn enemyk kezelése
+        // Always spawn enemyk kezelï¿½se
         var alwaysSpawnEnemies = availableEnemies.Where(e => e.alwaysSpawn).ToList();
         if (alwaysSpawnEnemies.Count > 0 && Random.value < 0.3f)
         {
