@@ -26,7 +26,7 @@ public class WeaponUpgrade
         switch (upgradeType)
         {
             case UpgradeType.Damage:
-                return $"{weaponName}: +{value} Damage";
+                return $"{weaponName}: +{value * 100:F0}% Damage";
             case UpgradeType.ProjectileCount:
                 return $"{weaponName}: +{(int)value} Projectiles";
             case UpgradeType.Cooldown:
