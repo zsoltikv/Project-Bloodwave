@@ -745,7 +745,7 @@ TextureImporter:
         width: 54
         height: 27
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -767,7 +767,7 @@ TextureImporter:
         width: 70
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -789,7 +789,7 @@ TextureImporter:
         width: 39
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -798,6 +798,32 @@ TextureImporter:
       bones: []
       spriteID: 7e9d8535ec6d7994a8075e89616f0feb
       internalID: -51239767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notwalkable2
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 20
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: -16}
+        - {x: 16, y: 16}
+        - {x: -16, y: 16}
+        - {x: -16, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 083f2ed9d20541246a3ecd384be35bd5
+      internalID: 800173591
       vertices: []
       indices: 
       edges: []
@@ -868,6 +894,7 @@ TextureImporter:
       Wall_Single_Left: -1722671676
       Wall_Single_Right: 1551108077
       Wall_Single_Up: -1869684277
+      notwalkable2: 800173591
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
