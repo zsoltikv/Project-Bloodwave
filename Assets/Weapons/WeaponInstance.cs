@@ -21,7 +21,7 @@ public class WeaponInstance
         this.definition = definition;
     }
     public float GetDamage() => Mathf.Max(definition.Damage * bonusDamage * playerStats.baseDamageMultiplier, 0F);
-    public int GetProjectileCount() => Mathf.Max((definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus, 1);
+    public int GetProjectileCount() => Mathf.Clamp((definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus, 1, 12);
     public float GetCooldown() => Mathf.Max(definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier), 0F);
     public float GetRange() => Mathf.Max(definition.baseRange * rangeMultiplier * playerStats.baseRangeMultiplier, 1F);
     public float GetProjectileSpeed() => Mathf.Max(definition.ProjectileSpeed * playerStats.baseProjectileSpeed, 1F);

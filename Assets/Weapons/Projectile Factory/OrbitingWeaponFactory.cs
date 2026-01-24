@@ -12,7 +12,7 @@ public class OrbitingWeaponFactory : ScriptableObject
 
         int count = context.weapon.GetProjectileCount();
 
-        if (count > 6) count = 6;
+        //if (count > 6) count = 6; Removed because now we clamp the value in: WeaponInstance.cs
 
         float radius = context.weapon.GetRange();
 
