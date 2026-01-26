@@ -10,6 +10,7 @@ public class ShopItem : ScriptableObject
     public string description;
     public Sprite icon;
     public int price;
+    public WeaponDefinition weaponDefinition;
 
     [Header("Stat Modifiers")]
     public List<StatModifier> statModifiers = new List<StatModifier>();

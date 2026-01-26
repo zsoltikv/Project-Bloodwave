@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Linq;
 using System.Collections;
 
 public class ShopManager : MonoBehaviour
@@ -12,6 +13,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("Shop Items")]
     [SerializeField] private List<ShopItem> availableItems = new List<ShopItem>();
+    [SerializeField] private List<WeaponDefinition> availableWeapons = new List<WeaponDefinition>();
     private List<ShopItem> currentShopItems = new List<ShopItem>();
     [SerializeField] private float refreshinterval = 60f;
     
@@ -22,6 +24,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject shopUI;
+    private TextMeshProUGUI coinDisplay;
     [SerializeField] private GameObject pauseButton;
 
     [Header("Animation")]
@@ -36,10 +39,14 @@ public class ShopManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
+        if (instance == null) {
             instance = this;
-        else
+        }
+        else {
             Destroy(gameObject);
+        }
+        coinDisplay = shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
 
         shopCanvasGroup = shopUI.GetComponent<CanvasGroup>();
         originalScale = shopUI.transform.localScale;
@@ -60,9 +67,17 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShop()
     {
+        WeaponController weaponController = PlayerInventory.instance.GetComponent<WeaponController>();
+        List<WeaponDefinition> ownedWeapons = weaponController.GetWeapons().ConvertAll(w => w.definition);
+
         currentShopItems.Clear();
 
-        List<ShopItem> shuffledItems = new List<ShopItem>(availableItems);
+        List<ShopItem> filteredItems = availableItems.Where(item => 
+            item.weaponDefinition == null || 
+            !ownedWeapons.Contains(item.weaponDefinition)
+        ).ToList();
+
+        List<ShopItem> shuffledItems = new List<ShopItem>(filteredItems);
 
         int itemToSelect = Mathf.Min(3, shuffledItems.Count);
 
@@ -124,11 +139,6 @@ public class ShopManager : MonoBehaviour
         }
 
         PlayerStats playerStats = PlayerInventory.instance.GetComponent<PlayerStats>();
-        if (playerStats == null)
-        {
-            OnPurchaseFailed?.Invoke("Player stats not found");
-            return false;
-        }
 
         if (playerStats.Coins < item.price)
         {
@@ -140,6 +150,7 @@ public class ShopManager : MonoBehaviour
 
         if (PlayerInventory.instance.AddItem(item))
         {
+            coinDisplay.text = $"Coins: {playerStats.Coins}";
             OnItemPurchased?.Invoke(item);
             Debug.Log($"Purchased: {item.itemName} for {item.price} Coins");
             RefreshShop();
@@ -148,6 +159,7 @@ public class ShopManager : MonoBehaviour
         else
         {
             playerStats.Coins += item.price;
+            coinDisplay.text = $"Coins: {playerStats.Coins}";
             OnPurchaseFailed?.Invoke("Inventory full or item stack limit reached");
             return false;
         }
@@ -202,6 +214,8 @@ public class ShopManager : MonoBehaviour
 
         if (open)
         {
+            shopUI.SetActive(!shopUI.activeSelf);
+            coinDisplay.text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
             GameManagerScript.instance.PauseGame();
             shopUI.transform.GetChild(1)
                 .GetComponent<TextMeshProUGUI>().text =

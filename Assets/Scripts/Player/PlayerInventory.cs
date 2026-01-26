@@ -32,7 +32,13 @@ public class PlayerInventory : MonoBehaviour
     {
         if (item == null) return false;
 
-        if (item.isStackable)
+        if (item.weaponDefinition != null) // Ha fegyver
+        {
+            playerStats.GetComponent<WeaponController>().AddWeapon(item.weaponDefinition);
+            OnItemAdded?.Invoke(item);
+            return true;
+        }
+        else if (item.isStackable) // Ha item
         {
             InventorySlot existingSlot = items.Find(slot => slot.item == item);
             

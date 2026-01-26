@@ -46,8 +46,6 @@ public class WeaponController : MonoBehaviour
 
     public void RefreshAllOrbitingWeapons()
     {
-        Debug.Log($"Refreshing orbiting weapons. Total weapons: {weapons.Count}");
-        
         foreach (var obj in orbitingObjects)
         {
             Destroy(obj);
@@ -57,8 +55,6 @@ public class WeaponController : MonoBehaviour
 
         foreach (var weapon in weapons)
         {
-            Debug.Log($"Checking weapon: {weapon.definition.weaponName}, has orbitingFactory: {weapon.definition.orbitingFactory != null}");
-            
             if (weapon.definition.orbitingFactory == null)
             {
                 continue;
@@ -74,12 +70,9 @@ public class WeaponController : MonoBehaviour
             ctx.weapon.playerStats = ctx.stats;
 
             var spawned = weapon.definition.orbitingFactory.Spawn(ctx);
-            Debug.Log($"Spawned {spawned.Count} orbiting objects for {weapon.definition.weaponName}");
 
             orbitingObjects.AddRange(spawned);
         }
-        
-        Debug.Log($"Total orbiting objects: {orbitingObjects.Count}");
     }
 
     private void Update()

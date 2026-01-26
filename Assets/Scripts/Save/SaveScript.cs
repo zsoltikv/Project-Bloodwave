@@ -9,7 +9,9 @@ public class SaveScript : MonoBehaviour
 
     private string playerName;
     private int highScore;
-    private int time;
+    private float time;
+
+    RunTimer runTimer;
 
     public List<SaveData> saveDataList = new List<SaveData>();
     
@@ -48,15 +50,19 @@ public class SaveScript : MonoBehaviour
         {
             highScore = playerStats.score; 
         }
+
+        time = RunTimer.instance.timeElapsed;
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
         
-        time = Mathf.RoundToInt(Time.timeSinceLevelLoad);
 
         // Új mentés létrehozása
         SaveData newSave = new SaveData
         {
             playerName = playerName,
             highScore = highScore,
-            time = time
+            minutes = minutes,
+            seconds = seconds
         };
 
         saveDataList.Add(newSave);

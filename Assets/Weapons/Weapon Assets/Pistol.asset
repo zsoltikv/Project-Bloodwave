@@ -18,6 +18,7 @@ MonoBehaviour:
   ProjectileCount: 1
   Damage: 5
   baseRange: 20
+  ProjectileSpeed: 6
   targeting: {fileID: 11400000, guid: 41fae851b86d40bfcb2d58961a7b7304, type: 2}
   spawnPattern: {fileID: 11400000, guid: 8a40dbd80f62a9e93b849777b42ef771, type: 2}
   projectileFactory: {fileID: 11400000, guid: eac33f18b4681bd23a384211fd3500a8, type: 2}
