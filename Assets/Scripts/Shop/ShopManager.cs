@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ShopManager : MonoBehaviour
 {
@@ -23,18 +24,25 @@ public class ShopManager : MonoBehaviour
     public GameObject shopUI;
     [SerializeField] private GameObject pauseButton;
 
+    [Header("Animation")]
+    [SerializeField] private float animDuration = 0.25f;
+    [SerializeField] private Vector3 hiddenScale = new Vector3(0.8f, 0.8f, 0.8f);
+
+    private CanvasGroup shopCanvasGroup;
+    private Coroutine animRoutine;
+    private Vector3 originalScale;
+
     private float nextRefreshTime;
 
     void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
+
+        shopCanvasGroup = shopUI.GetComponent<CanvasGroup>();
+        originalScale = shopUI.transform.localScale;
     }
 
     void Start() {
@@ -180,7 +188,14 @@ public class ShopManager : MonoBehaviour
             return;
 
         bool open = !shopUI.activeSelf;
-        shopUI.SetActive(open);
+
+        if (animRoutine != null)
+            StopCoroutine(animRoutine);
+
+        if (open)
+            animRoutine = StartCoroutine(OpenShopAnim());
+        else
+            animRoutine = StartCoroutine(CloseShopAnim());
 
         if (pauseButton != null)
             pauseButton.SetActive(!open);
@@ -188,15 +203,74 @@ public class ShopManager : MonoBehaviour
         if (open)
         {
             GameManagerScript.instance.PauseGame();
-
             shopUI.transform.GetChild(1)
-                .GetComponent<TMPro.TextMeshProUGUI>().text =
+                .GetComponent<TextMeshProUGUI>().text =
                 $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
         }
         else
         {
             GameManagerScript.instance.ResumeGame();
         }
+    }
+
+    private IEnumerator OpenShopAnim()
+    {
+        shopUI.SetActive(true);
+
+        shopCanvasGroup.alpha = 0f;
+        shopCanvasGroup.interactable = false;
+        shopCanvasGroup.blocksRaycasts = false;
+
+        shopUI.transform.localScale = originalScale * 0.9f;
+
+        float t = 0f;
+        while (t < animDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            float lerp = t / animDuration;
+
+            shopCanvasGroup.alpha = Mathf.Lerp(0f, 1f, lerp);
+            shopUI.transform.localScale =
+                Vector3.Lerp(originalScale * 0.9f, originalScale, EaseOutBack(lerp));
+
+            yield return null;
+        }
+
+        shopCanvasGroup.alpha = 1f;
+        shopUI.transform.localScale = originalScale;
+        shopCanvasGroup.interactable = true;
+        shopCanvasGroup.blocksRaycasts = true;
+    }
+
+    private IEnumerator CloseShopAnim()
+    {
+        shopCanvasGroup.interactable = false;
+        shopCanvasGroup.blocksRaycasts = false;
+
+        float t = 0f;
+        while (t < animDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            float lerp = t / animDuration;
+
+            shopCanvasGroup.alpha = Mathf.Lerp(1f, 0f, lerp);
+            shopUI.transform.localScale =
+                Vector3.Lerp(originalScale, originalScale * 0.9f, lerp);
+
+            yield return null;
+        }
+
+        shopCanvasGroup.alpha = 0f;
+        shopUI.transform.localScale = originalScale;
+        shopUI.SetActive(false);
+    }
+
+    private float EaseOutBack(float x)
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1f;
+
+        return 1f + c3 * Mathf.Pow(x - 1f, 3) + c1 * Mathf.Pow(x - 1f, 2);
     }
 
     public bool IsShopOpen()
