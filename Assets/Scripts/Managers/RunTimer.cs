@@ -4,7 +4,7 @@ using TMPro;
 public class RunTimer : MonoBehaviour
 {
     TextMeshProUGUI timerText;
-    float timeElapsed = 0f;
+    public float timeElapsed = 0f;
     bool isRunning = false;
 
     void Awake()

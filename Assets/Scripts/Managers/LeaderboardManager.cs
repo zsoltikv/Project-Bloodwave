@@ -31,7 +31,7 @@ public class LeaderboardManager : MonoBehaviour
             var SaveEntry = Instantiate(SavePrefab, Content.transform);
             SaveEntry.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = save.playerName;
             SaveEntry.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = save.highScore.ToString();
-            SaveEntry.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = save.time.ToString();
+            SaveEntry.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = $"{save.minutes:00}:{save.seconds:00}";
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(Content.transform as RectTransform);

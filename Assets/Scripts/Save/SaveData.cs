@@ -3,5 +3,7 @@ public class SaveData
 {
     public string playerName;
     public int highScore;
-    public int time;
+    public float time;
+    public float minutes;
+    public float seconds;
 }

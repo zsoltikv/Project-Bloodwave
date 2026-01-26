@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
+  m_Name: IceOrb
+  m_EditorClassIdentifier: 
+  itemName: Ice Crystals
+  description: 
+  icon: {fileID: 6667835865486427368, guid: 6430b743caf31db4fbd5da0030daa54f, type: 3}
+  price: 0
+  weaponDefinition: {fileID: 11400000, guid: 3ef4e790fbebc7eb4a7653a01b3c54d2, type: 2}
+  statModifiers: []
+  isStackable: 0
+  maxStackSize: 1

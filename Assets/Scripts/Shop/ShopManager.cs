@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ShopManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("Shop Items")]
     [SerializeField] private List<ShopItem> availableItems = new List<ShopItem>();
+    [SerializeField] private List<WeaponDefinition> availableWeapons = new List<WeaponDefinition>();
     private List<ShopItem> currentShopItems = new List<ShopItem>();
     [SerializeField] private float refreshinterval = 60f;
     
@@ -21,7 +23,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject shopUI;
-
+    private TextMeshProUGUI coinDisplay;
     private float nextRefreshTime;
 
     void Awake()
@@ -34,6 +36,8 @@ public class ShopManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        coinDisplay = shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
     }
 
     void Start() {
@@ -51,9 +55,17 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShop()
     {
+        WeaponController weaponController = PlayerInventory.instance.GetComponent<WeaponController>();
+        List<WeaponDefinition> ownedWeapons = weaponController.GetWeapons().ConvertAll(w => w.definition);
+
         currentShopItems.Clear();
 
-        List<ShopItem> shuffledItems = new List<ShopItem>(availableItems);
+        List<ShopItem> filteredItems = availableItems.Where(item => 
+            item.weaponDefinition == null || 
+            !ownedWeapons.Contains(item.weaponDefinition)
+        ).ToList();
+
+        List<ShopItem> shuffledItems = new List<ShopItem>(filteredItems);
 
         int itemToSelect = Mathf.Min(3, shuffledItems.Count);
 
@@ -118,13 +130,7 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
-        // Szerezzük meg a PlayerStats-t a pénzhez
         PlayerStats playerStats = PlayerInventory.instance.GetComponent<PlayerStats>();
-        if (playerStats == null)
-        {
-            OnPurchaseFailed?.Invoke("Player stats not found");
-            return false;
-        }
 
         // Ellenőrizzük van-e elég pénz
         if (playerStats.Coins < item.price)
@@ -133,12 +139,12 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
-        // Elköltsük a pénzt
         playerStats.Coins -= item.price;
 
         // Hozzáadjuk az inventoryhoz
         if (PlayerInventory.instance.AddItem(item))
         {
+            coinDisplay.text = $"Coins: {playerStats.Coins}";
             OnItemPurchased?.Invoke(item);
             Debug.Log($"Purchased: {item.itemName} for {item.price} Coins");
             RefreshShop();
@@ -146,8 +152,8 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            // Visszaadjuk a pénzt ha nem sikerült hozzáadni
             playerStats.Coins += item.price;
+            coinDisplay.text = $"Coins: {playerStats.Coins}";
             OnPurchaseFailed?.Invoke("Inventory full or item stack limit reached");
             return false;
         }
@@ -184,7 +190,7 @@ public class ShopManager : MonoBehaviour
         if (shopUI != null)
         {
             shopUI.SetActive(!shopUI.activeSelf);
-             shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+            coinDisplay.text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
         }
     }
 }
