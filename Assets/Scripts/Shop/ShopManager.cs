@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Linq;
+using System.Collections;
 
 public class ShopManager : MonoBehaviour
 {
@@ -24,20 +25,31 @@ public class ShopManager : MonoBehaviour
     [Header("UI")]
     public GameObject shopUI;
     private TextMeshProUGUI coinDisplay;
+    [SerializeField] private GameObject pauseButton;
+
+    [Header("Animation")]
+    [SerializeField] private float animDuration = 0.25f;
+    [SerializeField] private Vector3 hiddenScale = new Vector3(0.8f, 0.8f, 0.8f);
+
+    private CanvasGroup shopCanvasGroup;
+    private Coroutine animRoutine;
+    private Vector3 originalScale;
+
     private float nextRefreshTime;
 
     void Awake()
     {
-        if (instance == null)
-        {
+        if (instance == null) {
             instance = this;
         }
-        else
-        {
+        else {
             Destroy(gameObject);
         }
         coinDisplay = shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
+
+        shopCanvasGroup = shopUI.GetComponent<CanvasGroup>();
+        originalScale = shopUI.transform.localScale;
     }
 
     void Start() {
@@ -78,7 +90,6 @@ public class ShopManager : MonoBehaviour
 
         if (shopUI != null)
         {
-            // Első item (child 1)
             Transform item1 = shopUI.transform.GetChild(2);
             item1.GetComponent<Image>().sprite = currentShopItems[0].icon;
             item1.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[0].itemName;
@@ -89,7 +100,6 @@ public class ShopManager : MonoBehaviour
             button1.onClick.AddListener(() => PurchaseItem(currentShopItems[0]));
 
 
-            // Második item (child 2)
             Transform item2 = shopUI.transform.GetChild(3);
             item2.GetComponent<Image>().sprite = currentShopItems[1].icon;
             item2.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[1].itemName;
@@ -99,8 +109,6 @@ public class ShopManager : MonoBehaviour
             button2.onClick.RemoveAllListeners(); 
             button2.onClick.AddListener(() => PurchaseItem(currentShopItems[1]));
 
-
-            // Harmadik item (child 3)
             Transform item3 = shopUI.transform.GetChild(4);
             item3.GetComponent<Image>().sprite = currentShopItems[2].icon;
             item3.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[2].itemName;
@@ -132,7 +140,6 @@ public class ShopManager : MonoBehaviour
 
         PlayerStats playerStats = PlayerInventory.instance.GetComponent<PlayerStats>();
 
-        // Ellenőrizzük van-e elég pénz
         if (playerStats.Coins < item.price)
         {
             OnPurchaseFailed?.Invoke($"Not enough Coins! Need {item.price}, have {playerStats.Coins}");
@@ -141,7 +148,6 @@ public class ShopManager : MonoBehaviour
 
         playerStats.Coins -= item.price;
 
-        // Hozzáadjuk az inventoryhoz
         if (PlayerInventory.instance.AddItem(item))
         {
             coinDisplay.text = $"Coins: {playerStats.Coins}";
@@ -187,10 +193,103 @@ public class ShopManager : MonoBehaviour
 
     public void ToggleShopUI()
     {
-        if (shopUI != null)
+        if (shopUI == null) return;
+
+        PauseGame pause = FindObjectOfType<PauseGame>();
+        if (pause != null && pause.IsPaused())
+            return;
+
+        bool open = !shopUI.activeSelf;
+
+        if (animRoutine != null)
+            StopCoroutine(animRoutine);
+
+        if (open)
+            animRoutine = StartCoroutine(OpenShopAnim());
+        else
+            animRoutine = StartCoroutine(CloseShopAnim());
+
+        if (pauseButton != null)
+            pauseButton.SetActive(!open);
+
+        if (open)
         {
             shopUI.SetActive(!shopUI.activeSelf);
             coinDisplay.text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+            GameManagerScript.instance.PauseGame();
+            shopUI.transform.GetChild(1)
+                .GetComponent<TextMeshProUGUI>().text =
+                $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+        }
+        else
+        {
+            GameManagerScript.instance.ResumeGame();
         }
     }
+
+    private IEnumerator OpenShopAnim()
+    {
+        shopUI.SetActive(true);
+
+        shopCanvasGroup.alpha = 0f;
+        shopCanvasGroup.interactable = false;
+        shopCanvasGroup.blocksRaycasts = false;
+
+        shopUI.transform.localScale = originalScale * 0.9f;
+
+        float t = 0f;
+        while (t < animDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            float lerp = t / animDuration;
+
+            shopCanvasGroup.alpha = Mathf.Lerp(0f, 1f, lerp);
+            shopUI.transform.localScale =
+                Vector3.Lerp(originalScale * 0.9f, originalScale, EaseOutBack(lerp));
+
+            yield return null;
+        }
+
+        shopCanvasGroup.alpha = 1f;
+        shopUI.transform.localScale = originalScale;
+        shopCanvasGroup.interactable = true;
+        shopCanvasGroup.blocksRaycasts = true;
+    }
+
+    private IEnumerator CloseShopAnim()
+    {
+        shopCanvasGroup.interactable = false;
+        shopCanvasGroup.blocksRaycasts = false;
+
+        float t = 0f;
+        while (t < animDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            float lerp = t / animDuration;
+
+            shopCanvasGroup.alpha = Mathf.Lerp(1f, 0f, lerp);
+            shopUI.transform.localScale =
+                Vector3.Lerp(originalScale, originalScale * 0.9f, lerp);
+
+            yield return null;
+        }
+
+        shopCanvasGroup.alpha = 0f;
+        shopUI.transform.localScale = originalScale;
+        shopUI.SetActive(false);
+    }
+
+    private float EaseOutBack(float x)
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1f;
+
+        return 1f + c3 * Mathf.Pow(x - 1f, 3) + c1 * Mathf.Pow(x - 1f, 2);
+    }
+
+    public bool IsShopOpen()
+    {
+        return shopUI != null && shopUI.activeSelf;
+    }
+
 }

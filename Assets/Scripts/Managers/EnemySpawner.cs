@@ -31,7 +31,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] bool preventSpawnInView = true;
 
     [Header("Difficulty Progression")]
-    [Tooltip("Hány szintenként növekedjen a nehézség")]
     [SerializeField] int difficultyIncreaseEveryXLevels = 2;
     [SerializeField] float speedIncreasePerStep = 0.2f;
     [SerializeField] float healthIncreasePerStep = 0.15f;
@@ -52,7 +51,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float eliteScaleMultiplier = 1.3f;
 
     // Private variables
-    float difficultyMultiplier = 0f;
+    float speedDifficultyMultiplier = 0f;
+    float healthDifficultyMultiplier = 0f;
     int currentWave = 0;
     int lastDifficultyIncreaseLevel = 0;
     int lastCheckedPlayerLevel = 1;
@@ -112,12 +112,13 @@ public class EnemySpawner : MonoBehaviour
         {
             lastDifficultyIncreaseLevel = currentPlayerLevel;
 
-            difficultyMultiplier += speedIncreasePerStep;
+            speedDifficultyMultiplier += speedIncreasePerStep;
+            healthDifficultyMultiplier += healthIncreasePerStep;
             spawnInterval = Mathf.Max(minSpawnInterval, spawnInterval - spawnIntervalDecreaseRate);
 
             if (increaseEnemiesPerSpawn && !useWaveSystem)
             {
-                if (difficultyMultiplier % 1f == 0)
+                if (speedDifficultyMultiplier % 1f == 0 || healthDifficultyMultiplier % 1f == 0)
                 {
                     enemiesPerSpawn = Mathf.Min(enemiesPerSpawn + 1, 5);
                 }
@@ -128,7 +129,7 @@ public class EnemySpawner : MonoBehaviour
                 eliteSpawnChance = Mathf.Min(eliteSpawnChance + 0.02f, 0.3f);
             }
 
-            Debug.Log($"Difficulty increased at player level {currentPlayerLevel}! Speed: +{difficultyMultiplier}, Spawn interval: {spawnInterval}s");
+            Debug.Log($"Difficulty increased at player level {currentPlayerLevel}! Speed multiplier: +{speedDifficultyMultiplier}, Health multiplier: +{healthDifficultyMultiplier}, Spawn interval: {spawnInterval}s");
         }
     }
 
@@ -231,22 +232,29 @@ public class EnemySpawner : MonoBehaviour
         var health = enemy.GetComponent<EnemyHealth>();
         if (health != null)
         {
-            health.baseSpeed += difficultyMultiplier;
-            health.maxHealth *= (1 + (difficultyMultiplier * healthIncreasePerStep));
-
+            // HP növelés a health difficulty multiplier alapján
+            health.maxHealth *= 1 + healthDifficultyMultiplier;
+            
             if (isElite)
             {
                 health.maxHealth *= eliteHealthMultiplier;
                 health.baseSpeed *= eliteSpeedMultiplier;
                 enemy.transform.localScale *= eliteScaleMultiplier;
-
-                // Vizuális jelzés (pl. szín változtatás)
+                
+                // Vizuális jelzés
                 var renderer = enemy.GetComponent<SpriteRenderer>();
                 if (renderer != null)
                 {
                     renderer.color = Color.red;
                 }
             }
+            
+            // FONTOS: Először módosítjuk a maxHealth-et, UTÁNA állítjuk be a currentHealth-et
+            health.currentHealth = health.maxHealth;
+            
+            // Speed növelés a speed difficulty multiplier alapján
+            health.baseSpeed += speedDifficultyMultiplier;
+            health.currentSpeed = health.baseSpeed;
         }
     }
 
@@ -343,8 +351,13 @@ public class EnemySpawner : MonoBehaviour
         return activeEnemies.Count;
     }
 
-    public float GetCurrentDifficulty()
+    public float GetCurrentSpeedDifficulty()
     {
-        return difficultyMultiplier;
+        return speedDifficultyMultiplier;
+    }
+
+    public float GetCurrentHealthDifficulty()
+    {
+        return healthDifficultyMultiplier;
     }
 }
