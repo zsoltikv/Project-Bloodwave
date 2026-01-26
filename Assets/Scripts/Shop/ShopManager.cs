@@ -212,19 +212,12 @@ public class ShopManager : MonoBehaviour
         if (pauseButton != null)
             pauseButton.SetActive(!open);
 
+        coinDisplay.text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+
         if (open)
-        {
-            shopUI.SetActive(!shopUI.activeSelf);
-            coinDisplay.text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
             GameManagerScript.instance.PauseGame();
-            shopUI.transform.GetChild(1)
-                .GetComponent<TextMeshProUGUI>().text =
-                $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
-        }
         else
-        {
             GameManagerScript.instance.ResumeGame();
-        }
     }
 
     private IEnumerator OpenShopAnim()
