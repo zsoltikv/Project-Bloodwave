@@ -21,6 +21,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject shopUI;
+    [SerializeField] private GameObject pauseButton;
 
     private float nextRefreshTime;
 
@@ -66,7 +67,6 @@ public class ShopManager : MonoBehaviour
 
         if (shopUI != null)
         {
-            // Első item (child 1)
             Transform item1 = shopUI.transform.GetChild(2);
             item1.GetComponent<Image>().sprite = currentShopItems[0].icon;
             item1.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[0].itemName;
@@ -77,7 +77,6 @@ public class ShopManager : MonoBehaviour
             button1.onClick.AddListener(() => PurchaseItem(currentShopItems[0]));
 
 
-            // Második item (child 2)
             Transform item2 = shopUI.transform.GetChild(3);
             item2.GetComponent<Image>().sprite = currentShopItems[1].icon;
             item2.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[1].itemName;
@@ -87,8 +86,6 @@ public class ShopManager : MonoBehaviour
             button2.onClick.RemoveAllListeners(); 
             button2.onClick.AddListener(() => PurchaseItem(currentShopItems[1]));
 
-
-            // Harmadik item (child 3)
             Transform item3 = shopUI.transform.GetChild(4);
             item3.GetComponent<Image>().sprite = currentShopItems[2].icon;
             item3.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[2].itemName;
@@ -118,7 +115,6 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
-        // Szerezzük meg a PlayerStats-t a pénzhez
         PlayerStats playerStats = PlayerInventory.instance.GetComponent<PlayerStats>();
         if (playerStats == null)
         {
@@ -126,17 +122,14 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
-        // Ellenőrizzük van-e elég pénz
         if (playerStats.Coins < item.price)
         {
             OnPurchaseFailed?.Invoke($"Not enough Coins! Need {item.price}, have {playerStats.Coins}");
             return false;
         }
 
-        // Elköltsük a pénzt
         playerStats.Coins -= item.price;
 
-        // Hozzáadjuk az inventoryhoz
         if (PlayerInventory.instance.AddItem(item))
         {
             OnItemPurchased?.Invoke(item);
@@ -146,7 +139,6 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            // Visszaadjuk a pénzt ha nem sikerült hozzáadni
             playerStats.Coins += item.price;
             OnPurchaseFailed?.Invoke("Inventory full or item stack limit reached");
             return false;
@@ -181,13 +173,35 @@ public class ShopManager : MonoBehaviour
 
     public void ToggleShopUI()
     {
-        if (shopUI != null)
-        {
-            shopUI.SetActive(!shopUI.activeSelf);
-            shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+        if (shopUI == null) return;
 
-            if(shopUI.activeSelf) GameManagerScript.instance.PauseGame();
-            else GameManagerScript.instance.ResumeGame();
+        PauseGame pause = FindObjectOfType<PauseGame>();
+        if (pause != null && pause.IsPaused())
+            return;
+
+        bool open = !shopUI.activeSelf;
+        shopUI.SetActive(open);
+
+        if (pauseButton != null)
+            pauseButton.SetActive(!open);
+
+        if (open)
+        {
+            GameManagerScript.instance.PauseGame();
+
+            shopUI.transform.GetChild(1)
+                .GetComponent<TMPro.TextMeshProUGUI>().text =
+                $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
+        }
+        else
+        {
+            GameManagerScript.instance.ResumeGame();
         }
     }
+
+    public bool IsShopOpen()
+    {
+        return shopUI != null && shopUI.activeSelf;
+    }
+
 }
