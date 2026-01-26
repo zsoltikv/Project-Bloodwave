@@ -81,7 +81,22 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeOutAndLoad(string sceneName)
     {
         yield return FadeOut();
-        SceneManager.LoadScene(sceneName);
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        asyncLoad.allowSceneActivation = false;
+
+        while (asyncLoad.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        asyncLoad.allowSceneActivation = true;
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 
     private IEnumerator FadeOut()

@@ -10,10 +10,9 @@ public class Intro : MonoBehaviour
     public VideoPlayer videoPlayer;
     private bool introSkipped = false;
 
-    void Start()
+    IEnumerator Start()
     {
-        videoPlayer.playOnAwake = false;
-        videoPlayer.waitForFirstFrame = true;
+        yield return new WaitForSeconds(0.1f);
 
         videoPlayer.prepareCompleted += OnVideoPrepared;
         videoPlayer.Prepare();
