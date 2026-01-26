@@ -23,6 +23,9 @@ public class PlayerStats : MonoBehaviour
     public int score = 0;
     public float baseCritChance = 0;
 
+    private Animator animator;
+    private Camera mainCamera;
+
     [Header("Runtime buffs (optional)")]
 
     public float CooldownMultiplier = 0f;     // -0.2 = 20%-kal gyorsabb
@@ -33,8 +36,13 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] public int XP = 0;
     [SerializeField] public int Coins = 0;
 
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem bloodPrefab;
+
     private void Start()
     {
+        mainCamera = this.GetComponentInChildren<Camera>();
+        animator = GetComponent<Animator>();
         XpBar.GetComponent<Slider>().maxValue = CalculateXPForLevel(Level);
         RefreshXpBar();
     }
@@ -77,6 +85,52 @@ public class PlayerStats : MonoBehaviour
     public void Die()
     {
         RunTimer.instance.StopTimer();
+        animator.SetBool("isDead", true);
+
+
+        StartCoroutine(WaitForDeathAnimation());
+    }
+
+    private System.Collections.IEnumerator WaitForDeathAnimation()
+    {
+        yield return new WaitForSeconds(0.4f);
+        
+        if (bloodPrefab != null)
+        {
+            Vector3 spawnPos = transform.position;
+
+            var sr = GetComponentInChildren<SpriteRenderer>();
+            if (sr != null)
+                spawnPos = sr.bounds.center;
+
+            ParticleSystem blood = Instantiate(bloodPrefab, spawnPos, Quaternion.identity);
+
+            var bloodRenderer = blood.GetComponent<ParticleSystemRenderer>();
+            if (bloodRenderer != null && sr != null)
+                bloodRenderer.sortingOrder = sr.sortingOrder;
+        }
+        
+        // Smooth camera zoom
+        if (mainCamera != null)
+        {
+            float startSize = mainCamera.orthographicSize;
+            float targetSize = 4f;
+            float duration = 2.5f;
+            float elapsed = 0f;
+            
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+                mainCamera.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
+                yield return null;
+            }
+            
+            mainCamera.orthographicSize = targetSize;
+        }
+        
+        yield return new WaitForSeconds(1f);
+        
         FadeManager.Instance.LoadSceneWithFade("GameOverScene");
     }
 

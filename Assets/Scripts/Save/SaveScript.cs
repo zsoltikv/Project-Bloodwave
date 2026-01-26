@@ -96,6 +96,7 @@ public class SaveScript : MonoBehaviour
         {
             // Save failed silently
         }
+        FadeManager.Instance.LoadSceneWithFade("MenuScene");
     }
 
     public void LoadLeaderboard()
