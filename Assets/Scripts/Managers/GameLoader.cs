@@ -6,7 +6,7 @@ public class GameLoader : MonoBehaviour
 
     public void StartGame()
     {
-        PlayerPrefs.SetInt("GameStarted", 1);
+        //PlayerPrefs.SetInt("GameStarted", 1);
         FadeManager.Instance.LoadSceneWithFade("CutsceneScene");
 
     }
@@ -14,5 +14,10 @@ public class GameLoader : MonoBehaviour
     public void LeaderBoard()
     {
         FadeManager.Instance.LoadSceneWithFade("LeaderBoardScene");
+    }
+
+    public void Achievements()
+    {
+        FadeManager.Instance.LoadSceneWithFade("AchievementScene");
     }
 }

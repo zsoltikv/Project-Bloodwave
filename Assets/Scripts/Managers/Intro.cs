@@ -49,7 +49,7 @@ public class Intro : MonoBehaviour
         if (!introSkipped)
         {
             FadeManager.Instance.LoadSceneWithFade("MenuScene");
-
+            AchievementManager.Instance.UnlockAchievement("movie_buff");
         }
     }
 
