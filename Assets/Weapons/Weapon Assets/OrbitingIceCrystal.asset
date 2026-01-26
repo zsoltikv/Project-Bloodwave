@@ -18,6 +18,7 @@ MonoBehaviour:
   ProjectileCount: 1
   Damage: 5
   baseRange: 2
+  ProjectileSpeed: 0.9
   targeting: {fileID: 0}
   spawnPattern: {fileID: 0}
   projectileFactory: {fileID: 0}

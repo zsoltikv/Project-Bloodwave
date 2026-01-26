@@ -76,6 +76,7 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
+        RunTimer.instance.StopTimer();
         FadeManager.Instance.LoadSceneWithFade("GameOverScene");
     }
 

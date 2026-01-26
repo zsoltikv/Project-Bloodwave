@@ -51,7 +51,7 @@ public class SaveScript : MonoBehaviour
             highScore = playerStats.score; 
         }
 
-        time = runTimer.timeElapsed;
+        time = RunTimer.instance.timeElapsed;
         int minutes = Mathf.FloorToInt(time / 60f);
         int seconds = Mathf.FloorToInt(time % 60f);
         
