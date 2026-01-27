@@ -25,6 +25,8 @@ public class ShopManager : MonoBehaviour
     [Header("UI")]
     public GameObject shopUI;
     private TextMeshProUGUI coinDisplay;
+    [SerializeField] private TextMeshProUGUI itemBoughtText;
+    [SerializeField] private float itemBoughtDuration = 2f;
     [SerializeField] private GameObject pauseButton;
 
     [Header("Animation")]
@@ -50,6 +52,7 @@ public class ShopManager : MonoBehaviour
 
         shopCanvasGroup = shopUI.GetComponent<CanvasGroup>();
         originalScale = shopUI.transform.localScale;
+        itemBoughtText.gameObject.SetActive(false);
     }
 
     void Start() {
@@ -152,6 +155,12 @@ public class ShopManager : MonoBehaviour
         {
             coinDisplay.text = $"Coins: {playerStats.Coins}";
             OnItemPurchased?.Invoke(item);
+
+            if (itemBoughtRoutine != null)
+                StopCoroutine(itemBoughtRoutine);
+
+            itemBoughtRoutine = StartCoroutine(ShowItemBought(item.itemName));
+
             Debug.Log($"Purchased: {item.itemName} for {item.price} Coins");
             RefreshShop();
             return true;
@@ -283,6 +292,18 @@ public class ShopManager : MonoBehaviour
     public bool IsShopOpen()
     {
         return shopUI != null && shopUI.activeSelf;
+    }
+
+    private Coroutine itemBoughtRoutine;
+
+    private IEnumerator ShowItemBought(string itemName)
+    {
+        itemBoughtText.text = $"{itemName} bought!";
+        itemBoughtText.gameObject.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(itemBoughtDuration);
+
+        itemBoughtText.gameObject.SetActive(false);
     }
 
 }
