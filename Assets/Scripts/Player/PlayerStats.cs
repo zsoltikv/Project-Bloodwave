@@ -32,6 +32,8 @@ public class PlayerStats : MonoBehaviour
   
     public event Action OnProjectileBonusChanged;
 
+    private SpriteRenderer spriteRenderer;
+
     [Header("Collected resources")]
     [SerializeField] public int XP = 0;
     [SerializeField] public int Coins = 0;
@@ -45,6 +47,11 @@ public class PlayerStats : MonoBehaviour
         animator = GetComponent<Animator>();
         XpBar.GetComponent<Slider>().maxValue = CalculateXPForLevel(Level);
         RefreshXpBar();
+    }
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     int CalculateXPForLevel(int level)
@@ -66,10 +73,23 @@ public class PlayerStats : MonoBehaviour
 
         RefreshHpBar();
 
+        if (spriteRenderer != null)
+            StartCoroutine(FlashRed());
+
         if (Health <= 0)
         {
             Die();
         }
+    }
+
+    private System.Collections.IEnumerator FlashRed()
+    {
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+
+        spriteRenderer.color = originalColor;
     }
 
     public void Heal(float amount)
