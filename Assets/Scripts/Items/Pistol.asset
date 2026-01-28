@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   itemName: Pistol
-  description: 
+  description: A compact firearm that fires single, precise shots, effective at short
+    to medium range.
   icon: {fileID: -4854829337826818713, guid: 2eda519d3da59c24bb99ee6a8a21c967, type: 3}
-  price: 0
+  price: 500
   weaponDefinition: {fileID: 11400000, guid: fb589a0bbe111c957a41466a0ef5e88a, type: 2}
   statModifiers: []
   isStackable: 0

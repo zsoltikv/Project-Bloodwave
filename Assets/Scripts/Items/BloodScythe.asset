@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BloodScythe
   m_EditorClassIdentifier: 
   itemName: Blood Scythe
-  description: 
+  description: A wicked blade that feeds on the life of foes, delivering powerful,
+    sweeping strikes that drain their vitality.
   icon: {fileID: 1137465368987919916, guid: 7e8fcd6b60512b746a1ace6644eeb719, type: 3}
-  price: 1000
+  price: 2500
   weaponDefinition: {fileID: 11400000, guid: af3ed66c75782eeed844f51152b60f07, type: 2}
   statModifiers: []
   isStackable: 0

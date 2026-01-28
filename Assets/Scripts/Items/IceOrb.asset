@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: IceOrb
   m_EditorClassIdentifier: 
   itemName: Ice Crystals
-  description: 
+  description: A frozen shard imbued with magical frost, capable of chilling and
+    slowing enemies with each strike.
   icon: {fileID: 6667835865486427368, guid: 6430b743caf31db4fbd5da0030daa54f, type: 3}
-  price: 0
+  price: 1000
   weaponDefinition: {fileID: 11400000, guid: 3ef4e790fbebc7eb4a7653a01b3c54d2, type: 2}
   statModifiers: []
   isStackable: 0
