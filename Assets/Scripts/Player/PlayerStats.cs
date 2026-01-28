@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -34,6 +35,15 @@ public class PlayerStats : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    [Header("HP Bar")]
+    public Image hpFill;     
+    public Image hpDamageFill;  
+    public float hpLerpSpeed = 5f;
+
+    [Header("HP Shake")]
+    public float shakeDuration = 0.2f;
+    public float shakeMagnitude = 5f;    
+
     [Header("Collected resources")]
     [SerializeField] public int XP = 0;
     [SerializeField] public int Coins = 0;
@@ -52,6 +62,12 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (HpBar != null)
+        {
+            hpFill = HpBar.transform.GetChild(1).GetComponent<Image>();
+            hpDamageFill = HpBar.transform.GetChild(2).GetComponent<Image>(); // pl. a háttér sáv
+        }
     }
 
     int CalculateXPForLevel(int level)
@@ -67,19 +83,46 @@ public class PlayerStats : MonoBehaviour
         Coins += amount;
     }
 
+    private Coroutine hpAnimCoroutine;
+
     public void TakeDamage(float amount)
     {
         Health -= amount;
+        if (Health < 0) Health = 0;
 
-        RefreshHpBar();
+        if (hpAnimCoroutine != null) StopCoroutine(hpAnimCoroutine);
+        hpAnimCoroutine = StartCoroutine(AnimateHpChange());
 
         if (spriteRenderer != null)
             StartCoroutine(FlashRed());
 
+        if (hpFill != null)
+            StartCoroutine(ShakeHpBar());
+
         if (Health <= 0)
-        {
             Die();
+    }
+
+    private IEnumerator ShakeHpBar()
+    {
+        RectTransform rt = hpFill.GetComponent<RectTransform>();
+        Vector3 originalPos = rt.anchoredPosition;
+
+        float elapsed = 0f;
+
+        while (elapsed < shakeDuration)
+        {
+            elapsed += Time.deltaTime;
+
+            float x = UnityEngine.Random.Range(-shakeMagnitude, shakeMagnitude);
+            float y = UnityEngine.Random.Range(-shakeMagnitude, shakeMagnitude);
+
+            rt.anchoredPosition = originalPos + new Vector3(x, y, 0f);
+
+            yield return null;
         }
+
+        rt.anchoredPosition = originalPos;
     }
 
     private System.Collections.IEnumerator FlashRed()
@@ -95,11 +138,10 @@ public class PlayerStats : MonoBehaviour
     public void Heal(float amount)
     {
         Health += amount;
-        if (Health > 100f)
-        {
-            Health = 100f;
-        }
-        RefreshHpBar();
+        if (Health > MaxHealth) Health = MaxHealth;
+
+        if (hpAnimCoroutine != null) StopCoroutine(hpAnimCoroutine);
+        hpAnimCoroutine = StartCoroutine(AnimateHpChange());
     }
 
     public void Die()
@@ -191,6 +233,29 @@ public class PlayerStats : MonoBehaviour
         }
 
         RefreshXpBar();
+    }
+
+    private IEnumerator AnimateHpChange()
+    {
+        float startFill = hpFill.fillAmount;
+        float targetFill = Health / MaxHealth;
+
+        if (targetFill < startFill)
+            hpDamageFill.fillAmount = startFill;
+
+        float t = 0f;
+        while (!Mathf.Approximately(hpFill.fillAmount, targetFill))
+        {
+            t += Time.deltaTime * hpLerpSpeed;
+            hpFill.fillAmount = Mathf.Lerp(startFill, targetFill, t);
+
+            if (hpDamageFill.fillAmount > hpFill.fillAmount)
+                hpDamageFill.fillAmount = Mathf.Lerp(hpDamageFill.fillAmount, hpFill.fillAmount, Time.deltaTime * (hpLerpSpeed / 2));
+
+            yield return null;
+        }
+
+        hpFill.fillAmount = targetFill;
     }
 
 }
