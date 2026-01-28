@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
     public float MaxHealth = 100f;
     public int Level = 1;
     public float baseDamageMultiplier = 1f;
-    public float baseCooldownMultiplier = 1f; // 1 = normál, 0.8 = gyorsabb
+    public float baseCooldownMultiplier = 1f;
     public float baseRangeMultiplier = 1f;
     public float baseProjectileSpeed = 12f;
     public int baseProjectileBonus = 0;
@@ -28,7 +28,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Runtime buffs (optional)")]
 
-    public float CooldownMultiplier = 0f;     // -0.2 = 20%-kal gyorsabb
+    public float CooldownMultiplier = 0f;     
   
     public event Action OnProjectileBonusChanged;
 
@@ -87,6 +87,9 @@ public class PlayerStats : MonoBehaviour
         RunTimer.instance.StopTimer();
         animator.SetBool("isDead", true);
 
+        var movement = GetComponent<PlayerMovement>();
+        if (movement != null)
+            movement.isAlive = false;
 
         StartCoroutine(WaitForDeathAnimation());
     }
@@ -110,7 +113,6 @@ public class PlayerStats : MonoBehaviour
                 bloodRenderer.sortingOrder = sr.sortingOrder;
         }
         
-        // Smooth camera zoom
         if (mainCamera != null)
         {
             float startSize = mainCamera.orthographicSize;

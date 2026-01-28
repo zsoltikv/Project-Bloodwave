@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     private bool dragging;
     private AimDirection2D aim;
 
+    public bool isAlive = true;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -136,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        if (!dragging || dragVector.magnitude < deadZone)
+        if (!isAlive || !dragging || dragVector.magnitude < deadZone)
         {
             rb.linearVelocity = Vector2.zero;
 
