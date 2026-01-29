@@ -42,7 +42,13 @@ public class PlayerStats : MonoBehaviour
 
     [Header("HP Shake")]
     public float shakeDuration = 0.2f;
-    public float shakeMagnitude = 5f;    
+    public float shakeMagnitude = 5f;
+
+    [Header("XP Bar")]
+    public Slider xpSlider;
+    public float xpLerpSpeed = 6f;
+
+    private Coroutine xpAnimCoroutine;
 
     [Header("Collected resources")]
     [SerializeField] public int XP = 0;
@@ -57,6 +63,13 @@ public class PlayerStats : MonoBehaviour
         animator = GetComponent<Animator>();
         XpBar.GetComponent<Slider>().maxValue = CalculateXPForLevel(Level);
         RefreshXpBar();
+
+        xpSlider = XpBar.GetComponent<Slider>();
+
+        xpSlider.minValue = 0;
+        xpSlider.maxValue = CalculateXPForLevel(Level);
+        xpSlider.value = XP;
+
     }
 
     private void Awake()
@@ -66,7 +79,7 @@ public class PlayerStats : MonoBehaviour
         if (HpBar != null)
         {
             hpFill = HpBar.transform.GetChild(1).GetComponent<Image>();
-            hpDamageFill = HpBar.transform.GetChild(2).GetComponent<Image>(); // pl. a háttér sáv
+            hpDamageFill = HpBar.transform.GetChild(2).GetComponent<Image>(); 
         }
     }
 
@@ -76,6 +89,23 @@ public class PlayerStats : MonoBehaviour
         float exponentialPart = 120f * Mathf.Pow(1.18f, level);
 
         return Mathf.RoundToInt(linearPart + exponentialPart);
+    }
+
+    private IEnumerator AnimateXpToTarget(int targetXP)
+    {
+        float startValue = xpSlider.value;
+        float targetValue = targetXP;
+
+        float t = 0f;
+
+        while (!Mathf.Approximately(xpSlider.value, targetValue))
+        {
+            t += Time.deltaTime * xpLerpSpeed;
+            xpSlider.value = Mathf.Lerp(startValue, targetValue, t);
+            yield return null;
+        }
+
+        xpSlider.value = targetValue;
     }
 
     public void AddCoins(int amount)
@@ -205,7 +235,12 @@ public class PlayerStats : MonoBehaviour
 
     public void RefreshXpBar()
     {
-        XpBar.GetComponent<Slider>().value = XP;
+        if (xpAnimCoroutine != null)
+            StopCoroutine(xpAnimCoroutine);
+
+        xpAnimCoroutine = StartCoroutine(
+            AnimateXpToTarget(XP)
+        );
     }
 
     public void LevelUp()
@@ -213,10 +248,10 @@ public class PlayerStats : MonoBehaviour
         Level++;
 
         LevelText.GetComponent<TMPro.TextMeshProUGUI>().text =
-            "Level " + Level.ToString();
+            "Level " + Level;
 
-        XpBar.GetComponent<Slider>().maxValue =
-            CalculateXPForLevel(Level);
+        xpSlider.maxValue = CalculateXPForLevel(Level);
+        xpSlider.value = 0f;
 
         GameManagerScript.instance.PauseGame();
         LevelupPanel.SetActive(true);
@@ -226,9 +261,9 @@ public class PlayerStats : MonoBehaviour
     {
         XP += amount;
 
-        while (XP >= XpBar.GetComponent<Slider>().maxValue)
+        while (XP >= xpSlider.maxValue)
         {
-            XP -= Mathf.RoundToInt(XpBar.GetComponent<Slider>().maxValue);
+            XP -= Mathf.RoundToInt(xpSlider.maxValue);
             LevelUp();
         }
 
