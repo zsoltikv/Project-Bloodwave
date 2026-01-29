@@ -36,8 +36,8 @@ public class PlayerStats : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     [Header("HP Bar")]
-    public Image hpFill;     
-    public Image hpDamageFill;  
+    [SerializeField] private Image hpFill;
+    [SerializeField] private Image hpDamageFill;
     public float hpLerpSpeed = 5f;
 
     [Header("HP Shake")]
@@ -75,12 +75,6 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        if (HpBar != null)
-        {
-            hpFill = HpBar.transform.GetChild(1).GetComponent<Image>();
-            hpDamageFill = HpBar.transform.GetChild(2).GetComponent<Image>(); 
-        }
     }
 
     int CalculateXPForLevel(int level)
@@ -230,7 +224,8 @@ public class PlayerStats : MonoBehaviour
 
     public void RefreshHpBar()
     {
-        HpBar.transform.GetChild(1).GetComponent<UnityEngine.UI.Image>().fillAmount = Health / MaxHealth;
+        if (hpFill != null)
+            hpFill.fillAmount = Health / MaxHealth;
     }
 
     public void RefreshXpBar()
