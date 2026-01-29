@@ -27,6 +27,9 @@ public class PlayerStats : MonoBehaviour
     private Animator animator;
     private Camera mainCamera;
 
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem bloodPrefab;
+
     [Header("Runtime buffs (optional)")]
 
     public float CooldownMultiplier = 0f;     
@@ -54,9 +57,6 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] public int XP = 0;
     [SerializeField] public int Coins = 0;
 
-    [Header("Particles")]
-    [SerializeField] private ParticleSystem bloodPrefab;
-
     private void Start()
     {
         mainCamera = this.GetComponentInChildren<Camera>();
@@ -75,6 +75,24 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void SpawnBlood()
+    {
+        if (bloodPrefab != null)
+        {
+            Vector3 spawnPos = transform.position;
+
+            var sr = GetComponentInChildren<SpriteRenderer>();
+            if (sr != null)
+                spawnPos = sr.bounds.center;
+
+            ParticleSystem blood = Instantiate(bloodPrefab, spawnPos, Quaternion.identity);
+
+            var bloodRenderer = blood.GetComponent<ParticleSystemRenderer>();
+            if (bloodRenderer != null && sr != null)
+                bloodRenderer.sortingOrder = sr.sortingOrder;
+        }
     }
 
     int CalculateXPForLevel(int level)
@@ -122,6 +140,8 @@ public class PlayerStats : MonoBehaviour
 
         if (hpFill != null)
             StartCoroutine(ShakeHpBar());
+
+        SpawnBlood();
 
         if (Health <= 0)
             Die();
