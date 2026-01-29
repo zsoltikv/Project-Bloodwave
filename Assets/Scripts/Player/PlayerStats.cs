@@ -177,7 +177,10 @@ public class PlayerStats : MonoBehaviour
 
         var movement = GetComponent<PlayerMovement>();
         if (movement != null)
+        {
             movement.isAlive = false;
+            movement.EndDrag();
+        }
 
         if (spriteRenderer != null)
             spriteRenderer.color = Color.white;

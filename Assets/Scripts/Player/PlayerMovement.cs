@@ -91,6 +91,8 @@ public class PlayerMovement : MonoBehaviour
 
     void BeginDrag(Vector2 screenPos)
     {
+        if (!isAlive) return;
+
         dragging = true;
 
         RectTransform canvasRect = uiCanvas.transform as RectTransform;
@@ -112,6 +114,8 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateDrag(Vector2 screenPos)
     {
+        if (!isAlive) return;
+
         RectTransform canvasRect = uiCanvas.transform as RectTransform;
 
         Vector2 localPoint;
@@ -128,12 +132,14 @@ public class PlayerMovement : MonoBehaviour
         innerDot.anchoredPosition = clamped;
     }
 
-    void EndDrag()
+    public void EndDrag()
     {
         dragging = false;
         dragVector = Vector2.zero;
         rb.linearVelocity = Vector2.zero;
-        indicatorRoot.gameObject.SetActive(false);
+
+        if (indicatorRoot != null)
+            indicatorRoot.gameObject.SetActive(false);
     }
 
     void Move()
