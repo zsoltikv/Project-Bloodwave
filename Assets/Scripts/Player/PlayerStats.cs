@@ -152,11 +152,13 @@ public class PlayerStats : MonoBehaviour
     private System.Collections.IEnumerator FlashRed()
     {
         Color originalColor = spriteRenderer.color;
+
         spriteRenderer.color = Color.red;
 
         yield return new WaitForSeconds(0.1f);
 
-        spriteRenderer.color = originalColor;
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.white;
     }
 
     public void Heal(float amount)
@@ -176,6 +178,9 @@ public class PlayerStats : MonoBehaviour
         var movement = GetComponent<PlayerMovement>();
         if (movement != null)
             movement.isAlive = false;
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.white;
 
         StartCoroutine(WaitForDeathAnimation());
     }
