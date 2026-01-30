@@ -710,6 +710,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Content: {fileID: 1427484806}
   SavePrefab: {fileID: 395664254076079489, guid: d728252f63381e7e5b232bd77002c74b, type: 3}
+  popInDuration: 0.25
+  popInDelayStep: 0.04
 --- !u!4 &940684151
 Transform:
   m_ObjectHideFlags: 0
@@ -1388,6 +1390,7 @@ GameObject:
   - component: {fileID: 1733059637}
   - component: {fileID: 1733059636}
   - component: {fileID: 1733059635}
+  - component: {fileID: 1733059638}
   m_Layer: 5
   m_Name: ScrollView
   m_TagString: Untagged
@@ -1460,7 +1463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+  m_Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1485,6 +1488,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733059633}
   m_CullTransparentMesh: 1
+--- !u!114 &1733059638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733059633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1839574515
 GameObject:
   m_ObjectHideFlags: 0

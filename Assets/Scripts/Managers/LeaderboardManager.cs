@@ -3,20 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
-using UnityEngine.UI;
 
 public class LeaderboardManager : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject Content;
     public GameObject SavePrefab;
-
-    [Header("Visuals")]
-    public Color evenRowColor = new Color(0.15f, 0.15f, 0.15f, 0.9f);
-    public Color oddRowColor = new Color(0.10f, 0.10f, 0.10f, 0.9f);
-    public Color firstPlaceColor = new Color(1f, 0.84f, 0.2f);
-    public Color secondPlaceColor = new Color(0.75f, 0.75f, 0.75f);
-    public Color thirdPlaceColor = new Color(0.8f, 0.5f, 0.2f);
 
     [Header("Animation")]
     public float popInDuration = 0.25f;
@@ -53,51 +45,50 @@ public class LeaderboardManager : MonoBehaviour
             return;
         }
 
+        // Töröljük a régi sorokat
         foreach (Transform child in Content.transform)
             Destroy(child.gameObject);
 
+        // Header sor
         var header = Instantiate(SavePrefab, Content.transform);
-        SetRowText(header, "Player", "Level", "Time");
-        SetRowColor(header, new Color(0f, 0f, 0f, 0.85f));
-        header.transform.localScale = Vector3.one * 1.05f;
+        if (header.transform.childCount >= 3)
+        {
+            header.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Player";
+            header.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Level";
+            header.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Time";
+        }
+        header.transform.localScale = Vector3.one * 1.05f; // kicsit nagyobb a header
 
-        saveDataList.Sort((a, b) => b.level.CompareTo(a.level));
-
+        // Mentett adatok sorai
         for (int i = 0; i < saveDataList.Count; i++)
         {
             var save = saveDataList[i];
             var entry = Instantiate(SavePrefab, Content.transform);
 
-            if (i == 0) SetRowColor(entry, firstPlaceColor);
-            else if (i == 1) SetRowColor(entry, secondPlaceColor);
-            else if (i == 2) SetRowColor(entry, thirdPlaceColor);
-            else SetRowColor(entry, (i % 2 == 0) ? evenRowColor : oddRowColor);
+            if (entry.transform.childCount >= 3)
+            {
+                var playerText = entry.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                var levelText = entry.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                var timeText = entry.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
 
-            SetRowText(entry, save.playerName, save.level.ToString(), $"{save.minutes:00}:{save.seconds:00}");
+                playerText.text = save.playerName;
+                levelText.text = save.level.ToString();
+                timeText.text = $"{save.minutes:00}:{save.seconds:00}";
 
+                // Ha ez az elsõ sor, színezzük aranyra
+                if (i == 0)
+                {
+                    Color goldColor = new Color(1f, 0.84f, 0f); // RGB arany
+                    playerText.color = goldColor;
+                    levelText.color = goldColor;
+                    timeText.color = goldColor;
+                }
+            }
+
+            // Pop-in animáció
             entry.transform.localScale = Vector3.zero;
             StartCoroutine(PopIn(entry.transform, i * popInDelayStep));
         }
-    }
-
-    private void SetRowColor(GameObject row, Color color)
-    {
-        var img = row.GetComponent<Image>();
-        if (img != null)
-            img.color = color;
-    }
-
-    private void SetRowText(GameObject row, string player, string level, string time)
-    {
-        if (row.transform.childCount < 3) return;
-
-        var playerText = row.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        var levelText = row.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        var timeText = row.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-
-        if (playerText != null) playerText.text = player;
-        if (levelText != null) levelText.text = level;
-        if (timeText != null) timeText.text = time;
     }
 
     private IEnumerator PopIn(Transform target, float delay)
