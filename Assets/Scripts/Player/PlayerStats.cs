@@ -45,6 +45,7 @@ public class PlayerStats : MonoBehaviour
     [Header("HP Bar")]
     [SerializeField] private Image hpFill;
     [SerializeField] private Image hpDamageFill;
+    [SerializeField] private GameObject hpShake;
     public float hpLerpSpeed = 5f;
 
     [Header("HP Shake")]
@@ -202,7 +203,7 @@ public class PlayerStats : MonoBehaviour
 
     private IEnumerator ShakeHpBar()
     {
-        RectTransform rt = hpFill.GetComponent<RectTransform>();
+        RectTransform rt = hpShake.GetComponent<RectTransform>();
         Vector3 originalPos = rt.anchoredPosition;
 
         float elapsed = 0f;
