@@ -82,6 +82,7 @@ public class PlayerStats : MonoBehaviour
 
     }
 
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -109,6 +110,7 @@ public class PlayerStats : MonoBehaviour
 
         if (!visible)
             canvas.gameObject.SetActive(false);
+    }
             
     private void LateUpdate()
     {
@@ -256,6 +258,7 @@ public class PlayerStats : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.color = Color.white;
 
+        GameManagerScript.instance.GetLevel(Level);
         StartCoroutine(WaitForDeathAnimation());
     }
 

@@ -6,7 +6,8 @@ public class GameManagerScript : MonoBehaviour
 
     public bool FreezeGame = false;
     public bool saveUsedThisRun = false;
-    
+    public int level;
+
     void Awake()
     {
         if (instance == null)
@@ -43,5 +44,9 @@ public class GameManagerScript : MonoBehaviour
             PauseGame();
         }
     }
-
+    
+    public void GetLevel(int _level)
+    {
+        this.level = _level;
+    }
 }

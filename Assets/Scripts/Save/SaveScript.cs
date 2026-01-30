@@ -8,7 +8,6 @@ public class SaveScript : MonoBehaviour
     public GameObject NameInputField;
 
     private string playerName;
-    private int highScore;
     private float time;
 
     RunTimer runTimer;
@@ -43,13 +42,9 @@ public class SaveScript : MonoBehaviour
             }
         }
 
-
+        
         // Score és idő lekérése
-        PlayerStats playerStats = FindAnyObjectByType<PlayerStats>();
-        if (playerStats != null)
-        {
-            highScore = playerStats.score; 
-        }
+        int level = GameManagerScript.instance.level;
 
         time = RunTimer.instance.timeElapsed;
         int minutes = Mathf.FloorToInt(time / 60f);
@@ -60,15 +55,13 @@ public class SaveScript : MonoBehaviour
         SaveData newSave = new SaveData
         {
             playerName = playerName,
-            highScore = highScore,
+            level = level,
             minutes = minutes,
             seconds = seconds
         };
 
         saveDataList.Add(newSave);
         
-        // Rendezés score szerint csökkenő sorrendben
-        saveDataList.Sort((a, b) => b.highScore.CompareTo(a.highScore));
         
         // Maximum 10 bejegyzés megtartása
         if (saveDataList.Count > 10)

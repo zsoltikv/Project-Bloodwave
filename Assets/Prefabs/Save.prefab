@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 5487758905559975964}
   - component: {fileID: 740334315097803924}
   m_Layer: 5
-  m_Name: Score
+  m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: Level
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ae6812e92070ead438e5d29c4ff3125e, type: 2}
   m_sharedMaterial: {fileID: 300099609840616277, guid: ae6812e92070ead438e5d29c4ff3125e, type: 2}
