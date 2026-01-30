@@ -30,6 +30,10 @@ public class PlayerStats : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private ParticleSystem bloodPrefab;
 
+    [Header("Shadow")]
+    [SerializeField] private Transform shadowTransform;
+    [SerializeField] private float shadowYOffset = -0.5f; // Az árnyék mennyire legyen a karakter alatt
+
     [Header("Runtime buffs (optional)")]
 
     public float CooldownMultiplier = 0f;     
@@ -75,6 +79,24 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void LateUpdate()
+    {
+        // Szinkronizálja az árnyék pozícióját és scale-ét a karakterrel
+        if (shadowTransform != null && spriteRenderer != null && Health < 0.01f)
+        {
+            // Az árnyék X scale-e a karakter X scale-ével arányos
+            Vector3 shadowScale = shadowTransform.localScale;
+            shadowScale.x = Mathf.Abs(transform.localScale.x);
+            shadowTransform.localScale = shadowScale;
+
+            // Az árnyék pozícióját a karakter bounds centerének alá tesszük
+            Vector3 shadowPos = shadowTransform.position;
+            shadowPos.x = spriteRenderer.bounds.center.x;
+            shadowPos.y = spriteRenderer.bounds.min.y + shadowYOffset;
+            shadowTransform.position = shadowPos;
+        }
     }
 
     private void SpawnBlood()
