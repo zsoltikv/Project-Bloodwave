@@ -51,6 +51,12 @@ public class PlayerStats : MonoBehaviour
     public Slider xpSlider;
     public float xpLerpSpeed = 6f;
 
+    [Header("Level Up Fade")]
+    [SerializeField] private CanvasGroup levelupCanvasGroup;
+    [SerializeField] private float fadeDuration = 0.4f;
+
+    private Coroutine levelupFadeCoroutine;
+
     private Coroutine xpAnimCoroutine;
 
     [Header("Collected resources")]
@@ -75,6 +81,30 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private IEnumerator FadeCanvas(CanvasGroup canvas, float targetAlpha)
+    {
+        float startAlpha = canvas.alpha;
+        float t = 0f;
+
+        canvas.gameObject.SetActive(true);
+
+        while (!Mathf.Approximately(canvas.alpha, targetAlpha))
+        {
+            t += Time.unscaledDeltaTime / fadeDuration;
+            canvas.alpha = Mathf.Lerp(startAlpha, targetAlpha, t);
+            yield return null;
+        }
+
+        canvas.alpha = targetAlpha;
+
+        bool visible = targetAlpha > 0.9f;
+        canvas.interactable = visible;
+        canvas.blocksRaycasts = visible;
+
+        if (!visible)
+            canvas.gameObject.SetActive(false);
     }
 
     private void SpawnBlood()
@@ -277,7 +307,12 @@ public class PlayerStats : MonoBehaviour
         xpSlider.value = 0f;
 
         GameManagerScript.instance.PauseGame();
-        LevelupPanel.SetActive(true);
+        if (levelupFadeCoroutine != null)
+            StopCoroutine(levelupFadeCoroutine);
+
+        levelupFadeCoroutine = StartCoroutine(
+            FadeCanvas(levelupCanvasGroup, 1f)
+        );
     }
 
     public void AddXP(int amount)
