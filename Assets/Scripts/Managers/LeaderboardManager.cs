@@ -35,6 +35,7 @@ public class LeaderboardManager : MonoBehaviour
         {
             saveDataList = new List<SaveData>();
         }
+        saveDataList.Sort((a, b) => b.level.CompareTo(a.level));
     }
 
     public void PopulateLeaderboard()
