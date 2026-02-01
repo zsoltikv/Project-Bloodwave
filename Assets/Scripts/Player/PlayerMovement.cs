@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("UI Indicator")]
     public RectTransform indicatorRoot;
     public RectTransform innerDot;
-    public float indicatorRadius = 60f;
 
     [Header("Canvas")]
     [SerializeField] private Canvas uiCanvas;
@@ -31,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isAlive = true;
 
+    float radius;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
         aim = GetComponent<AimDirection2D>();
 
         indicatorRoot.gameObject.SetActive(false);
+
+        radius = indicatorRoot.sizeDelta.x * 0.5f;
 
         shadowBaseScale = shadow.localScale;
 
@@ -128,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
         dragVector = localPoint - startPos;
 
-        Vector2 clamped = Vector2.ClampMagnitude(dragVector, indicatorRadius);
+        Vector2 clamped = Vector2.ClampMagnitude(dragVector, radius);
         innerDot.anchoredPosition = clamped;
     }
 
