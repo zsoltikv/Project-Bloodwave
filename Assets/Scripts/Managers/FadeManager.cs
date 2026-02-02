@@ -11,6 +11,9 @@ public class FadeManager : MonoBehaviour
 
     private CanvasGroup canvasGroup;
 
+    private bool _isLoading; 
+    private Coroutine _loadingRoutine;   
+
     private void Awake()
     {
         if (Instance != null)
@@ -38,13 +41,12 @@ public class FadeManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
+        canvasGroup.blocksRaycasts = true;   
         StartCoroutine(FadeIn());
     }
 
     private void CreateFadeCanvas()
     {
-        // Canvas
         GameObject canvasGO = new GameObject("FadeCanvas");
         canvasGO.transform.SetParent(transform);
 
@@ -55,7 +57,6 @@ public class FadeManager : MonoBehaviour
         canvasGO.AddComponent<CanvasScaler>();
         canvasGO.AddComponent<GraphicRaycaster>();
 
-        // Panel
         GameObject panelGO = new GameObject("FadePanel");
         panelGO.transform.SetParent(canvasGO.transform, false);
 
@@ -75,28 +76,29 @@ public class FadeManager : MonoBehaviour
 
     public void LoadSceneWithFade(string sceneName)
     {
-        StartCoroutine(FadeOutAndLoad(sceneName));
+        if (_isLoading) return;        
+        _isLoading = true;
+
+        if (_loadingRoutine != null) StopCoroutine(_loadingRoutine);
+        _loadingRoutine = StartCoroutine(FadeOutAndLoad(sceneName));
     }
 
     private IEnumerator FadeOutAndLoad(string sceneName)
     {
+        canvasGroup.blocksRaycasts = true;
+
         yield return FadeOut();
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
         asyncLoad.allowSceneActivation = false;
 
         while (asyncLoad.progress < 0.9f)
-        {
             yield return null;
-        }
 
         asyncLoad.allowSceneActivation = true;
 
         while (!asyncLoad.isDone)
-        {
             yield return null;
-        }
     }
 
     private IEnumerator FadeOut()
@@ -120,7 +122,11 @@ public class FadeManager : MonoBehaviour
             canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
             yield return null;
         }
+
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
+
+        _isLoading = false;
+        _loadingRoutine = null;
     }
 }
