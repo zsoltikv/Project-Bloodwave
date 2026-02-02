@@ -32,7 +32,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Shadow")]
     [SerializeField] private Transform shadowTransform;
-    [SerializeField] private float shadowYOffset = -0.5f; // Az árnyék mennyire legyen a karakter alatt
+    [SerializeField] private float shadowYOffset = -0.5f;
 
     [Header("Runtime buffs (optional)")]
 
@@ -259,8 +259,23 @@ public class PlayerStats : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.color = Color.white;
 
+        DisableShopAndPause();
+
         GameManagerScript.instance.GetLevel(Level);
         StartCoroutine(WaitForDeathAnimation());
+    }
+    private void DisableShopAndPause()
+    {
+        if (ShopManager.instance != null)
+        {
+            ShopManager.instance.DisableShopUI();
+        }
+
+        PauseGame pause = FindObjectOfType<PauseGame>();
+        if (pause != null)
+        {
+            pause.enabled = false;
+        }
     }
 
     private System.Collections.IEnumerator WaitForDeathAnimation()

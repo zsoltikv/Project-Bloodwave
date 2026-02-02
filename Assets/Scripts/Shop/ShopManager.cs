@@ -28,6 +28,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemBoughtText;
     [SerializeField] private float itemBoughtDuration = 2f;
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject shopButton;
 
     [Header("Animation")]
     [SerializeField] private float animDuration = 0.25f;
@@ -304,6 +305,23 @@ public class ShopManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(itemBoughtDuration);
 
         itemBoughtText.gameObject.SetActive(false);
+    }
+    public void DisableShopUI()
+    {
+        if (animRoutine != null)
+            StopCoroutine(animRoutine);
+
+        if (shopUI != null)
+            shopUI.SetActive(false);
+
+        if (shopButton != null)
+            shopButton.SetActive(false); 
+
+        if (pauseButton != null)
+            pauseButton.SetActive(false); 
+
+        shopCanvasGroup.interactable = false;
+        shopCanvasGroup.blocksRaycasts = false;
     }
 
 }
