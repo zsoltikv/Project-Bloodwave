@@ -6,12 +6,17 @@ using UnityEngine.InputSystem;
 
 public class Intro : MonoBehaviour
 {
-
     public VideoPlayer videoPlayer;
     private bool introSkipped = false;
 
+    private AsyncOperation menuPreload;
+
     IEnumerator Start()
     {
+        Application.backgroundLoadingPriority = ThreadPriority.High;
+        menuPreload = SceneManager.LoadSceneAsync("MenuScene");
+        menuPreload.allowSceneActivation = false;
+
         yield return new WaitForSeconds(0.1f);
 
         videoPlayer.prepareCompleted += OnVideoPrepared;
@@ -41,14 +46,12 @@ public class Intro : MonoBehaviour
     IEnumerator CheckVideoEnd()
     {
         while (videoPlayer.isPlaying && !introSkipped)
-        {
             yield return null;
-        }
 
         if (!introSkipped)
         {
-            FadeManager.Instance.LoadSceneWithFade("MenuScene");
             AchievementManager.Instance.UnlockAchievement("movie_buff");
+            FadeManager.Instance.ActivatePreloadedSceneWithFade(menuPreload);
         }
     }
 
@@ -60,8 +63,6 @@ public class Intro : MonoBehaviour
         if (videoPlayer.isPlaying)
             videoPlayer.Stop();
 
-        FadeManager.Instance.LoadSceneWithFade("MenuScene");
-
+        FadeManager.Instance.ActivatePreloadedSceneWithFade(menuPreload);
     }
-
 }

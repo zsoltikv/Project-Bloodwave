@@ -129,4 +129,31 @@ public class FadeManager : MonoBehaviour
         _isLoading = false;
         _loadingRoutine = null;
     }
+
+    public void ActivatePreloadedSceneWithFade(AsyncOperation preloadedOp)
+    {
+        if (_isLoading) return;
+        if (preloadedOp == null) return;
+
+        _isLoading = true;
+
+        if (_loadingRoutine != null) StopCoroutine(_loadingRoutine);
+        _loadingRoutine = StartCoroutine(FadeOutAndActivate(preloadedOp));
+    }
+
+    private IEnumerator FadeOutAndActivate(AsyncOperation preloadedOp)
+    {
+        canvasGroup.blocksRaycasts = true;
+
+        yield return FadeOut();
+
+        while (preloadedOp.progress < 0.9f)
+            yield return null;
+
+        preloadedOp.allowSceneActivation = true;
+
+        while (!preloadedOp.isDone)
+            yield return null;
+    }
+
 }
