@@ -81,6 +81,11 @@ public class ShopManager : MonoBehaviour
             !ownedWeapons.Contains(item.weaponDefinition)
         ).ToList();
 
+        if ( weaponController.GetWeapons().Count == 3 )
+        {
+            filteredItems = filteredItems.Where(item => item.weaponDefinition == null).ToList();
+        }
+
         List<ShopItem> shuffledItems = new List<ShopItem>(filteredItems);
 
         int itemToSelect = Mathf.Min(3, shuffledItems.Count);
