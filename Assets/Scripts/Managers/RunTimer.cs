@@ -25,11 +25,15 @@ public class RunTimer : MonoBehaviour
     void Update()
     {
         if (!isRunning) return;
+        if (timerText == null)
+        {
+            timerText = GameObject.Find("RunTimerText");
+            if (timerText == null) return;
+        }
 
         timeElapsed += Time.deltaTime;
-        int minutes = Mathf.FloorToInt(timeElapsed / 60f);
-        int seconds = Mathf.FloorToInt(timeElapsed % 60f);
-        timerText.GetComponent<TextMeshProUGUI>().text = $"{minutes:00}:{seconds:00}";
+
+        DisplayTimer(timeElapsed);
     }
 
     public void StopTimer()
@@ -40,5 +44,18 @@ public class RunTimer : MonoBehaviour
     public void StartTimer()
     {
         isRunning = true;
+    }
+
+    public void ResetTimer()
+    {
+        timeElapsed = 0f;
+    }
+
+    public void DisplayTimer(float timeElapsed)
+    {
+        if (timerText == null) return;
+        int minutes = Mathf.FloorToInt(timeElapsed / 60f);
+        int seconds = Mathf.FloorToInt(timeElapsed % 60f);
+        timerText.GetComponent<TextMeshProUGUI>().text = $"{minutes:00}:{seconds:00}";
     }
 }

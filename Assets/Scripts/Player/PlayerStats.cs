@@ -323,6 +323,8 @@ public class PlayerStats : MonoBehaviour
 
     public void LevelUp()
     {
+        if (Health < 0.01f) return;
+
         Level++;
 
         LevelText.GetComponent<TMPro.TextMeshProUGUI>().text =
