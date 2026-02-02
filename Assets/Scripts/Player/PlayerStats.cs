@@ -68,6 +68,8 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] public int XP = 0;
     [SerializeField] public int Coins = 0;
 
+    public int totalKills = 0;
+
     private void Start()
     {
         mainCamera = this.GetComponentInChildren<Camera>();
@@ -82,8 +84,6 @@ public class PlayerStats : MonoBehaviour
         xpSlider.value = XP;
 
     }
-
-
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -156,6 +156,19 @@ public class PlayerStats : MonoBehaviour
 
         return Mathf.RoundToInt(linearPart + exponentialPart);
     }
+    public void AddKill()
+    {
+        totalKills++;
+
+        if (totalKills == 1)
+            AchievementManager.Instance.UnlockAchievement("first_blood");
+        if (totalKills == 10)
+            AchievementManager.Instance.UnlockAchievement("slayer_10");
+        if (totalKills == 50)
+            AchievementManager.Instance.UnlockAchievement("slayer_50");
+        if (totalKills == 100)
+            AchievementManager.Instance.UnlockAchievement("mass_murderer");
+    }
 
     private IEnumerator AnimateXpToTarget(int targetXP)
     {
@@ -173,10 +186,14 @@ public class PlayerStats : MonoBehaviour
 
         xpSlider.value = targetValue;
     }
-
     public void AddCoins(int amount)
     {
         Coins += amount;
+
+        if (Coins >= 1000)
+        {
+            AchievementManager.Instance.UnlockAchievement("rich");
+        }
     }
 
     private Coroutine hpAnimCoroutine;
@@ -263,6 +280,8 @@ public class PlayerStats : MonoBehaviour
 
         GameManagerScript.instance.GetLevel(Level);
         StartCoroutine(WaitForDeathAnimation());
+
+        AchievementManager.Instance.UnlockAchievement("first_steps");
     }
     private void DisableShopAndPause()
     {
@@ -353,6 +372,16 @@ public class PlayerStats : MonoBehaviour
         levelupFadeCoroutine = StartCoroutine(
             FadeCanvas(levelupCanvasGroup, 1f)
         );
+
+        if (Level >= 5)
+        {
+            AchievementManager.Instance.UnlockAchievement("level_5");
+        }
+
+        if (Level >= 10)
+        {
+            AchievementManager.Instance.UnlockAchievement("level_10");
+        }
     }
 
     public void AddXP(int amount)

@@ -41,6 +41,11 @@ public class WeaponController : MonoBehaviour
         var instance = new WeaponInstance(definition);
         weapons.Add(instance);
 
+        if (weapons.Count >= 3)
+        {
+            AchievementManager.Instance.UnlockAchievement("arsenal");
+        }
+
         RefreshAllOrbitingWeapons();
     }
 
@@ -72,6 +77,11 @@ public class WeaponController : MonoBehaviour
             var spawned = weapon.definition.orbitingFactory.Spawn(ctx);
 
             orbitingObjects.AddRange(spawned);
+        }
+
+        if (orbitingObjects.Count > 0)
+        {
+            AchievementManager.Instance.UnlockAchievement("orbit_master");
         }
     }
 

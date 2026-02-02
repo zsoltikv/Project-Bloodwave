@@ -51,7 +51,6 @@ public class EnemyHealth : MonoBehaviour
 
         return dmg;
     }
-
     private void Die()
     {
         var player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStats>();
@@ -59,6 +58,7 @@ public class EnemyHealth : MonoBehaviour
         {
             player.AddXP(xpReward);
             player.AddCoins(coinReward);
+            player.AddKill();
         }
 
         IsDead = true;

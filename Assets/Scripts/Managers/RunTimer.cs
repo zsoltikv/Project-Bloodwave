@@ -30,6 +30,11 @@ public class RunTimer : MonoBehaviour
         int minutes = Mathf.FloorToInt(timeElapsed / 60f);
         int seconds = Mathf.FloorToInt(timeElapsed % 60f);
         timerText.GetComponent<TextMeshProUGUI>().text = $"{minutes:00}:{seconds:00}";
+
+        if (timeElapsed >= 300f)
+        {
+            AchievementManager.Instance.UnlockAchievement("survivor_5min");
+        }
     }
 
     public void StopTimer()
