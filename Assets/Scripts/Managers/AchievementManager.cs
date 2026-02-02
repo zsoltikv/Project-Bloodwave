@@ -31,7 +31,7 @@ public class AchievementManager : MonoBehaviour
 
         // Early gameplay milestones
         achievements.Add(new Achievement("first_steps", "First Steps", "Complete your first run"));
-        achievements.Add(new Achievement("first_pause", "Taking a Break", "Pause the game for the first time"));
+        achievements.Add(new Achievement("first_pause", "Taking a Break", "Pause the game"));
         achievements.Add(new Achievement("first_restart", "First Restart", "Restart the game"));
         achievements.Add(new Achievement("first_save", "First Save", "Save for the first time"));
 
@@ -56,7 +56,7 @@ public class AchievementManager : MonoBehaviour
         achievements.Add(new Achievement("survivor_5min", "Survivor", "Survive for 5 minutes"));
 
         // Fun / miscellaneous
-        achievements.Add(new Achievement("music_lover", "Music Lover", "Started your first gameplay track"));
+        achievements.Add(new Achievement("music_lover", "Music Lover", "Started your first music"));
         achievements.Add(new Achievement("completionist", "Completionist", "Unlock all achievements"));
     }
 
