@@ -13,6 +13,10 @@ public class AchievementUIManager : MonoBehaviour
     public TextMeshProUGUI progressText;
     public Button backButton;
 
+    [Header("Font Assets")]
+    [SerializeField] private TMPro.TMP_FontAsset unlockedFont;
+    [SerializeField] private TMPro.TMP_FontAsset lockedFont;
+
     void Start()
     {
         if (backButton != null)
@@ -72,6 +76,8 @@ public class AchievementUIManager : MonoBehaviour
                 {
                     statusText.text = achievement.isUnlocked ? "UNLOCKED" : "LOCKED";
                     statusText.color = achievement.isUnlocked ? new Color32(0, 255, 0, 255) : new Color32(255, 0, 0, 255);
+
+                    statusText.font = achievement.isUnlocked ? unlockedFont : lockedFont;
                 }
             }
 
@@ -81,14 +87,13 @@ public class AchievementUIManager : MonoBehaviour
                 background.color = achievement.isUnlocked ? new Color(0.09f, 0.18f, 0.09f, 0.8f) : new Color(0.027f, 0.027f, 0.027f, 0.8f);
             }
 
-
         }
 
         if (progressText != null)
         {
             int unlocked = AchievementManager.Instance.GetUnlockedCount();
             int total = AchievementManager.Instance.GetTotalCount();
-            progressText.text = "Achievements: " + unlocked + " / " + total;
+            progressText.text = "Progress: " + unlocked + " / " + total;
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(achievementContainer.transform as RectTransform);

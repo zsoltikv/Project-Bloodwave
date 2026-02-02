@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
         "MenuScene",
         "HowToPlayScene",
         "LeaderboardScene",
-        "AchievementsScene",
+        "AchievementScene",
         "GameOverScene"
     };
 
@@ -75,13 +75,15 @@ public class AudioManager : MonoBehaviour
         musicSource.clip = menuMusic;
         musicSource.Play();
     }
-
     private void StartGameplayMusic()
     {
         if (isInGameplay)
             return;
 
         isInGameplay = true;
+
+        AchievementManager.Instance.UnlockAchievement("music_lover");
+
         musicSource.loop = false;
         PlayRandomGameplayTrack();
     }

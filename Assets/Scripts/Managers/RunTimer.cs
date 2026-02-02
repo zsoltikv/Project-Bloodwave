@@ -33,6 +33,11 @@ public class RunTimer : MonoBehaviour
 
         timeElapsed += Time.deltaTime;
 
+        if (timeElapsed >= 300f)
+        {
+            AchievementManager.Instance.UnlockAchievement("survivor_5min");
+        }
+
         DisplayTimer(timeElapsed);
     }
 

@@ -61,8 +61,19 @@ public class SaveScript : MonoBehaviour
         };
 
         saveDataList.Add(newSave);
-        
-        
+
+        // Achievement: első mentés
+        if (saveDataList.Count == 1)
+        {
+            AchievementManager.Instance.UnlockAchievement("first_save");
+        }
+
+        // Achievement: top 10 elérve
+        if (saveDataList.Count == 10)
+        {
+            AchievementManager.Instance.UnlockAchievement("leaderboard_master");
+        }
+
         // Maximum 10 bejegyzés megtartása
         if (saveDataList.Count > 10)
         {

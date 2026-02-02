@@ -38,6 +38,11 @@ public class PauseGame : MonoBehaviour
 
     public void TogglePauseUI()
     {
+        if (!isPaused)
+        {
+            AchievementManager.Instance.UnlockAchievement("first_pause");
+        }
+
         if (pauseUI == null) return;
 
         if (ShopManager.instance != null && ShopManager.instance.IsShopOpen())

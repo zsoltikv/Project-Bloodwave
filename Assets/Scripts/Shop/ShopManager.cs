@@ -40,6 +40,7 @@ public class ShopManager : MonoBehaviour
 
     private float nextRefreshTime;
 
+    private int totalPurchases = 0;
     void Awake()
     {
         if (instance == null) {
@@ -131,10 +132,9 @@ public class ShopManager : MonoBehaviour
         OnShopRefreshed?.Invoke();
         Debug.Log("Shop refresh completed.");
     }
-
-
     public bool PurchaseItem(ShopItem item)
     {
+        AchievementManager.Instance.UnlockAchievement("shopaholic");
         if (item == null)
         {
             OnPurchaseFailed?.Invoke("Invalid item");
@@ -162,12 +162,18 @@ public class ShopManager : MonoBehaviour
             coinDisplay.text = $"Coins: {playerStats.Coins}";
             OnItemPurchased?.Invoke(item);
 
+            AchievementManager.Instance.UnlockAchievement("shopaholic");
+
+            totalPurchases++;
+            if (totalPurchases == 10)
+            {
+                AchievementManager.Instance.UnlockAchievement("collector");
+            }
+
             if (itemBoughtRoutine != null)
                 StopCoroutine(itemBoughtRoutine);
-
             itemBoughtRoutine = StartCoroutine(ShowItemBought(item.itemName));
 
-            Debug.Log($"Purchased: {item.itemName} for {item.price} Coins");
             RefreshShop();
             return true;
         }
