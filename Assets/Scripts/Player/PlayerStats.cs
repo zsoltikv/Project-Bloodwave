@@ -87,6 +87,9 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        GameManagerScript.instance.ResumeGame();
+        RunTimer.instance.ResetTimer();
+        RunTimer.instance.StartTimer();
     }
 
     private IEnumerator FadeCanvas(CanvasGroup canvas, float targetAlpha)
