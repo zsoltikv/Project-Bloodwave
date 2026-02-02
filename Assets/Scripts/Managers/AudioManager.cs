@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
         "MenuScene",
         "HowToPlayScene",
         "LeaderboardScene",
-        "AchievementsScene",
+        "AchievementScene",
         "GameOverScene"
     };
 
