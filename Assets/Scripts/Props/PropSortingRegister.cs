@@ -5,7 +5,7 @@ public class PropSortingRegister : MonoBehaviour
 {
     public Transform propBottom;
 
-    void Awake()
+    void Start()
     {
         if (propBottom == null)
         {
