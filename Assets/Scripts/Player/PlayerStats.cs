@@ -104,6 +104,7 @@ public class PlayerStats : MonoBehaviour
         xpSlider.minValue = 0;
         xpSlider.maxValue = CalculateXPForLevel(Level);
         xpSlider.value = XP;
+        xpSlider.interactable = false;
 
     }
     private void Awake()
