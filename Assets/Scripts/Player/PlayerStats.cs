@@ -387,6 +387,8 @@ public class PlayerStats : MonoBehaviour
         {
             AchievementManager.Instance.UnlockAchievement("level_10");
         }
+
+        Heal(MaxHealth * 0.25f);
     }
 
     public void AddXP(int amount)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class WeaponController : MonoBehaviour
 {
@@ -81,7 +82,10 @@ public class WeaponController : MonoBehaviour
 
         if (orbitingObjects.Count > 0)
         {
-            AchievementManager.Instance.UnlockAchievement("orbit_master");
+            if (AchievementManager.Instance != null) 
+            {
+                AchievementManager.Instance.UnlockAchievement("orbit_master");
+            }
         }
     }
 
