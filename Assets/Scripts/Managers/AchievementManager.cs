@@ -25,23 +25,41 @@ public class AchievementManager : MonoBehaviour
     {
         achievements.Clear();
 
-        // Tutorial / Intro
         achievements.Add(new Achievement("first_time_player", "First Time", "Visit How To Play"));
         achievements.Add(new Achievement("movie_buff", "Movie Buff", "Watch the intro video"));
 
-        // Early gameplay milestones
-        achievements.Add(new Achievement("first_steps", "First Steps", "Complete your first run"));
         achievements.Add(new Achievement("first_pause", "Taking a Break", "Pause the game"));
         achievements.Add(new Achievement("first_restart", "First Restart", "Restart the game"));
         achievements.Add(new Achievement("first_save", "First Save", "Save for the first time"));
+        achievements.Add(new Achievement("first_steps", "First Steps", "Complete your first run"));
 
-        // Combat achievements
         achievements.Add(new Achievement("first_blood", "First Blood", "Kill your first enemy"));
         achievements.Add(new Achievement("slayer_10", "Slayer", "Kill 10 enemies"));
         achievements.Add(new Achievement("slayer_50", "Slayer Master", "Kill 50 enemies"));
         achievements.Add(new Achievement("mass_murderer", "Mass Murderer", "Kill 100 enemies"));
 
-        // --- Weapon upgrade achievements ---
+        achievements.Add(new Achievement("multi_kill_10", "Boom!", "Kill 10 enemies within 2 seconds"));
+        achievements.Add(new Achievement("multi_kill_20", "Nuke!", "Kill 20 enemies within 3 seconds"));
+
+        achievements.Add(new Achievement("no_hit_2min", "Untouchable", "Survive for 2 minutes without taking damage"));
+        achievements.Add(new Achievement("tank_500", "Iron Skin", "Take 500 total damage in a single run and survive"));
+
+        achievements.Add(new Achievement("die_fast_15s", "Oops", "Die within 15 seconds"));
+        achievements.Add(new Achievement("no_pause_run", "No Breaks", "Complete a run without pausing"));
+        achievements.Add(new Achievement("afk_30s", "Statue", "Don't move for 30 seconds and survive"));
+
+        achievements.Add(new Achievement("survivor_5min", "Survivor", "Survive for 5 minutes"));
+        achievements.Add(new Achievement("survivor_10min", "Endurer", "Survive for 10 minutes"));
+        achievements.Add(new Achievement("survivor_15min", "Unbreakable", "Survive for 15 minutes"));
+        achievements.Add(new Achievement("survivor_30min", "Immortal Run", "Survive for 30 minutes"));
+
+        achievements.Add(new Achievement("level_5", "Getting Stronger", "Reach level 5"));
+        achievements.Add(new Achievement("level_10", "Veteran", "Reach level 10"));
+        achievements.Add(new Achievement("level_15", "Elite", "Reach level 15"));
+        achievements.Add(new Achievement("level_20", "Master", "Reach level 20"));
+        achievements.Add(new Achievement("level_25", "Legend", "Reach level 25"));
+        achievements.Add(new Achievement("level_50", "Immortal", "Reach level 50"));
+
         achievements.Add(new Achievement("first_weapon_upgrade", "First Upgrade", "Apply your first weapon upgrade."));
         achievements.Add(new Achievement("upgrade_damage_once", "Hard Hitter", "Apply a Damage upgrade."));
         achievements.Add(new Achievement("upgrade_projectiles_once", "More Bullets", "Apply a Projectile Count upgrade."));
@@ -52,32 +70,25 @@ public class AchievementManager : MonoBehaviour
         achievements.Add(new Achievement("weapon_level_5", "Weapon Specialist", "Level up a weapon to level 5."));
         achievements.Add(new Achievement("weapon_level_10", "Weapon Master", "Level up a weapon to level 10."));
 
-        // Threshold-based (your multipliers / bonuses)
         achievements.Add(new Achievement("projectiles_bonus_3", "Bullet Storm", "Get +3 bonus projectiles on a weapon."));
         achievements.Add(new Achievement("cooldown_50", "Machine Gun", "Reduce a weapon's cooldown by 50% or more."));
         achievements.Add(new Achievement("range_150", "Sniper Range", "Increase a weapon's range to 150% or more."));
         achievements.Add(new Achievement("orbitalspeed_200", "Hyper Orbit", "Increase orbital speed to 200% or more."));
 
-        // Player progression
-        achievements.Add(new Achievement("level_5", "Getting Stronger", "Reach level 5"));
-        achievements.Add(new Achievement("level_10", "Veteran", "Reach level 10"));
-        achievements.Add(new Achievement("level_15", "Elite", "Reach level 15"));
-        achievements.Add(new Achievement("level_20", "Master", "Reach level 20"));
-        achievements.Add(new Achievement("level_25", "Legend", "Reach level 25"));
-        achievements.Add(new Achievement("level_50", "Immortal", "Reach level 50"));
-
-        // Collection / shop achievements
         achievements.Add(new Achievement("rich", "Rich", "Collect 1000 coins"));
         achievements.Add(new Achievement("shopaholic", "Shopaholic", "Buy your first item"));
+        achievements.Add(new Achievement("shop_clear_10", "Bought Out", "Buy 10 shop items in a single run"));
         achievements.Add(new Achievement("collector", "Collector", "Buy 10 items in total"));
+        achievements.Add(new Achievement("big_spender", "Big Spender", "Spend 5000 coins in total"));
+
         achievements.Add(new Achievement("arsenal", "Arsenal", "Hold 3 weapons at once"));
         achievements.Add(new Achievement("orbit_master", "Orbit Master", "Activate an orbiting weapon"));
 
-        // Survival
-        achievements.Add(new Achievement("survivor_5min", "Survivor", "Survive for 5 minutes"));
-
-        // Fun / miscellaneous
         achievements.Add(new Achievement("music_lover", "Music Lover", "Started your first music"));
+
+        achievements.Add(new Achievement("unlock_10_achievements", "Collector I", "Unlock 10 achievements"));
+        achievements.Add(new Achievement("unlock_25_achievements", "Collector II", "Unlock 25 achievements"));
+
         achievements.Add(new Achievement("completionist", "Completionist", "Unlock all achievements"));
     }
 
@@ -98,6 +109,7 @@ public class AchievementManager : MonoBehaviour
             achievement.isUnlocked = true;
             SaveAchievements();
             Debug.Log("Achievement Unlocked: " + achievement.title);
+            CheckMilestoneAchievements();
 
             if (achievementId != "completionist" &&
                 GetUnlockedCount() == GetTotalCount() - 1)
@@ -186,5 +198,18 @@ public class AchievementManager : MonoBehaviour
                 }
             }
         }
+        CheckMilestoneAchievements();
     }
+
+    private void CheckMilestoneAchievements()
+    {
+        int unlocked = GetUnlockedCount();
+
+        if (unlocked >= 10)
+            UnlockAchievement("unlock_10_achievements");
+
+        if (unlocked >= 25)
+            UnlockAchievement("unlock_25_achievements");
+    }
+
 }

@@ -41,6 +41,11 @@ public class ShopManager : MonoBehaviour
     private float nextRefreshTime;
 
     private int totalPurchases = 0;
+
+    private const string TotalSpentKey = "TotalCoinsSpent";
+    private int totalCoinsSpent = 0;
+    private bool bigSpenderUnlocked = false;
+
     void Awake()
     {
         if (instance == null) {
@@ -55,9 +60,13 @@ public class ShopManager : MonoBehaviour
         shopCanvasGroup = shopUI.GetComponent<CanvasGroup>();
         originalScale = shopUI.transform.localScale;
         itemBoughtText.gameObject.SetActive(false);
+
+        totalCoinsSpent = PlayerPrefs.GetInt(TotalSpentKey, 0);
+        bigSpenderUnlocked = AchievementManager.Instance.IsAchievementUnlocked("big_spender");
     }
 
     void Start() {
+        totalPurchases = 0;
         RefreshShop();
         nextRefreshTime = Time.time + refreshinterval;
     }
@@ -162,12 +171,13 @@ public class ShopManager : MonoBehaviour
             coinDisplay.text = $"Coins: {playerStats.Coins}";
             OnItemPurchased?.Invoke(item);
 
-            AchievementManager.Instance.UnlockAchievement("shopaholic");
+            AddLifetimeSpent(item.price);
 
             totalPurchases++;
             if (totalPurchases == 10)
             {
                 AchievementManager.Instance.UnlockAchievement("collector");
+                AchievementManager.Instance.UnlockAchievement("shop_clear_10");
             }
 
             if (itemBoughtRoutine != null)
@@ -333,6 +343,21 @@ public class ShopManager : MonoBehaviour
 
         shopCanvasGroup.interactable = false;
         shopCanvasGroup.blocksRaycasts = false;
+    }
+
+    private void AddLifetimeSpent(int amount)
+    {
+        if (amount <= 0) return;
+
+        totalCoinsSpent += amount;
+        PlayerPrefs.SetInt(TotalSpentKey, totalCoinsSpent);
+        PlayerPrefs.Save();
+
+        if (!bigSpenderUnlocked && totalCoinsSpent >= 5000)
+        {
+            bigSpenderUnlocked = true;
+            AchievementManager.Instance.UnlockAchievement("big_spender");
+        }
     }
 
 }

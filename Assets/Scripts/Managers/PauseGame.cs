@@ -15,6 +15,8 @@ public class PauseGame : MonoBehaviour
     private Coroutine animRoutine;
     private bool isPaused;
 
+    public static bool PausedThisRun = false;
+
     void Awake()
     {
         if (pauseUI == null) return;
@@ -36,6 +38,11 @@ public class PauseGame : MonoBehaviour
         }
     }
 
+    public static void ResetRunPauseFlag()
+    {
+        PausedThisRun = false;
+    }
+
     public void TogglePauseUI()
     {
         if (!isPaused)
@@ -49,6 +56,11 @@ public class PauseGame : MonoBehaviour
             return;
 
         isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            PausedThisRun = true;
+        }
 
         if (animRoutine != null)
             StopCoroutine(animRoutine);

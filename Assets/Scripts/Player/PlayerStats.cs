@@ -70,6 +70,28 @@ public class PlayerStats : MonoBehaviour
 
     public int totalKills = 0;
 
+    private float noHitTime = 0f;
+    private bool noHitUnlocked = false;
+
+    private readonly System.Collections.Generic.List<float> recentKillTimes = new System.Collections.Generic.List<float>();
+    private bool multiKillUnlocked = false;
+
+    private const float multiKillWindow = 2f;
+    private const int multiKillRequired = 10;
+
+    private Vector3 lastPos;
+    private float afkTime = 0f;
+    private bool afkUnlocked = false;
+
+    private float damageTakenThisRun = 0f;
+    private bool tank500Unlocked = false;
+
+    private bool multiKill20Unlocked = false;
+    private const float multiKill20Window = 3f;
+    private const int multiKill20Required = 20;
+
+    [SerializeField] private float moveEpsilon = 0.01f;
+
     private void Start()
     {
         mainCamera = this.GetComponentInChildren<Camera>();
@@ -89,7 +111,59 @@ public class PlayerStats : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         GameManagerScript.instance.ResumeGame();
         RunTimer.instance.ResetTimer();
+        PauseGame.ResetRunPauseFlag();
         RunTimer.instance.StartTimer();
+
+        noHitTime = 0f;
+        noHitUnlocked = false;
+
+        lastPos = transform.position;
+        afkTime = 0f;
+        afkUnlocked = false;
+
+        damageTakenThisRun = 0f;
+        tank500Unlocked = false;
+
+        multiKillUnlocked = false;
+        multiKill20Unlocked = false;
+        recentKillTimes.Clear();
+    }
+    private void Update()
+    {
+        if (Health <= 0.01f) return;
+
+        if (!noHitUnlocked)
+        {
+            noHitTime += Time.deltaTime;
+            if (noHitTime >= 120f)
+            {
+                noHitUnlocked = true;
+                AchievementManager.Instance.UnlockAchievement("no_hit_2min");
+            }
+        }
+
+        if (!afkUnlocked)
+        {
+            Vector3 currentPos = transform.position;
+            float moved = (currentPos - lastPos).sqrMagnitude;
+
+            if (moved <= moveEpsilon * moveEpsilon)
+            {
+                afkTime += Time.deltaTime;
+
+                if (afkTime >= 30f)
+                {
+                    afkUnlocked = true;
+                    AchievementManager.Instance.UnlockAchievement("afk_30s");
+                }
+            }
+            else
+            {
+                afkTime = 0f; 
+            }
+
+            lastPos = currentPos;
+        }
     }
 
     private IEnumerator FadeCanvas(CanvasGroup canvas, float targetAlpha)
@@ -171,8 +245,41 @@ public class PlayerStats : MonoBehaviour
             AchievementManager.Instance.UnlockAchievement("slayer_50");
         if (totalKills == 100)
             AchievementManager.Instance.UnlockAchievement("mass_murderer");
-    }
 
+        if (!multiKillUnlocked || !multiKill20Unlocked)
+        {
+            float now = Time.time;
+            recentKillTimes.Add(now);
+
+            for (int i = recentKillTimes.Count - 1; i >= 0; i--)
+            {
+                if (now - recentKillTimes[i] > multiKill20Window)
+                    recentKillTimes.RemoveAt(i);
+            }
+
+            if (!multiKill20Unlocked && recentKillTimes.Count >= multiKill20Required)
+            {
+                multiKill20Unlocked = true;
+                AchievementManager.Instance.UnlockAchievement("multi_kill_20");
+            }
+
+            if (!multiKillUnlocked)
+            {
+                int count2s = 0;
+                for (int i = recentKillTimes.Count - 1; i >= 0; i--)
+                {
+                    if (now - recentKillTimes[i] <= multiKillWindow)
+                        count2s++;
+                }
+
+                if (count2s >= multiKillRequired)
+                {
+                    multiKillUnlocked = true;
+                    AchievementManager.Instance.UnlockAchievement("multi_kill_10");
+                }
+            }
+        }
+    }
     private IEnumerator AnimateXpToTarget(int targetXP)
     {
         float startValue = xpSlider.value;
@@ -203,8 +310,27 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (amount > 0f)
+        {
+            noHitTime = 0f;
+
+            // --- tank_500 tracker (csak a ténylegesen levont sebzést számoljuk) ---
+            if (!tank500Unlocked)
+            {
+                float effectiveDamage = Mathf.Min(amount, Health);
+                damageTakenThisRun += effectiveDamage;
+            }
+        }
+
         Health -= amount;
         if (Health < 0) Health = 0;
+
+        // tank_500 unlock csak akkor, ha életben maradtál a hit után
+        if (!tank500Unlocked && Health > 0f && damageTakenThisRun >= 500f)
+        {
+            tank500Unlocked = true;
+            AchievementManager.Instance.UnlockAchievement("tank_500");
+        }
 
         if (hpAnimCoroutine != null) StopCoroutine(hpAnimCoroutine);
         hpAnimCoroutine = StartCoroutine(AnimateHpChange());
@@ -266,6 +392,17 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
+
+        if (!PauseGame.PausedThisRun)
+        {
+            AchievementManager.Instance.UnlockAchievement("no_pause_run");
+        }
+
+        if (RunTimer.instance != null && RunTimer.instance.timeElapsed > 0f && RunTimer.instance.timeElapsed <= 15f)
+        {
+            AchievementManager.Instance.UnlockAchievement("die_fast_15s");
+        }
+
         RunTimer.instance.StopTimer();
         animator.SetBool("isDead", true);
 

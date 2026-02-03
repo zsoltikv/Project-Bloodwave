@@ -21,10 +21,10 @@ public class RunTimer : MonoBehaviour
         }
         StartTimer();
     }
-
     void Update()
     {
         if (!isRunning) return;
+
         if (timerText == null)
         {
             timerText = GameObject.Find("RunTimerText");
@@ -34,9 +34,16 @@ public class RunTimer : MonoBehaviour
         timeElapsed += Time.deltaTime;
 
         if (timeElapsed >= 300f)
-        {
             AchievementManager.Instance.UnlockAchievement("survivor_5min");
-        }
+
+        if (timeElapsed >= 600f)
+            AchievementManager.Instance.UnlockAchievement("survivor_10min");
+
+        if (timeElapsed >= 900f)
+            AchievementManager.Instance.UnlockAchievement("survivor_15min");
+
+        if (timeElapsed >= 1800f)
+            AchievementManager.Instance.UnlockAchievement("survivor_30min");
 
         DisplayTimer(timeElapsed);
     }
