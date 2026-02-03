@@ -189,11 +189,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
-  baseSpeed: 3.25
+  currentHealth: 0
+  baseSpeed: 2.5
   baseDamage: 2
   currentSpeed: 0
   xpReward: 20
-  coinReward: 1
+  coinReward: 5
   isSlowed: 0
   isBleeding: 0
   IsDead: 0

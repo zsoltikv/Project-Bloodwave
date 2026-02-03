@@ -286,6 +286,7 @@ public class PlayerStats : MonoBehaviour
 
         AchievementManager.Instance.UnlockAchievement("first_steps");
     }
+    
     private void DisableShopAndPause()
     {
         if (ShopManager.instance != null)

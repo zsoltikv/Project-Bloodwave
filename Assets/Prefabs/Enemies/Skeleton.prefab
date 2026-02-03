@@ -282,7 +282,7 @@ MonoBehaviour:
   baseDamage: 10
   currentSpeed: 0
   xpReward: 10
-  coinReward: 1
+  coinReward: 3
   isSlowed: 0
   isBleeding: 0
   IsDead: 0
