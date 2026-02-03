@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6316969012669255189}
   - component: {fileID: 5070494694285527763}
   - component: {fileID: 1411299929606040471}
+  - component: {fileID: -8320308799286849596}
   m_Layer: 6
   m_Name: Golem
   m_TagString: Enemy
@@ -154,18 +155,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905bcaddd07cba147b60f74666aad0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feetPoint: {fileID: 0}
-  detectionDistance: 2
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 65
-  avoidanceAngle: 30
-  obstacleAvoidanceDistance: 0.8
-  stuckCheckTime: 1
-  minMoveDistance: 0.08
-  maxStuckAttempts: 3
-  rotationSmoothness: 6
-  accelerationSpeed: 10
+  approachMode: 0
+  modeChangeInterval: 5
+  randomizeModeOnStart: 0
+  changeModePeriodically: 0
+  straightStoppingDistance: 0.5
+  circleRadius: 3
+  circleSpeed: 2
+  circleClockwise: 1
+  zigzagAmplitude: 2
+  zigzagFrequency: 1
+  strafeDistance: 4
+  strafeRange: 3
+  strafeChangeInterval: 2
+  ambushDistance: 6
+  ambushWaitTime: 1
+  ambushChargeSpeed: 8
+  retreatDistance: 5
+  retreatDuration: 2
+  retreatCooldown: 5
 --- !u!114 &5070494694285527763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,14 +187,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 250
+  currentHealth: 0
   baseSpeed: 1
+  baseDamage: 10
   currentSpeed: 0
   xpReward: 30
-  coinReward: 50
+  coinReward: 500
   isSlowed: 0
   isBleeding: 0
   IsDead: 0
   damageTextWorldOffset: {x: 0, y: 0.6, z: 0}
+  bloodPrefab: {fileID: 0}
 --- !u!60 &1411299929606040471
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -241,6 +252,28 @@ PolygonCollider2D:
       - {x: 0.155, y: 0.17999999}
       - {x: 0.125, y: 0.19}
   m_UseDelaunayMesh: 0
+--- !u!195 &-8320308799286849596
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940687897850782227}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.165
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.5
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7820726545883305021
 GameObject:
   m_ObjectHideFlags: 0

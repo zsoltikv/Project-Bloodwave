@@ -12,6 +12,14 @@ public class EnemySpawnData
     [Range(0f, 1f)] public float spawnWeight = 1f;
     [Tooltip("Ha true, ez az enemy típus mindig spawnolja a többi típust is")]
     public bool alwaysSpawn = false;
+    
+    [Header("Player Relative Scaling")]
+    [Tooltip("Az enemy HP növekedése a player damage alapján (eredeti HP * (player damage - 1) * ez az érték)")]
+    public float healthScaleToPlayerDamage = 1.0f;
+    [Tooltip("Az enemy damage a player MaxHealth %-ában (eredeti damage + player HP * ez az érték)")]
+    public float damageScaleToPlayerHealth = 0.1f;
+    [Tooltip("Az enemy sebessége szorzó")]
+    public float speedScaleToPlayer = 1.0f;
 }
 
 public class EnemySpawner : MonoBehaviour
@@ -230,14 +238,34 @@ public class EnemySpawner : MonoBehaviour
 
         // Enemy stats beállítása
         var health = enemy.GetComponent<EnemyHealth>();
-        if (health != null)
+        if (health != null && playerStats != null)
         {
-            // HP növelés a health difficulty multiplier alapján
+            // Player statjaihoz viszonyított scaling
+            float playerMaxHealth = playerStats.MaxHealth;
+            float avgWeaponDamage = GetAverageWeaponDamage();
+            
+            // HP: Az enemy prefab eredeti HP-ja + (eredeti HP * átlag weapon damage scaling)
+            // Az avgWeaponDamage kb. 10-50 között van, így normalizzáljuk
+            float normalizedDamage = avgWeaponDamage / 10f; // 10-es weapon damage = 1.0 multiplier
+            float originalHP = health.maxHealth;
+            float bonusHP = originalHP * (normalizedDamage - 1f) * selectedEnemy.healthScaleToPlayerDamage;
+            health.maxHealth = originalHP + Mathf.Max(0, bonusHP); // Minimum 0 bonus
+            
+            // Damage: Eredeti damage + (player MaxHealth * scaling)
+            float originalDamage = health.baseDamage;
+            health.baseDamage = originalDamage + (playerMaxHealth * selectedEnemy.damageScaleToPlayerHealth);
+            
+            // Speed beállítása
+            health.baseSpeed *= selectedEnemy.speedScaleToPlayer;
+            
+            // Hozzáadjuk a difficulty multipliereket (ez még mindig érvényes, így egyre nehezebb lesz)
             health.maxHealth *= 1 + healthDifficultyMultiplier;
+            health.baseDamage *= 1 + (healthDifficultyMultiplier * 0.5f); // Damage is növekszik de kevésbé
             
             if (isElite)
             {
                 health.maxHealth *= eliteHealthMultiplier;
+                health.baseDamage *= eliteHealthMultiplier;
                 health.baseSpeed *= eliteSpeedMultiplier;
                 enemy.transform.localScale *= eliteScaleMultiplier;
                 
@@ -359,5 +387,32 @@ public class EnemySpawner : MonoBehaviour
     public float GetCurrentHealthDifficulty()
     {
         return healthDifficultyMultiplier;
+    }
+
+    // Kiszámolja az átlagos weapon damage-t a playernek
+    private float GetAverageWeaponDamage()
+    {
+        var weaponController = player.GetComponent<WeaponController>();
+        if (weaponController == null) return 1f;
+
+        var weapons = weaponController.GetWeapons();
+        if (weapons == null || weapons.Count == 0) return 1f;
+
+        float totalDamage = 0f;
+        int weaponCount = 0;
+
+        foreach (var weapon in weapons)
+        {
+            if (weapon != null && weapon.definition != null)
+            {
+                // GetDamage() már tartalmazza az összes bonuszt
+                totalDamage += weapon.GetDamage();
+                weaponCount++;
+            }
+        }
+
+        if (weaponCount == 0) return 1f;
+
+        return totalDamage / weaponCount;
     }
 }
