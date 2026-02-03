@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: ba8aea9204633e44a887caf766b1ebcf
+guid: 3e16a06d15d44276ead597b6b1703fe1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7216349142040753000
-    second: achievement_bg_0
+      213: -488977133151079328
+    second: first_time_0
+  - first:
+      213: 5813438600729905972
+    second: first_time_1
+  - first:
+      213: 8267745383652678833
+    second: first_time_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: achievement_bg_0
+      name: first_time_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 720
-        height: 1280
+        x: 14
+        y: 8
+        width: 1008
+        height: 1011
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 863b8829f4f952460800000000000000
-      internalID: 7216349142040753000
+      spriteID: 064bd3b53edc639f0800000000000000
+      internalID: -488977133151079328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: first_time_1
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 633
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43bcc004b9b7da050800000000000000
+      internalID: 5813438600729905972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: first_time_2
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 128
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bc5efd3f9eecb270800000000000000
+      internalID: 8267745383652678833
       vertices: []
       indices: 
       edges: []
@@ -147,8 +197,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      achievement_bg_0: 7216349142040753000
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
