@@ -710,7 +710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Content: {fileID: 1427484806}
   SavePrefab: {fileID: 395664254076079489, guid: d728252f63381e7e5b232bd77002c74b, type: 3}
-  popInDuration: 0.25
+  popInDuration: 1
   popInDelayStep: 0.04
 --- !u!4 &940684151
 Transform:

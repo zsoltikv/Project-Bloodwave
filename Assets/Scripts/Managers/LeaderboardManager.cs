@@ -46,11 +46,9 @@ public class LeaderboardManager : MonoBehaviour
             return;
         }
 
-        // Töröljük a régi sorokat
         foreach (Transform child in Content.transform)
             Destroy(child.gameObject);
 
-        // Header sor
         var header = Instantiate(SavePrefab, Content.transform);
         if (header.transform.childCount >= 3)
         {
@@ -58,9 +56,8 @@ public class LeaderboardManager : MonoBehaviour
             header.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Level";
             header.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Time";
         }
-        header.transform.localScale = Vector3.one * 1.05f; // kicsit nagyobb a header
+        header.transform.localScale = Vector3.one * 1.05f; 
 
-        // Mentett adatok sorai
         for (int i = 0; i < saveDataList.Count; i++)
         {
             var save = saveDataList[i];
@@ -76,17 +73,15 @@ public class LeaderboardManager : MonoBehaviour
                 levelText.text = save.level.ToString();
                 timeText.text = $"{save.minutes:00}:{save.seconds:00}";
 
-                // Ha ez az elsõ sor, színezzük aranyra
                 if (i == 0)
                 {
-                    Color goldColor = new Color(1f, 0.84f, 0f); // RGB arany
+                    Color goldColor = new Color(1f, 0.84f, 0f); 
                     playerText.color = goldColor;
                     levelText.color = goldColor;
                     timeText.color = goldColor;
                 }
             }
 
-            // Pop-in animáció
             entry.transform.localScale = Vector3.zero;
             StartCoroutine(PopIn(entry.transform, i * popInDelayStep));
         }
