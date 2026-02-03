@@ -88,6 +88,20 @@ public class AchievementUIManager : MonoBehaviour
                 }
             }
 
+            Transform iconTransform = item.transform.Find("Icon");
+            if (iconTransform != null)
+            {
+                RawImage iconImage = iconTransform.GetComponent<RawImage>();
+                if (iconImage != null)
+                {
+                    Texture2D iconTexture = Resources.Load<Texture2D>("Achievement_Icons/" + achievement.id);
+                    if (iconTexture != null)
+                    {
+                        iconImage.texture = iconTexture;
+                    }
+                }
+            }
+
             Image background = item.GetComponent<Image>();
             if (background != null)
             {
@@ -100,7 +114,7 @@ public class AchievementUIManager : MonoBehaviour
             {
                 canvasGroup = item.AddComponent<CanvasGroup>();
             }
-            canvasGroup.alpha = achievement.isUnlocked ? 1f : 0.5f;
+            canvasGroup.alpha = achievement.isUnlocked ? 1f : 0.2f;
 
         }
 

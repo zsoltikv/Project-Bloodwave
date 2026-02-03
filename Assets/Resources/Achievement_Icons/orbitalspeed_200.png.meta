@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3c31e2cb3008a43e5bd70c4e692559bf
+guid: 8fce52ef900f95b54a736a70bb888940
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8708282886808928551
-    second: orbit_master_0
+      213: -7842090084320994792
+    second: orbitalspeed_200_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: orbit_master_0
+      name: orbitalspeed_200_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7210cd7a5290ad870800000000000000
-      internalID: 8708282886808928551
+      spriteID: 81a1f631e9c4b2390800000000000000
+      internalID: -7842090084320994792
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      orbit_master_0: 8708282886808928551
+      orbitalspeed_200_0: -7842090084320994792
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
