@@ -11,8 +11,9 @@ public class FadeManager : MonoBehaviour
 
     private CanvasGroup canvasGroup;
 
-    private bool _isLoading; 
-    private Coroutine _loadingRoutine;   
+    private bool _isLoading;
+    private Coroutine _loadingRoutine;
+    private Coroutine _fadeRoutine;
 
     private void Awake()
     {
@@ -38,11 +39,23 @@ public class FadeManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void StopAllTransitionCoroutines()
+    {
+        if (_loadingRoutine != null) StopCoroutine(_loadingRoutine);
+        if (_fadeRoutine != null) StopCoroutine(_fadeRoutine);
+
+        _loadingRoutine = null;
+        _fadeRoutine = null;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StopAllTransitionCoroutines();
+
         canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;   
-        StartCoroutine(FadeIn());
+        canvasGroup.blocksRaycasts = true;
+
+        _fadeRoutine = StartCoroutine(FadeIn());
     }
 
     private void CreateFadeCanvas()
@@ -76,17 +89,17 @@ public class FadeManager : MonoBehaviour
 
     public void LoadSceneWithFade(string sceneName)
     {
-        if (_isLoading) return;        
+        if (_isLoading) return;
         _isLoading = true;
 
-        if (_loadingRoutine != null) StopCoroutine(_loadingRoutine);
+        StopAllTransitionCoroutines();
+        canvasGroup.blocksRaycasts = true;
+
         _loadingRoutine = StartCoroutine(FadeOutAndLoad(sceneName));
     }
 
     private IEnumerator FadeOutAndLoad(string sceneName)
     {
-        canvasGroup.blocksRaycasts = true;
-
         yield return FadeOut();
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
@@ -101,35 +114,6 @@ public class FadeManager : MonoBehaviour
             yield return null;
     }
 
-    private IEnumerator FadeOut()
-    {
-        float t = 0f;
-        while (t < fadeDuration)
-        {
-            t += Time.unscaledDeltaTime;
-            canvasGroup.alpha = Mathf.Lerp(0f, 1f, t / fadeDuration);
-            yield return null;
-        }
-        canvasGroup.alpha = 1f;
-    }
-
-    private IEnumerator FadeIn()
-    {
-        float t = 0f;
-        while (t < fadeDuration)
-        {
-            t += Time.unscaledDeltaTime;
-            canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
-            yield return null;
-        }
-
-        canvasGroup.alpha = 0f;
-        canvasGroup.blocksRaycasts = false;
-
-        _isLoading = false;
-        _loadingRoutine = null;
-    }
-
     public void ActivatePreloadedSceneWithFade(AsyncOperation preloadedOp)
     {
         if (_isLoading) return;
@@ -137,14 +121,14 @@ public class FadeManager : MonoBehaviour
 
         _isLoading = true;
 
-        if (_loadingRoutine != null) StopCoroutine(_loadingRoutine);
+        StopAllTransitionCoroutines();
+        canvasGroup.blocksRaycasts = true;
+
         _loadingRoutine = StartCoroutine(FadeOutAndActivate(preloadedOp));
     }
 
     private IEnumerator FadeOutAndActivate(AsyncOperation preloadedOp)
     {
-        canvasGroup.blocksRaycasts = true;
-
         yield return FadeOut();
 
         while (preloadedOp.progress < 0.9f)
@@ -156,4 +140,38 @@ public class FadeManager : MonoBehaviour
             yield return null;
     }
 
+    private IEnumerator FadeOut()
+    {
+        float start = canvasGroup.alpha;
+        float t = 0f;
+
+        while (t < fadeDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, 1f, t / fadeDuration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1f;
+    }
+
+    private IEnumerator FadeIn()
+    {
+        float start = canvasGroup.alpha;
+        float t = 0f;
+
+        while (t < fadeDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, 0f, t / fadeDuration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
+
+        _isLoading = false;
+        _loadingRoutine = null;
+        _fadeRoutine = null;
+    }
 }

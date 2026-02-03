@@ -1,26 +1,31 @@
-using UnityEngine;
-using UnityEngine.Video;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class Intro : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     private bool introSkipped = false;
-
     private AsyncOperation menuPreload;
+
+    void Awake()
+    {
+        if (videoPlayer != null)
+        {
+            videoPlayer.prepareCompleted += OnVideoPrepared;
+            videoPlayer.Prepare();
+        }
+    }
 
     IEnumerator Start()
     {
-        Application.backgroundLoadingPriority = ThreadPriority.High;
+        yield return new WaitForSeconds(0.2f);
+
+        Application.backgroundLoadingPriority = ThreadPriority.Low;
         menuPreload = SceneManager.LoadSceneAsync("MenuScene");
         menuPreload.allowSceneActivation = false;
-
-        yield return new WaitForSeconds(0.1f);
-
-        videoPlayer.prepareCompleted += OnVideoPrepared;
-        videoPlayer.Prepare();
     }
 
     void Update()
@@ -39,18 +44,21 @@ public class Intro : MonoBehaviour
 
     void OnVideoPrepared(VideoPlayer vp)
     {
-        videoPlayer.Play();
+        if (vp == null) return;
+        vp.Play();
         StartCoroutine(CheckVideoEnd());
     }
 
     IEnumerator CheckVideoEnd()
     {
-        while (videoPlayer.isPlaying && !introSkipped)
+        while (videoPlayer != null && videoPlayer.isPlaying && !introSkipped)
             yield return null;
 
         if (!introSkipped)
         {
-            AchievementManager.Instance.UnlockAchievement("movie_buff");
+            if (AchievementManager.Instance != null)
+                AchievementManager.Instance.UnlockAchievement("movie_buff");
+
             FadeManager.Instance.ActivatePreloadedSceneWithFade(menuPreload);
         }
     }
@@ -60,9 +68,15 @@ public class Intro : MonoBehaviour
         if (introSkipped) return;
         introSkipped = true;
 
-        if (videoPlayer.isPlaying)
+        if (videoPlayer != null && videoPlayer.isPlaying)
             videoPlayer.Stop();
 
         FadeManager.Instance.ActivatePreloadedSceneWithFade(menuPreload);
+    }
+
+    void OnDestroy()
+    {
+        if (videoPlayer != null)
+            videoPlayer.prepareCompleted -= OnVideoPrepared;
     }
 }
