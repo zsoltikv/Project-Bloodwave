@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 
 public class LevelUpScript : MonoBehaviour
 {
@@ -17,13 +18,20 @@ public class LevelUpScript : MonoBehaviour
     [SerializeField] private float rangeIncrease = 0.15f;
     [SerializeField] private float orbitalSpeedIncrease = 0.2f;
 
-    public GameObject DismissButton;
 
+    [Header("UI Elements")]
+    public GameObject DismissButton;
+    public TMP_FontAsset descFont;
+    public TMP_FontAsset nameFont;
     private WeaponController weaponController;
 
     private void Start()
     {
         weaponController = FindAnyObjectByType<WeaponController>();
+        FirstOption.transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = descFont;
+        FirstOption.transform.GetChild(1).GetComponent<TextMeshProUGUI>().font = nameFont;
+        SecondOption.transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = descFont;
+        SecondOption.transform.GetChild(1).GetComponent<TextMeshProUGUI>().font = nameFont;
     }
 
     void OnEnable()
