@@ -46,6 +46,13 @@ public class AchievementUIManager : MonoBehaviour
         {
             GameObject item = Instantiate(achievementItemPrefab, achievementContainer);
 
+            // Set width to match container width
+            RectTransform rectTransform = item.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                rectTransform.sizeDelta = new Vector2(achievementContainer.GetComponent<RectTransform>().rect.width, rectTransform.sizeDelta.y);
+            }
+
             Transform titleTransform = item.transform.Find("Title");
             if (titleTransform != null)
             {
@@ -86,6 +93,14 @@ public class AchievementUIManager : MonoBehaviour
             {
                 background.color = achievement.isUnlocked ? new Color(0.09f, 0.18f, 0.09f, 0.8f) : new Color(0.027f, 0.027f, 0.027f, 0.8f);
             }
+
+            // Darken locked achievements
+            CanvasGroup canvasGroup = item.GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+            {
+                canvasGroup = item.AddComponent<CanvasGroup>();
+            }
+            canvasGroup.alpha = achievement.isUnlocked ? 1f : 0.5f;
 
         }
 
