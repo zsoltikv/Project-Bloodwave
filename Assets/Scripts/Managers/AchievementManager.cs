@@ -26,7 +26,7 @@ public class AchievementManager : MonoBehaviour
         achievements.Clear();
 
         // Tutorial / Intro
-        achievements.Add(new Achievement("first_time_player", "First Time Player", "Visit How To Play"));
+        achievements.Add(new Achievement("first_time_player", "First Time", "Visit How To Play"));
         achievements.Add(new Achievement("movie_buff", "Movie Buff", "Watch the intro video"));
 
         // Early gameplay milestones
@@ -41,9 +41,30 @@ public class AchievementManager : MonoBehaviour
         achievements.Add(new Achievement("slayer_50", "Slayer Master", "Kill 50 enemies"));
         achievements.Add(new Achievement("mass_murderer", "Mass Murderer", "Kill 100 enemies"));
 
+        // --- Weapon upgrade achievements ---
+        achievements.Add(new Achievement("first_weapon_upgrade", "First Upgrade", "Apply your first weapon upgrade."));
+        achievements.Add(new Achievement("upgrade_damage_once", "Hard Hitter", "Apply a Damage upgrade."));
+        achievements.Add(new Achievement("upgrade_projectiles_once", "More Bullets", "Apply a Projectile Count upgrade."));
+        achievements.Add(new Achievement("upgrade_cooldown_once", "Rapid Fire", "Apply a Cooldown upgrade."));
+        achievements.Add(new Achievement("upgrade_range_once", "Long Reach", "Apply a Range upgrade."));
+        achievements.Add(new Achievement("upgrade_orbitalspeed_once", "Faster Orbit", "Apply an Orbital Speed upgrade."));
+
+        achievements.Add(new Achievement("weapon_level_5", "Weapon Specialist", "Level up a weapon to level 5."));
+        achievements.Add(new Achievement("weapon_level_10", "Weapon Master", "Level up a weapon to level 10."));
+
+        // Threshold-based (your multipliers / bonuses)
+        achievements.Add(new Achievement("projectiles_bonus_3", "Bullet Storm", "Get +3 bonus projectiles on a weapon."));
+        achievements.Add(new Achievement("cooldown_50", "Machine Gun", "Reduce a weapon's cooldown by 50% or more."));
+        achievements.Add(new Achievement("range_150", "Sniper Range", "Increase a weapon's range to 150% or more."));
+        achievements.Add(new Achievement("orbitalspeed_200", "Hyper Orbit", "Increase orbital speed to 200% or more."));
+
         // Player progression
         achievements.Add(new Achievement("level_5", "Getting Stronger", "Reach level 5"));
         achievements.Add(new Achievement("level_10", "Veteran", "Reach level 10"));
+        achievements.Add(new Achievement("level_15", "Elite", "Reach level 15"));
+        achievements.Add(new Achievement("level_20", "Master", "Reach level 20"));
+        achievements.Add(new Achievement("level_25", "Legend", "Reach level 25"));
+        achievements.Add(new Achievement("level_50", "Immortal", "Reach level 50"));
 
         // Collection / shop achievements
         achievements.Add(new Achievement("rich", "Rich", "Collect 1000 coins"));
