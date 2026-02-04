@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool changeModePeriodically = false;
 
     [Header("Straight Mode Settings")]
-    [SerializeField] private float straightStoppingDistance = 0.5f;
+    /*[SerializeField]*/ private float straightStoppingDistance = 0f;
 
     [Header("Circle Mode Settings")]
     [SerializeField] private float circleRadius = 3f;
