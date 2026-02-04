@@ -279,10 +279,10 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 0
   baseSpeed: 2
-  baseDamage: 10
+  baseDamage: 5
   currentSpeed: 0
   xpReward: 10
-  coinReward: 3
+  coinReward: 10
   isSlowed: 0
   isBleeding: 0
   IsDead: 0
@@ -304,7 +304,6 @@ MonoBehaviour:
   modeChangeInterval: 5
   randomizeModeOnStart: 0
   changeModePeriodically: 0
-  straightStoppingDistance: 0.5
   circleRadius: 3
   circleSpeed: 2
   circleClockwise: 1

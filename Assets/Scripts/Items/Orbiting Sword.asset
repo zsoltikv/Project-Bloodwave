@@ -16,7 +16,7 @@ MonoBehaviour:
   description: A magical blade that circles the bearer, striking any nearby foes
     with relentless, automated attacks.
   icon: {fileID: 1938844011, guid: 4ccf36b5154ff2345b980d12ebdc17ef, type: 3}
-  price: 1000
+  price: 1500
   weaponDefinition: {fileID: 11400000, guid: 3c361e64f073b7f17ac7dbe7110416fd, type: 2}
   statModifiers: []
   isStackable: 0

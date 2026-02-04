@@ -16,10 +16,11 @@ MonoBehaviour:
   description: "A potent stone that multiplies the bearer\u2019s projectiles, adding
     five more to each attack."
   icon: {fileID: 4607906074392689071, guid: e802acd00e838af479e4cb9688829a9c, type: 3}
-  price: 200
+  price: 2000
+  weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 5
     modifierType: 0
-    value: 5
+    value: 1
   isStackable: 0
   maxStackSize: 1
