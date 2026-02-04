@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool changeModePeriodically = false;
 
     [Header("Straight Mode Settings")]
-    [SerializeField] private float straightStoppingDistance = 0.5f;
+    /*[SerializeField]*/ private float straightStoppingDistance = 0f;
 
     [Header("Circle Mode Settings")]
     [SerializeField] private float circleRadius = 3f;
@@ -35,13 +35,14 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float strafeRange = 3f;
     [SerializeField] private float strafeChangeInterval = 2f;
     private float strafeTimer = 0f;
-    private Vector2 strafeDirection;
+    private float strafeDirection = 1f;
 
     [Header("Ambush Mode Settings")]
     [SerializeField] private float ambushDistance = 6f;
     [SerializeField] private float ambushWaitTime = 1f;
     [SerializeField] private float ambushChargeSpeed = 8f;
     private bool isAmbushing = false;
+    private bool isChargingAmbush = false;
     private float ambushTimer = 0f;
     private Vector3 ambushPosition;
 
@@ -93,7 +94,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         // Initialize strafe direction
-        strafeDirection = Random.value > 0.5f ? Vector2.right : Vector2.left;
+        strafeDirection = Random.value > 0.5f ? 1f : -1f;
 
         // Set initial speed from EnemyHealth
         if (enemyHealth != null)
@@ -106,8 +107,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (!player || enemyHealth == null) return;
 
-        // Update agent speed based on current speed
-        agent.speed = enemyHealth.currentSpeed;
+        // Update agent speed based on current speed (unless in special state)
+        if (!isChargingAmbush)
+        {
+            agent.speed = enemyHealth.currentSpeed;
+        }
 
         // Handle periodic mode changes
         if (changeModePeriodically)
@@ -156,21 +160,20 @@ public class EnemyAI : MonoBehaviour
 
     void HandleCircleApproach()
     {
-        // Approach player in a circular/spiral path instead of straight line
+        // Circle around player
         Vector3 playerPos = GetPlayerPosition();
-        Vector3 directionToPlayer = (playerPos - transform.position).normalized;
-        float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
 
-        // Calculate perpendicular direction for circular motion
+        // Update circle angle
         float direction = circleClockwise ? 1f : -1f;
-        Vector3 perpendicular = new Vector3(-directionToPlayer.y, directionToPlayer.x, 0f) * direction;
+        circleAngle += circleSpeed * Time.deltaTime * direction;
 
-        // Mix forward movement with circular movement
-        // As we get closer, reduce the circular component
-        float circularWeight = Mathf.Clamp01(distanceToPlayer / circleRadius);
-        Vector3 circularOffset = perpendicular * circleRadius * circularWeight;
+        // Calculate circular position around player
+        float x = Mathf.Cos(circleAngle) * circleRadius;
+        float y = Mathf.Sin(circleAngle) * circleRadius;
 
+        Vector3 circularOffset = new Vector3(x, y, 0f);
         Vector3 targetPos = playerPos + circularOffset;
+
         agent.stoppingDistance = straightStoppingDistance;
         agent.SetDestination(targetPos);
     }
@@ -216,17 +219,17 @@ public class EnemyAI : MonoBehaviour
         if (distanceToPlayer > strafeDistance + 0.5f)
         {
             // Too far, move closer while strafing
-            targetPos = playerPos + perpendicular * strafeDirection.x * strafeRange - directionToPlayer * strafeDistance;
+            targetPos = playerPos + perpendicular * strafeDirection * strafeRange - directionToPlayer * strafeDistance;
         }
         else if (distanceToPlayer < strafeDistance - 0.5f)
         {
             // Too close, back away while strafing
-            targetPos = transform.position + perpendicular * strafeDirection.x * strafeRange + directionToPlayer * 0.5f;
+            targetPos = transform.position + perpendicular * strafeDirection * strafeRange + directionToPlayer * 0.5f;
         }
         else
         {
             // Good distance, just strafe
-            targetPos = transform.position + perpendicular * strafeDirection.x * strafeRange;
+            targetPos = transform.position + perpendicular * strafeDirection * strafeRange;
         }
 
         agent.stoppingDistance = 0.1f;
@@ -266,6 +269,7 @@ public class EnemyAI : MonoBehaviour
                 if (ambushTimer >= ambushWaitTime)
                 {
                     isAmbushing = true;
+                    isChargingAmbush = true;
                     ambushTimer = 0f;
                     ambushPosition = playerPos;
                     agent.isStopped = false;
@@ -284,8 +288,9 @@ public class EnemyAI : MonoBehaviour
             if (distanceToPlayer < 1f || ambushTimer > 3f)
             {
                 isAmbushing = false;
+                isChargingAmbush = false;
                 ambushTimer = 0f;
-                agent.speed = enemyHealth.currentSpeed;
+                // Speed will be reset in next Update
             }
         }
     }
@@ -357,6 +362,7 @@ public class EnemyAI : MonoBehaviour
         zigzagTime = 0f;
         strafeTimer = 0f;
         isAmbushing = false;
+        isChargingAmbush = false;
         isRetreating = false;
         ambushTimer = 0f;
         retreatTimer = 0f;

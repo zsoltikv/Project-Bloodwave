@@ -12,8 +12,7 @@ public class FadeManager : MonoBehaviour
     private CanvasGroup canvasGroup;
 
     private bool _isLoading;
-    private Coroutine _loadingRoutine;
-    private Coroutine _fadeRoutine;
+    private Coroutine _currentTransition;
 
     private void Awake()
     {
@@ -39,23 +38,15 @@ public class FadeManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void StopAllTransitionCoroutines()
-    {
-        if (_loadingRoutine != null) StopCoroutine(_loadingRoutine);
-        if (_fadeRoutine != null) StopCoroutine(_fadeRoutine);
-
-        _loadingRoutine = null;
-        _fadeRoutine = null;
-    }
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StopAllTransitionCoroutines();
+        // Ne avatkozzunk bele, ha épp transition van folyamatban
+        if (_isLoading) return;
 
+        // Biztonsági fallback: ha valahogy mégis betöltõdött scene transition nélkül
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
-
-        _fadeRoutine = StartCoroutine(FadeIn());
+        StartCoroutine(FadeIn());
     }
 
     private void CreateFadeCanvas()
@@ -90,18 +81,24 @@ public class FadeManager : MonoBehaviour
     public void LoadSceneWithFade(string sceneName)
     {
         if (_isLoading) return;
-        _isLoading = true;
 
-        StopAllTransitionCoroutines();
-        canvasGroup.blocksRaycasts = true;
+        if (_currentTransition != null)
+        {
+            StopCoroutine(_currentTransition);
+        }
 
-        _loadingRoutine = StartCoroutine(FadeOutAndLoad(sceneName));
+        _currentTransition = StartCoroutine(TransitionToScene(sceneName));
     }
 
-    private IEnumerator FadeOutAndLoad(string sceneName)
+    private IEnumerator TransitionToScene(string sceneName)
     {
+        _isLoading = true;
+        canvasGroup.blocksRaycasts = true;
+
+        // Fade out
         yield return FadeOut();
 
+        // Load scene
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
@@ -112,6 +109,13 @@ public class FadeManager : MonoBehaviour
 
         while (!asyncLoad.isDone)
             yield return null;
+
+        // Fade in
+        yield return FadeIn();
+
+        // Cleanup
+        _isLoading = false;
+        _currentTransition = null;
     }
 
     public void ActivatePreloadedSceneWithFade(AsyncOperation preloadedOp)
@@ -119,25 +123,38 @@ public class FadeManager : MonoBehaviour
         if (_isLoading) return;
         if (preloadedOp == null) return;
 
-        _isLoading = true;
+        if (_currentTransition != null)
+        {
+            StopCoroutine(_currentTransition);
+        }
 
-        StopAllTransitionCoroutines();
-        canvasGroup.blocksRaycasts = true;
-
-        _loadingRoutine = StartCoroutine(FadeOutAndActivate(preloadedOp));
+        _currentTransition = StartCoroutine(TransitionToPreloadedScene(preloadedOp));
     }
 
-    private IEnumerator FadeOutAndActivate(AsyncOperation preloadedOp)
+    private IEnumerator TransitionToPreloadedScene(AsyncOperation preloadedOp)
     {
+        _isLoading = true;
+        canvasGroup.blocksRaycasts = true;
+
+        // Fade out
         yield return FadeOut();
 
+        // Wait for preloaded scene to be ready
         while (preloadedOp.progress < 0.9f)
             yield return null;
 
+        // Activate scene
         preloadedOp.allowSceneActivation = true;
 
         while (!preloadedOp.isDone)
             yield return null;
+
+        // Fade in
+        yield return FadeIn();
+
+        // Cleanup
+        _isLoading = false;
+        _currentTransition = null;
     }
 
     private IEnumerator FadeOut()
@@ -169,9 +186,5 @@ public class FadeManager : MonoBehaviour
 
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
-
-        _isLoading = false;
-        _loadingRoutine = null;
-        _fadeRoutine = null;
     }
 }
