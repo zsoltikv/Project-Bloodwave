@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 253324462424537319}
   - component: {fileID: 5270797095528862419}
   - component: {fileID: 8568865478851478913}
+  - component: {fileID: 6595795088222098697}
   m_Layer: 6
   m_Name: Knight
   m_TagString: Enemy
@@ -268,7 +269,7 @@ PolygonCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
+  m_CompositeOperation: 1
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -291,6 +292,77 @@ PolygonCollider2D:
       - {x: 0.13499999, y: 0.17999999}
       - {x: 0.015, y: 0.31}
   m_UseDelaunayMesh: 0
+--- !u!66 &6595795088222098697
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3841493091265023851}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 8568865478851478913}
+    m_ColliderPaths:
+    - - X: 5399999
+        Y: 3599999
+      - X: 5399999
+        Y: 7199999
+      - X: 600000
+        Y: 12400000
+      - X: -2600000
+        Y: 12400000
+      - X: -5399999
+        Y: 9600000
+      - X: -5399999
+        Y: 1200000
+      - X: -3800000
+        Y: 0
+      - X: 999999
+        Y: 0
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 0.0999908, y: 0}
+      - {x: 0.5399999, y: 0.3600123}
+      - {x: 0.539993, y: 0.7200073}
+      - {x: 0.0599886, y: 1.24}
+      - {x: -0.2600076, y: 1.2399924}
+      - {x: -0.5399999, y: 0.9599892}
+      - {x: -0.5399893, y: 0.1199921}
+      - {x: -0.3799915, y: 0}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 3841493091265023851}
 --- !u!1 &4755403987620085854
 GameObject:
   m_ObjectHideFlags: 0

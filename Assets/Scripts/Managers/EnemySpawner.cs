@@ -57,6 +57,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float eliteHealthMultiplier = 3f;
     [SerializeField] float eliteSpeedMultiplier = 1.5f;
     [SerializeField] float eliteScaleMultiplier = 1.3f;
+    [SerializeField] float eliteCoinMultiplier = 2f;
 
     // Private variables
     float speedDifficultyMultiplier = 0f;
@@ -267,7 +268,9 @@ public class EnemySpawner : MonoBehaviour
                 health.maxHealth *= eliteHealthMultiplier;
                 health.baseDamage *= eliteHealthMultiplier;
                 health.baseSpeed *= eliteSpeedMultiplier;
+                health.coinReward = Mathf.RoundToInt(health.coinReward * eliteCoinMultiplier);
                 enemy.transform.localScale *= eliteScaleMultiplier;
+                
                 
                 // Vizuális jelzés
                 var renderer = enemy.GetComponent<SpriteRenderer>();
