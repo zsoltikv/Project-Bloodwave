@@ -1,11 +1,12 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using System.Linq;
-using System.Collections;
 
 public class ShopManager : MonoBehaviour
 {
@@ -46,6 +47,10 @@ public class ShopManager : MonoBehaviour
     private int totalCoinsSpent = 0;
     private bool bigSpenderUnlocked = false;
 
+    private const string PurchasedItemsKey = "PurchasedShopItems";
+
+    private HashSet<string> purchasedItemIds = new HashSet<string>();
+
     void Awake()
     {
         if (instance == null) {
@@ -63,6 +68,8 @@ public class ShopManager : MonoBehaviour
 
         totalCoinsSpent = PlayerPrefs.GetInt(TotalSpentKey, 0);
         bigSpenderUnlocked = AchievementManager.Instance.IsAchievementUnlocked("big_spender");
+
+        LoadPurchasedItems();
     }
 
     void Start() {
@@ -86,9 +93,11 @@ public class ShopManager : MonoBehaviour
 
         currentShopItems.Clear();
 
-        List<ShopItem> filteredItems = availableItems.Where(item => 
-            item.weaponDefinition == null || 
-            !ownedWeapons.Contains(item.weaponDefinition)
+        List<ShopItem> filteredItems = availableItems.Where(item =>
+            !IsPurchased(item) && (
+                item.weaponDefinition == null ||
+                !ownedWeapons.Contains(item.weaponDefinition)
+            )
         ).ToList();
 
         if ( weaponController.GetWeapons().Count == 3 )
@@ -100,44 +109,57 @@ public class ShopManager : MonoBehaviour
 
         int itemToSelect = Mathf.Min(3, shuffledItems.Count);
 
+        if (itemToSelect == 0)
+        {
+            Debug.Log("No items left to show in shop.");
+
+            if (shopUI != null)
+            {
+                shopUI.transform.GetChild(2).gameObject.SetActive(false);
+                shopUI.transform.GetChild(3).gameObject.SetActive(false);
+                shopUI.transform.GetChild(4).gameObject.SetActive(false);
+            }
+
+            OnShopRefreshed?.Invoke();
+            return;
+        }
+
         for (int i = 0; i < itemToSelect; i++)
         {
-            int randomIndex = Random.Range(0, shuffledItems.Count);
+            int randomIndex = UnityEngine.Random.Range(0, shuffledItems.Count);
             currentShopItems.Add(shuffledItems[randomIndex]);
             shuffledItems.RemoveAt(randomIndex);
         }
 
         if (shopUI != null)
         {
-            Transform item1 = shopUI.transform.GetChild(2);
-            item1.GetComponent<Image>().sprite = currentShopItems[0].icon;
-            item1.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[0].itemName;
-            item1.GetChild(1).GetComponent<TextMeshProUGUI>().text = currentShopItems[0].description;
-            item1.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + currentShopItems[0].price;
-            Button button1 = item1.GetComponent<Button>();
-            button1.onClick.RemoveAllListeners(); 
-            button1.onClick.AddListener(() => PurchaseItem(currentShopItems[0]));
+            int[] slotIndices = { 2, 3, 4 };
 
+            for (int i = 0; i < slotIndices.Length; i++)
+            {
+                Transform slot = shopUI.transform.GetChild(slotIndices[i]);
+                bool hasItem = i < currentShopItems.Count;
 
-            Transform item2 = shopUI.transform.GetChild(3);
-            item2.GetComponent<Image>().sprite = currentShopItems[1].icon;
-            item2.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[1].itemName;
-            item2.GetChild(1).GetComponent<TextMeshProUGUI>().text = currentShopItems[1].description;
-            item2.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + currentShopItems[1].price;
-            Button button2 = item2.GetComponent<Button>();
-            button2.onClick.RemoveAllListeners(); 
-            button2.onClick.AddListener(() => PurchaseItem(currentShopItems[1]));
+                slot.gameObject.SetActive(hasItem);
 
-            Transform item3 = shopUI.transform.GetChild(4);
-            item3.GetComponent<Image>().sprite = currentShopItems[2].icon;
-            item3.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentShopItems[2].itemName;
-            item3.GetChild(1).GetComponent<TextMeshProUGUI>().text = currentShopItems[2].description;
-            item3.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + currentShopItems[2].price;
-            Button button3 = item3.GetComponent<Button>();
-            button3.onClick.RemoveAllListeners();
-            button3.onClick.AddListener(() => PurchaseItem(currentShopItems[2]));
+                if (!hasItem)
+                    continue;
+
+                ShopItem it = currentShopItems[i];
+
+                slot.GetComponent<Image>().sprite = it.icon;
+                slot.GetChild(0).GetComponent<TextMeshProUGUI>().text = it.itemName;
+                slot.GetChild(1).GetComponent<TextMeshProUGUI>().text = it.description;
+                slot.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + it.price;
+
+                Button btn = slot.GetComponent<Button>();
+                btn.onClick.RemoveAllListeners();
+
+                ShopItem captured = it; 
+                btn.onClick.AddListener(() => PurchaseItem(captured));
+            }
         }
-        
+
         OnShopRefreshed?.Invoke();
         Debug.Log("Shop refresh completed.");
     }
@@ -183,7 +205,7 @@ public class ShopManager : MonoBehaviour
             if (itemBoughtRoutine != null)
                 StopCoroutine(itemBoughtRoutine);
             itemBoughtRoutine = StartCoroutine(ShowItemBought(item.itemName));
-
+            MarkPurchased(item);
             RefreshShop();
             return true;
         }
@@ -358,6 +380,48 @@ public class ShopManager : MonoBehaviour
             bigSpenderUnlocked = true;
             AchievementManager.Instance.UnlockAchievement("big_spender");
         }
+    }
+
+    private void LoadPurchasedItems()
+    {
+        purchasedItemIds.Clear();
+
+        string raw = PlayerPrefs.GetString(PurchasedItemsKey, "");
+        if (string.IsNullOrEmpty(raw)) return;
+
+        string[] parts = raw.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var p in parts)
+            purchasedItemIds.Add(p);
+    }
+
+    private void SavePurchasedItems()
+    {
+        string raw = string.Join(";", purchasedItemIds);
+        PlayerPrefs.SetString(PurchasedItemsKey, raw);
+        PlayerPrefs.Save();
+    }
+
+    private string GetItemId(ShopItem item)
+    {
+        return item != null ? item.name : "";
+    }
+
+    private bool IsPurchased(ShopItem item)
+    {
+        return purchasedItemIds.Contains(GetItemId(item));
+    }
+
+    private void MarkPurchased(ShopItem item)
+    {
+        purchasedItemIds.Add(GetItemId(item));
+        SavePurchasedItems();
+    }
+
+    public void ResetPurchasedItems()
+    {
+        purchasedItemIds.Clear();
+        PlayerPrefs.DeleteKey(PurchasedItemsKey);
+        PlayerPrefs.Save();
     }
 
 }
