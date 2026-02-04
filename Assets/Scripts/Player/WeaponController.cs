@@ -113,7 +113,7 @@ public class WeaponController : MonoBehaviour
 
     private float GetCooldown(WeaponInstance weapon)
     {
-        return weapon.GetCooldown() * (1 - stats.CooldownMultiplier);
+        return weapon.GetCooldown();
     }
 
     private IEnumerator FireWeaponRoutine(WeaponInstance _weapon)

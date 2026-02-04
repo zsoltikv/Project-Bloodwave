@@ -160,7 +160,6 @@ MonoBehaviour:
   modeChangeInterval: 5
   randomizeModeOnStart: 0
   changeModePeriodically: 0
-  straightStoppingDistance: 0.5
   circleRadius: 3
   circleSpeed: 2
   circleClockwise: 1
@@ -190,7 +189,7 @@ MonoBehaviour:
   maxHealth: 40
   currentHealth: 0
   baseSpeed: 2
-  baseDamage: 10
+  baseDamage: 14
   currentSpeed: 0
   xpReward: 30
   coinReward: 100

@@ -135,7 +135,6 @@ MonoBehaviour:
   modeChangeInterval: 5
   randomizeModeOnStart: 0
   changeModePeriodically: 0
-  straightStoppingDistance: 0.5
   circleRadius: 3
   circleSpeed: 2
   circleClockwise: 1
@@ -162,9 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1f1ceb0d4aea547bc96ebe35316ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 25
+  maxHealth: 20
   currentHealth: 0
-  baseSpeed: 2
+  baseSpeed: 2.4
   baseDamage: 10
   currentSpeed: 0
   xpReward: 50
