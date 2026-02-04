@@ -16,7 +16,6 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private List<ShopItem> availableItems = new List<ShopItem>();
     [SerializeField] private List<WeaponDefinition> availableWeapons = new List<WeaponDefinition>();
     private List<ShopItem> currentShopItems = new List<ShopItem>();
-    [SerializeField] private float refreshinterval = 60f;
     
     [Header("Events")]
     public UnityEvent<ShopItem> OnItemPurchased;
@@ -26,7 +25,6 @@ public class ShopManager : MonoBehaviour
     [Header("UI")]
     public GameObject shopUI;
     private TextMeshProUGUI coinDisplay;
-    [SerializeField] private TextMeshProUGUI itemBoughtText;
     [SerializeField] private float itemBoughtDuration = 2f;
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject shopButton;
@@ -38,8 +36,6 @@ public class ShopManager : MonoBehaviour
     private CanvasGroup shopCanvasGroup;
     private Coroutine animRoutine;
     private Vector3 originalScale;
-
-    private float nextRefreshTime;
 
     private int totalPurchases = 0;
 
@@ -64,7 +60,6 @@ public class ShopManager : MonoBehaviour
 
         shopCanvasGroup = shopUI.GetComponent<CanvasGroup>();
         originalScale = shopUI.transform.localScale;
-        itemBoughtText.gameObject.SetActive(false);
 
         totalCoinsSpent = PlayerPrefs.GetInt(TotalSpentKey, 0);
         bigSpenderUnlocked = AchievementManager.Instance.IsAchievementUnlocked("big_spender");
@@ -75,15 +70,6 @@ public class ShopManager : MonoBehaviour
     void Start() {
         totalPurchases = 0;
         RefreshShop();
-        nextRefreshTime = Time.time + refreshinterval;
-    }
-
-    void Update() {
-        if (Time.time >= nextRefreshTime)
-        {
-            RefreshShop();
-            nextRefreshTime = Time.time + refreshinterval;
-        }
     }
 
     public void RefreshShop()
@@ -163,6 +149,18 @@ public class ShopManager : MonoBehaviour
         OnShopRefreshed?.Invoke();
         Debug.Log("Shop refresh completed.");
     }
+
+    public void RefreshShopButton()
+    {
+        PlayerStats playerStats = PlayerInventory.instance.GetComponent<PlayerStats>();
+
+        if (playerStats.Coins >= 100)
+        {
+            playerStats.Coins -= 100;
+            coinDisplay.text = $"Coins: {playerStats.Coins}";
+            RefreshShop();
+        }
+    }
     public bool PurchaseItem(ShopItem item)
     {
         AchievementManager.Instance.UnlockAchievement("shopaholic");
@@ -202,9 +200,6 @@ public class ShopManager : MonoBehaviour
                 AchievementManager.Instance.UnlockAchievement("shop_clear_10");
             }
 
-            if (itemBoughtRoutine != null)
-                StopCoroutine(itemBoughtRoutine);
-            itemBoughtRoutine = StartCoroutine(ShowItemBought(item.itemName));
             MarkPurchased(item);
             RefreshShop();
             return true;
@@ -338,17 +333,6 @@ public class ShopManager : MonoBehaviour
         return shopUI != null && shopUI.activeSelf;
     }
 
-    private Coroutine itemBoughtRoutine;
-
-    private IEnumerator ShowItemBought(string itemName)
-    {
-        itemBoughtText.text = $"{itemName} bought!";
-        itemBoughtText.gameObject.SetActive(true);
-
-        yield return new WaitForSecondsRealtime(itemBoughtDuration);
-
-        itemBoughtText.gameObject.SetActive(false);
-    }
     public void DisableShopUI()
     {
         if (animRoutine != null)
