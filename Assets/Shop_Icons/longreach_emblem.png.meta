@@ -116,12 +116,12 @@ TextureImporter:
       name: longreach_emblem_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 18
-        width: 396
-        height: 593
+        x: 84
+        y: 152
+        width: 331
+        height: 459
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 21079c2db4268ab458aa0905c5fa9125
     internalID: 0
     vertices: []
     indices: 
