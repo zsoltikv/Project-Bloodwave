@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5070494694285527763}
   - component: {fileID: 1411299929606040471}
   - component: {fileID: -8320308799286849596}
+  - component: {fileID: 1790091367814540771}
   m_Layer: 6
   m_Name: Golem
   m_TagString: Enemy
@@ -124,7 +125,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4940687897850782227}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -228,9 +229,9 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
+  m_CompositeOperation: 1
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -270,10 +271,78 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.5
-  m_BaseOffset: 0
+  m_Height: 0.4
+  m_BaseOffset: 0.2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!66 &1790091367814540771
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940687897850782227}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1411299929606040471}
+    m_ColliderPaths:
+    - - X: 4650000
+        Y: 5399999
+      - X: 3750000
+        Y: 5700000
+      - X: -3150000
+        Y: 5700000
+      - X: -4650000
+        Y: 4800000
+      - X: -4650000
+        Y: -4800000
+      - X: -4350000
+        Y: -5700000
+      - X: 4650000
+        Y: -5700000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 0.4649707, y: -0.57}
+      - {x: 0.4649811, y: 0.5400061}
+      - {x: 0.3749958, y: 0.57}
+      - {x: -0.3150062, y: 0.5699964}
+      - {x: -0.465, y: 0.479985}
+      - {x: -0.4649987, y: -0.4800038}
+      - {x: -0.43498, y: -0.57}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 4940687897850782227}
 --- !u!1 &7820726545883305021
 GameObject:
   m_ObjectHideFlags: 0
