@@ -185,10 +185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1f1ceb0d4aea547bc96ebe35316ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 250
+  maxHealth: 200
   currentHealth: 0
-  baseSpeed: 1
-  baseDamage: 10
+  baseSpeed: 1.5
+  baseDamage: 12
   currentSpeed: 0
   xpReward: 30
   coinReward: 500
