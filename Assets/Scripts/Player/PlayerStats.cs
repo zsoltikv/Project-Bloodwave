@@ -128,6 +128,14 @@ public class PlayerStats : MonoBehaviour
         multiKillUnlocked = false;
         multiKill20Unlocked = false;
         recentKillTimes.Clear();
+
+        if (levelupCanvasGroup != null)
+        {
+            levelupCanvasGroup.alpha = 0f;
+            levelupCanvasGroup.interactable = false;
+            levelupCanvasGroup.blocksRaycasts = false;
+            levelupCanvasGroup.gameObject.SetActive(false);
+        }
     }
     private void Update()
     {
