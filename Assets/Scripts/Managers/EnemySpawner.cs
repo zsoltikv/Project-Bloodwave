@@ -58,6 +58,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float eliteSpeedMultiplier = 1.5f;
     [SerializeField] float eliteScaleMultiplier = 1.3f;
     [SerializeField] float eliteCoinMultiplier = 2f;
+    [SerializeField] float eliteDamageMultiplier = 1.2f;
 
     // Private variables
     float speedDifficultyMultiplier = 0f;
@@ -266,7 +267,7 @@ public class EnemySpawner : MonoBehaviour
             if (isElite)
             {
                 health.maxHealth *= eliteHealthMultiplier;
-                health.baseDamage *= eliteHealthMultiplier;
+                health.baseDamage *= eliteDamageMultiplier;
                 health.baseSpeed *= eliteSpeedMultiplier;
                 health.coinReward = Mathf.RoundToInt(health.coinReward * eliteCoinMultiplier);
                 enemy.transform.localScale *= eliteScaleMultiplier;
