@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NavMeshPlus.Extensions;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -152,6 +153,11 @@ public class WeaponController : MonoBehaviour
         for (int i = 0; i < totalShots; i++)
         {
             var targetInfo = _weapon.definition.targeting.GetTargets(ctx);
+
+            if (!targetInfo.hasTarget)
+            {
+                continue;
+            }
 
             var shots = _weapon.definition.spawnPattern.BuildShots(ctx, targetInfo);
 

@@ -21,7 +21,6 @@ public class PlayerStats : MonoBehaviour
     public float baseRangeMultiplier = 1f;
     public float baseProjectileSpeed = 12f;
     public int baseProjectileBonus = 0;
-    public int score = 0;
     public float baseCritChance = 0;
 
     private Animator animator;

@@ -17,12 +17,13 @@ MonoBehaviour:
     while reducing attack range by 2."
   icon: {fileID: -1699894025572665357, guid: b411dfa8f0989834d9ded94a95e20201, type: 3}
   price: 800
+  weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 1
     modifierType: 1
     value: 15
   - statType: 3
     modifierType: 0
-    value: -2
+    value: -1
   isStackable: 0
   maxStackSize: 1

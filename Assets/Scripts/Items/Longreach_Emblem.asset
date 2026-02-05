@@ -17,6 +17,7 @@ MonoBehaviour:
     battle, extending attack range by 10%.
   icon: {fileID: -6398319564783469161, guid: 6ac2b5c777dc04a488e740936a27f47b, type: 3}
   price: 200
+  weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 3
     modifierType: 1
