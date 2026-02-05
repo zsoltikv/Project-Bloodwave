@@ -21,11 +21,20 @@ public class WeaponInstance
         this.definition = definition;
     }
     public float GetDamage() => Mathf.Max(definition.Damage * bonusDamage * playerStats.baseDamageMultiplier, 10F);
-    public int GetProjectileCount() => Mathf.Clamp((definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus, 1, 12);
-
+    public int GetProjectileCount()
+    {
+        if (definition.name == "BloodScythe")
+        {
+            return 1; 
+        }
+        else
+        {
+            return Mathf.Clamp((definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus, 1, 12);
+        }
+    }
     public float GetCooldown()
     {
-        if (definition.name == "Shotgun")
+        if (definition.name == "Shotgun" || definition.name == "BloodScythe")
         {
             return Mathf.Max(definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier), 1F);;
         }
