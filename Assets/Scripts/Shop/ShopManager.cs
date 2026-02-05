@@ -50,7 +50,7 @@ public class ShopManager : MonoBehaviour
 
         if (shopUI == null)
         {
-            Debug.LogError("ShopManager: shopUI nincs beállítva!");
+            Debug.LogError("ShopManager: shopUI nincs beï¿½llï¿½tva!");
             enabled = false;
             return;
         }
@@ -80,7 +80,7 @@ public class ShopManager : MonoBehaviour
     public void RefreshShop()
     {
         WeaponController weaponController = PlayerInventory.instance.GetComponent<WeaponController>();
-        List<WeaponDefinition> ownedWeapons = weaponController.GetWeapons().ConvertAll(w => w.definition);
+        List<WeaponDefinition> ownedWeapons = weaponController.GetAllWeapons().ConvertAll(w => w.definition);
 
         currentShopItems.Clear();  
         var filteredItems = availableItems.Where(item =>
@@ -89,10 +89,10 @@ public class ShopManager : MonoBehaviour
             (item.weaponDefinition == null || !ownedWeapons.Contains(item.weaponDefinition))
         ).ToList();
 
-        if (weaponController.GetWeapons().Count == 3)
+        /*if ( weaponController.GetWeapons().Count == 3 )
         {
             filteredItems = filteredItems.Where(item => item.weaponDefinition == null).ToList();
-        }
+        }*/
 
         int itemToSelect = Mathf.Min(3, filteredItems.Count);
 
