@@ -74,31 +74,25 @@ public class WeaponController : MonoBehaviour
             panelCanvasGroup.interactable = false;
             panelCanvasGroup.blocksRaycasts = false;
         }
-
-        // overlay canvasgroup auto
         if (closeOverlay != null)
         {
             overlayCanvasGroup = closeOverlay.GetComponent<CanvasGroup>();
             if (overlayCanvasGroup == null) overlayCanvasGroup = closeOverlay.AddComponent<CanvasGroup>();
             overlayOriginalScale = closeOverlay.transform.localScale;
 
-            // induláskor rejtve
             closeOverlay.SetActive(false);
             overlayCanvasGroup.alpha = 0f;
             overlayCanvasGroup.interactable = false;
             overlayCanvasGroup.blocksRaycasts = false;
 
-            // ha van Button az overlayen, akkor ráakasztjuk a Close-t
             var btn = closeOverlay.GetComponent<Button>();
             if (btn == null) btn = closeOverlay.AddComponent<Button>();
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(CloseSwitchPanel);
 
-            // overlaynek kell egy Graphic (Image) a raycast-hoz
             var img = closeOverlay.GetComponent<Image>();
             if (img == null) img = closeOverlay.AddComponent<Image>();
             img.raycastTarget = true;
-            // átlátszó is lehet
             var c = img.color; c.a = 0f; img.color = c;
         }
     }
@@ -399,6 +393,5 @@ public class WeaponController : MonoBehaviour
         const float c3 = c1 + 1f;
         return 1f + c3 * Mathf.Pow(x - 1f, 3) + c1 * Mathf.Pow(x - 1f, 2);
     }
-
 
 }

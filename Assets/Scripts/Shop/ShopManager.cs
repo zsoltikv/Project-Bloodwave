@@ -93,11 +93,6 @@ public class ShopManager : MonoBehaviour
             (item.weaponDefinition == null || !ownedWeapons.Contains(item.weaponDefinition))
         ).ToList();
 
-        /*if ( weaponController.GetWeapons().Count == 3 )
-        {
-            filteredItems = filteredItems.Where(item => item.weaponDefinition == null).ToList();
-        }*/
-
         int itemToSelect = Mathf.Min(3, filteredItems.Count);
 
         if (itemToSelect == 0)
