@@ -6,7 +6,6 @@ public struct WeaponContext
     public Transform firePoint;
     public PlayerStats stats;
     public WeaponInstance weapon;
-
 }
 
 public struct targetInfo

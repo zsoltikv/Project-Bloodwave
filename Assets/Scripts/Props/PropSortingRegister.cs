@@ -5,7 +5,7 @@ public class PropSortingRegister : MonoBehaviour
 {
     public Transform propBottom;
 
-    void Start()
+    private void Start()
     {
         if (propBottom == null)
         {
@@ -13,9 +13,7 @@ public class PropSortingRegister : MonoBehaviour
             return;
         }
 
-        int order =
-            SortingBandManager.Instance.GetSortingOrder(propBottom.position.y);
-
+        int order = SortingBandManager.Instance.GetSortingOrder(propBottom.position.y);
         GetComponent<SpriteRenderer>().sortingOrder = order;
     }
 }

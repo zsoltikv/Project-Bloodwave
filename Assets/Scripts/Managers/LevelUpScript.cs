@@ -6,7 +6,6 @@ using TMPro;
 
 public class LevelUpScript : MonoBehaviour
 {
-
     [Header("Options")]
     public GameObject FirstOption;
     public GameObject SecondOption;
@@ -18,23 +17,25 @@ public class LevelUpScript : MonoBehaviour
     [SerializeField] private float rangeIncrease = 0.15f;
     [SerializeField] private float orbitalSpeedIncrease = 0.2f;
 
-
     [Header("UI Elements")]
     public GameObject DismissButton;
     public TMP_FontAsset descFont;
     public TMP_FontAsset nameFont;
+
     private WeaponController weaponController;
 
     private void Start()
     {
         weaponController = FindAnyObjectByType<WeaponController>();
+
         FirstOption.transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = descFont;
         FirstOption.transform.GetChild(1).GetComponent<TextMeshProUGUI>().font = nameFont;
+
         SecondOption.transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = descFont;
         SecondOption.transform.GetChild(1).GetComponent<TextMeshProUGUI>().font = nameFont;
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         GenerateUpgradeOptions();
     }
@@ -48,17 +49,14 @@ public class LevelUpScript : MonoBehaviour
         }
 
         List<WeaponInstance> availableWeapons = weaponController.GetWeapons();
-        
         if (availableWeapons.Count == 0) return;
 
-        
         WeaponUpgrade upgrade1 = GenerateRandomUpgrade(availableWeapons);
         WeaponUpgrade upgrade2 = GenerateRandomUpgrade(availableWeapons);
 
-        
         int attempts = 0;
-        while (upgrade2.targetWeapon == upgrade1.targetWeapon && 
-               upgrade2.upgradeType == upgrade1.upgradeType && 
+        while (upgrade2.targetWeapon == upgrade1.targetWeapon &&
+               upgrade2.upgradeType == upgrade1.upgradeType &&
                attempts < 10)
         {
             upgrade2 = GenerateRandomUpgrade(availableWeapons);
@@ -70,6 +68,7 @@ public class LevelUpScript : MonoBehaviour
             var optionUI = FirstOption.GetComponent<UpgradeOptionUI>();
             if (optionUI == null)
                 optionUI = FirstOption.AddComponent<UpgradeOptionUI>();
+
             optionUI.Setup(upgrade1, this);
         }
 
@@ -78,6 +77,7 @@ public class LevelUpScript : MonoBehaviour
             var optionUI = SecondOption.GetComponent<UpgradeOptionUI>();
             if (optionUI == null)
                 optionUI = SecondOption.AddComponent<UpgradeOptionUI>();
+
             optionUI.Setup(upgrade2, this);
         }
     }
@@ -85,38 +85,55 @@ public class LevelUpScript : MonoBehaviour
     private WeaponUpgrade GenerateRandomUpgrade(List<WeaponInstance> weapons)
     {
         WeaponInstance randomWeapon = weapons[Random.Range(0, weapons.Count)];
-        
-        bool isOrbitingOnly = randomWeapon.definition.orbitingFactory != null &&
-                              (randomWeapon.definition.targeting == null || 
-                               randomWeapon.definition.spawnPattern == null || 
-                               randomWeapon.definition.projectileFactory == null);
-        
+
+        bool isOrbitingOnly =
+            randomWeapon.definition.orbitingFactory != null &&
+            (randomWeapon.definition.targeting == null ||
+             randomWeapon.definition.spawnPattern == null ||
+             randomWeapon.definition.projectileFactory == null);
+
         UpgradeType randomType;
+
         if (isOrbitingOnly)
         {
-            UpgradeType[] orbitingUpgrades = { UpgradeType.Damage, UpgradeType.ProjectileCount, UpgradeType.Range, UpgradeType.OrbitalSpeed };
+            UpgradeType[] orbitingUpgrades =
+            {
+                UpgradeType.Damage,
+                UpgradeType.ProjectileCount,
+                UpgradeType.Range,
+                UpgradeType.OrbitalSpeed
+            };
+
             randomType = orbitingUpgrades[Random.Range(0, orbitingUpgrades.Length)];
         }
         else
         {
-            randomType = (UpgradeType)Random.Range(0, System.Enum.GetValues(typeof(UpgradeType)).Length - 1);
+            randomType = (UpgradeType)Random.Range(
+                0,
+                System.Enum.GetValues(typeof(UpgradeType)).Length - 1
+            );
         }
 
         float value = 0f;
+
         switch (randomType)
         {
             case UpgradeType.Damage:
                 value = damageIncrement;
                 break;
+
             case UpgradeType.ProjectileCount:
                 value = projectileIncrement;
                 break;
+
             case UpgradeType.Cooldown:
                 value = cooldownReduction;
                 break;
+
             case UpgradeType.Range:
                 value = rangeIncrease;
                 break;
+
             case UpgradeType.OrbitalSpeed:
                 value = orbitalSpeedIncrease;
                 break;
@@ -134,6 +151,6 @@ public class LevelUpScript : MonoBehaviour
     public void DismissLevelUp()
     {
         GameManagerScript.instance.ResumeGame();
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

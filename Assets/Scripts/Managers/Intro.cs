@@ -7,10 +7,11 @@ using UnityEngine.Video;
 public class Intro : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
+
     private bool introSkipped = false;
     private AsyncOperation menuPreload;
 
-    void Awake()
+    private void Awake()
     {
         if (videoPlayer != null)
         {
@@ -19,16 +20,17 @@ public class Intro : MonoBehaviour
         }
     }
 
-    IEnumerator Start()
+    private IEnumerator Start()
     {
         yield return new WaitForSeconds(0.2f);
 
         Application.backgroundLoadingPriority = ThreadPriority.Low;
+
         menuPreload = SceneManager.LoadSceneAsync("MenuScene");
         menuPreload.allowSceneActivation = false;
     }
 
-    void Update()
+    private void Update()
     {
         if (introSkipped) return;
 
@@ -42,14 +44,15 @@ public class Intro : MonoBehaviour
         }
     }
 
-    void OnVideoPrepared(VideoPlayer vp)
+    private void OnVideoPrepared(VideoPlayer vp)
     {
         if (vp == null) return;
+
         vp.Play();
         StartCoroutine(CheckVideoEnd());
     }
 
-    IEnumerator CheckVideoEnd()
+    private IEnumerator CheckVideoEnd()
     {
         while (videoPlayer != null && videoPlayer.isPlaying && !introSkipped)
             yield return null;
@@ -63,9 +66,10 @@ public class Intro : MonoBehaviour
         }
     }
 
-    void SkipIntro()
+    private void SkipIntro()
     {
         if (introSkipped) return;
+
         introSkipped = true;
 
         if (videoPlayer != null && videoPlayer.isPlaying)
@@ -74,7 +78,7 @@ public class Intro : MonoBehaviour
         FadeManager.Instance.ActivatePreloadedSceneWithFade(menuPreload);
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         if (videoPlayer != null)
             videoPlayer.prepareCompleted -= OnVideoPrepared;

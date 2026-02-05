@@ -9,5 +9,4 @@ public class HowToPlayLoader : MonoBehaviour
 
         AchievementManager.Instance.UnlockAchievement("first_time_player");
     }
-
 }

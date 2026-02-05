@@ -12,17 +12,18 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Approach Mode")]
     [SerializeField] private ApproachMode approachMode = ApproachMode.Straight;
-    [SerializeField] private float modeChangeInterval = 5f; // Time between random mode changes (if enabled)
+    [SerializeField] private float modeChangeInterval = 5f;
     [SerializeField] private bool randomizeModeOnStart = false;
     [SerializeField] private bool changeModePeriodically = false;
 
     [Header("Straight Mode Settings")]
-    /*[SerializeField]*/ private float straightStoppingDistance = 0f;
+    private float straightStoppingDistance = 0f;
 
     [Header("Circle Mode Settings")]
     [SerializeField] private float circleRadius = 3f;
     [SerializeField] private float circleSpeed = 2f;
     [SerializeField] private bool circleClockwise = true;
+
     private float circleAngle = 0f;
 
     [Header("Zigzag Mode Settings")]
@@ -34,6 +35,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float strafeDistance = 4f;
     [SerializeField] private float strafeRange = 3f;
     [SerializeField] private float strafeChangeInterval = 2f;
+
     private float strafeTimer = 0f;
     private float strafeDirection = 1f;
 
@@ -41,6 +43,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float ambushDistance = 6f;
     [SerializeField] private float ambushWaitTime = 1f;
     [SerializeField] private float ambushChargeSpeed = 8f;
+
     private bool isAmbushing = false;
     private bool isChargingAmbush = false;
     private float ambushTimer = 0f;
@@ -50,6 +53,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float retreatDistance = 5f;
     [SerializeField] private float retreatDuration = 2f;
     [SerializeField] private float retreatCooldown = 5f;
+
     private float retreatTimer = 0f;
     private float retreatCooldownTimer = 0f;
     private bool isRetreating = false;
@@ -58,26 +62,25 @@ public class EnemyAI : MonoBehaviour
 
     public enum ApproachMode
     {
-        Straight,    // Direct path to player
-        Circle,      // Circle around player
-        Zigzag,      // Zigzag pattern while approaching
-        Strafe,      // Move side to side while maintaining distance
-        Ambush,      // Wait at distance then charge
-        Retreat      // Periodically retreat and re-engage
+        Straight,
+        Circle,
+        Zigzag,
+        Strafe,
+        Ambush,
+        Retreat
     }
 
-    void Awake()
+    internal void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         enemyHealth = GetComponent<EnemyHealth>();
 
-        // Setup NavMeshAgent for 2D
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
 
-    void Start()
+    internal void Start()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
@@ -87,61 +90,67 @@ public class EnemyAI : MonoBehaviour
             playerCollider = playerObj.GetComponent<Collider2D>();
         }
 
-        // Initialize random mode if enabled
         if (randomizeModeOnStart)
         {
-            approachMode = (ApproachMode)Random.Range(0, System.Enum.GetValues(typeof(ApproachMode)).Length);
+            approachMode = (ApproachMode)Random.Range(
+                0,
+                System.Enum.GetValues(typeof(ApproachMode)).Length
+            );
         }
 
-        // Initialize strafe direction
         strafeDirection = Random.value > 0.5f ? 1f : -1f;
 
-        // Set initial speed from EnemyHealth
         if (enemyHealth != null)
         {
             agent.speed = enemyHealth.currentSpeed;
         }
     }
 
-    void Update()
+    internal void Update()
     {
         if (!player || enemyHealth == null) return;
 
-        // Update agent speed based on current speed (unless in special state)
         if (!isChargingAmbush)
         {
             agent.speed = enemyHealth.currentSpeed;
         }
 
-        // Handle periodic mode changes
         if (changeModePeriodically)
         {
             modeTimer += Time.deltaTime;
+
             if (modeTimer >= modeChangeInterval)
             {
                 modeTimer = 0f;
-                approachMode = (ApproachMode)Random.Range(0, System.Enum.GetValues(typeof(ApproachMode)).Length);
+                approachMode = (ApproachMode)Random.Range(
+                    0,
+                    System.Enum.GetValues(typeof(ApproachMode)).Length
+                );
             }
         }
 
-        // Execute behavior based on current approach mode
         switch (approachMode)
         {
             case ApproachMode.Straight:
                 HandleStraightApproach();
                 break;
+
             case ApproachMode.Circle:
                 HandleCircleApproach();
                 break;
+
             case ApproachMode.Zigzag:
                 HandleZigzagApproach();
                 break;
+
             case ApproachMode.Strafe:
                 HandleStrafeApproach();
                 break;
+
             case ApproachMode.Ambush:
                 HandleAmbushApproach();
                 break;
+
             case ApproachMode.Retreat:
                 HandleRetreatApproach();
                 break;
@@ -150,24 +159,20 @@ public class EnemyAI : MonoBehaviour
         LookAtPlayer();
     }
 
-    void HandleStraightApproach()
+    internal void HandleStraightApproach()
     {
-        // Simple direct approach to player
         Vector3 targetPos = GetPlayerPosition();
         agent.stoppingDistance = straightStoppingDistance;
         agent.SetDestination(targetPos);
     }
 
-    void HandleCircleApproach()
+    internal void HandleCircleApproach()
     {
-        // Circle around player
         Vector3 playerPos = GetPlayerPosition();
 
-        // Update circle angle
         float direction = circleClockwise ? 1f : -1f;
         circleAngle += circleSpeed * Time.deltaTime * direction;
 
-        // Calculate circular position around player
         float x = Mathf.Cos(circleAngle) * circleRadius;
         float y = Mathf.Sin(circleAngle) * circleRadius;
 
@@ -178,16 +183,13 @@ public class EnemyAI : MonoBehaviour
         agent.SetDestination(targetPos);
     }
 
-    void HandleZigzagApproach()
+    internal void HandleZigzagApproach()
     {
-        // Zigzag pattern while moving towards player
         Vector3 playerPos = GetPlayerPosition();
         Vector3 directionToPlayer = (playerPos - transform.position).normalized;
 
-        // Calculate perpendicular direction for zigzag
         Vector3 perpendicular = new Vector3(-directionToPlayer.y, directionToPlayer.x, 0f);
 
-        // Calculate zigzag offset
         zigzagTime += Time.deltaTime * zigzagFrequency;
         float offset = Mathf.Sin(zigzagTime) * zigzagAmplitude;
 
@@ -196,19 +198,17 @@ public class EnemyAI : MonoBehaviour
         agent.SetDestination(targetPos);
     }
 
-    void HandleStrafeApproach()
+    internal void HandleStrafeApproach()
     {
-        // Maintain distance while moving side to side
         Vector3 playerPos = GetPlayerPosition();
         float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
 
         strafeTimer += Time.deltaTime;
 
-        // Change strafe direction periodically
         if (strafeTimer >= strafeChangeInterval)
         {
             strafeTimer = 0f;
-            strafeDirection = -strafeDirection; // Reverse direction
+            strafeDirection = -strafeDirection;
         }
 
         Vector3 directionToPlayer = (playerPos - transform.position).normalized;
@@ -218,17 +218,20 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer > strafeDistance + 0.5f)
         {
-            // Too far, move closer while strafing
-            targetPos = playerPos + perpendicular * strafeDirection * strafeRange - directionToPlayer * strafeDistance;
+            targetPos =
+                playerPos
+                + perpendicular * strafeDirection * strafeRange
+                - directionToPlayer * strafeDistance;
         }
         else if (distanceToPlayer < strafeDistance - 0.5f)
         {
-            // Too close, back away while strafing
-            targetPos = transform.position + perpendicular * strafeDirection * strafeRange + directionToPlayer * 0.5f;
+            targetPos =
+                transform.position
+                + perpendicular * strafeDirection * strafeRange
+                + directionToPlayer * 0.5f;
         }
         else
         {
-            // Good distance, just strafe
             targetPos = transform.position + perpendicular * strafeDirection * strafeRange;
         }
 
@@ -236,17 +239,15 @@ public class EnemyAI : MonoBehaviour
         agent.SetDestination(targetPos);
     }
 
-    void HandleAmbushApproach()
+    internal void HandleAmbushApproach()
     {
         Vector3 playerPos = GetPlayerPosition();
         float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
 
         if (!isAmbushing)
         {
-            // Position at ambush distance
             if (distanceToPlayer > ambushDistance + 0.5f)
             {
-                // Move to ambush distance
                 Vector3 directionToPlayer = (playerPos - transform.position).normalized;
                 Vector3 targetPos = playerPos - directionToPlayer * ambushDistance;
                 agent.stoppingDistance = 0.5f;
@@ -254,7 +255,6 @@ public class EnemyAI : MonoBehaviour
             }
             else if (distanceToPlayer < ambushDistance - 0.5f)
             {
-                // Too close, back away
                 Vector3 awayFromPlayer = (transform.position - playerPos).normalized;
                 Vector3 targetPos = playerPos + awayFromPlayer * ambushDistance;
                 agent.stoppingDistance = 0.5f;
@@ -262,7 +262,6 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                // At correct distance, wait before charging
                 ambushTimer += Time.deltaTime;
                 agent.isStopped = true;
 
@@ -279,23 +278,21 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // Charge at player
             agent.stoppingDistance = straightStoppingDistance;
             agent.SetDestination(ambushPosition);
 
-            // Reset after reaching player or timeout
             ambushTimer += Time.deltaTime;
+
             if (distanceToPlayer < 1f || ambushTimer > 3f)
             {
                 isAmbushing = false;
                 isChargingAmbush = false;
                 ambushTimer = 0f;
-                // Speed will be reset in next Update
             }
         }
     }
 
-    void HandleRetreatApproach()
+    internal void HandleRetreatApproach()
     {
         Vector3 playerPos = GetPlayerPosition();
         float distanceToPlayer = Vector3.Distance(transform.position, playerPos);
@@ -304,7 +301,6 @@ public class EnemyAI : MonoBehaviour
 
         if (!isRetreating && retreatCooldownTimer >= retreatCooldown)
         {
-            // Start retreating
             isRetreating = true;
             retreatTimer = 0f;
             retreatCooldownTimer = 0f;
@@ -314,13 +310,11 @@ public class EnemyAI : MonoBehaviour
         {
             retreatTimer += Time.deltaTime;
 
-            // Move away from player
             Vector3 awayFromPlayer = (transform.position - playerPos).normalized;
             Vector3 targetPos = transform.position + awayFromPlayer * retreatDistance;
             agent.stoppingDistance = 0.1f;
             agent.SetDestination(targetPos);
 
-            // Stop retreating after duration
             if (retreatTimer >= retreatDuration)
             {
                 isRetreating = false;
@@ -329,20 +323,20 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // Normal approach when not retreating
             agent.stoppingDistance = straightStoppingDistance;
             agent.SetDestination(playerPos);
         }
     }
 
-    Vector3 GetPlayerPosition()
+    internal Vector3 GetPlayerPosition()
     {
         if (playerCollider != null)
             return playerCollider.bounds.center;
+
         return player.position;
     }
 
-    void LookAtPlayer()
+    internal void LookAtPlayer()
     {
         if (!player || !spriteRenderer) return;
 
@@ -352,12 +346,10 @@ public class EnemyAI : MonoBehaviour
             spriteRenderer.transform.localEulerAngles = new Vector3(0, dir < 0 ? 180f : 0f, 0);
     }
 
-    // Public method to change approach mode at runtime
     public void SetApproachMode(ApproachMode newMode)
     {
         approachMode = newMode;
 
-        // Reset mode-specific variables
         circleAngle = 0f;
         zigzagTime = 0f;
         strafeTimer = 0f;
@@ -374,10 +366,12 @@ public class EnemyAI : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             var playerStats = collision.GetComponent<PlayerStats>();
+
             if (playerStats != null)
             {
                 playerStats.TakeDamage(enemyHealth.baseDamage);
             }
+
             Destroy(this.gameObject);
         }
     }

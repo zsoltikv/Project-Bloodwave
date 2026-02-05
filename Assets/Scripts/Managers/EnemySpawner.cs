@@ -10,15 +10,11 @@ public class EnemySpawnData
     public GameObject enemyPrefab;
     public int unlockLevel = 1;
     [Range(0f, 1f)] public float spawnWeight = 1f;
-    [Tooltip("Ha true, ez az enemy típus mindig spawnolja a többi típust is")]
     public bool alwaysSpawn = false;
-    
+
     [Header("Player Relative Scaling")]
-    [Tooltip("Az enemy HP növekedése a player damage alapján (eredeti HP * (player damage - 1) * ez az érték)")]
     public float healthScaleToPlayerDamage = 1.0f;
-    [Tooltip("Az enemy damage a player MaxHealth %-ában (eredeti damage + player HP * ez az érték)")]
     public float damageScaleToPlayerHealth = 0.1f;
-    [Tooltip("Az enemy sebessége szorzó")]
     public float speedScaleToPlayer = 1.0f;
 }
 
@@ -60,7 +56,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float eliteCoinMultiplier = 2f;
     [SerializeField] float eliteDamageMultiplier = 1.05f;
 
-    // Private variables
     float speedDifficultyMultiplier = 0f;
     float healthDifficultyMultiplier = 0f;
     int currentWave = 0;
@@ -100,13 +95,11 @@ public class EnemySpawner : MonoBehaviour
             {
                 int currentPlayerLevel = playerStats.Level;
 
-                // Ha a player szintje változott
                 if (currentPlayerLevel != lastCheckedPlayerLevel)
                 {
                     lastCheckedPlayerLevel = currentPlayerLevel;
                     UpdateAvailableEnemies();
 
-                    // Nehézség növelés szintenként
                     CheckAndIncreaseDifficulty(currentPlayerLevel);
 
                     Debug.Log($"Player Level: {currentPlayerLevel}. Available enemies: {availableEnemies.Count}");
@@ -117,7 +110,6 @@ public class EnemySpawner : MonoBehaviour
 
     void CheckAndIncreaseDifficulty(int currentPlayerLevel)
     {
-        // Ellenőrizzük, hogy elértük-e a következő nehézség növelési szintet
         if (currentPlayerLevel - lastDifficultyIncreaseLevel >= difficultyIncreaseEveryXLevels)
         {
             lastDifficultyIncreaseLevel = currentPlayerLevel;
@@ -139,7 +131,12 @@ public class EnemySpawner : MonoBehaviour
                 eliteSpawnChance = Mathf.Min(eliteSpawnChance + 0.02f, 0.3f);
             }
 
-            Debug.Log($"Difficulty increased at player level {currentPlayerLevel}! Speed multiplier: +{speedDifficultyMultiplier}, Health multiplier: +{healthDifficultyMultiplier}, Spawn interval: {spawnInterval}s");
+            Debug.Log(
+                $"Difficulty increased at player level {currentPlayerLevel}! " +
+                $"Speed multiplier: +{speedDifficultyMultiplier}, " +
+                $"Health multiplier: +{healthDifficultyMultiplier}, " +
+                $"Spawn interval: {spawnInterval}s"
+            );
         }
     }
 
@@ -174,6 +171,7 @@ public class EnemySpawner : MonoBehaviour
                     SpawnEnemy();
                 }
             }
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -193,6 +191,7 @@ public class EnemySpawner : MonoBehaviour
                 {
                     SpawnEnemy();
                 }
+
                 yield return new WaitForSeconds(0.2f);
             }
 
@@ -204,7 +203,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (availableEnemies.Count == 0) return;
 
-        // Több próbálkozás valid spawn pozícióra
         Vector2 spawnPos = Vector2.zero;
         bool foundValidPosition = false;
 
@@ -213,11 +211,9 @@ public class EnemySpawner : MonoBehaviour
             spawnPos = GetRandomSpawnPosition();
             Vector3Int cellPos = groundTilemap.WorldToCell(spawnPos);
 
-            // Ellenőrizzük hogy van-e tile ezen a pozíción
             if (groundTilemap.GetTile(cellPos) == null)
                 continue;
 
-            // Ellenőrizzük hogy teljesen körbe van-e véve
             if (!IsFullySurrounded(cellPos))
                 continue;
 
@@ -228,42 +224,33 @@ public class EnemySpawner : MonoBehaviour
         if (!foundValidPosition)
             return;
 
-        // Weighted random selection
         EnemySpawnData selectedEnemy = SelectEnemyByWeight();
         if (selectedEnemy == null || selectedEnemy.enemyPrefab == null) return;
 
         GameObject enemy = Instantiate(selectedEnemy.enemyPrefab, spawnPos, Quaternion.identity);
         activeEnemies.Add(enemy);
 
-        // Elite spawning
         bool isElite = spawnElites && Random.value < eliteSpawnChance;
 
-        // Enemy stats beállítása
         var health = enemy.GetComponent<EnemyHealth>();
         if (health != null && playerStats != null)
         {
-            // Player statjaihoz viszonyított scaling
             float playerMaxHealth = playerStats.MaxHealth;
             float avgWeaponDamage = GetAverageWeaponDamage();
-            
-            // HP: Az enemy prefab eredeti HP-ja + (eredeti HP * átlag weapon damage scaling)
-            // Az avgWeaponDamage kb. 10-50 között van, így normalizzáljuk
-            float normalizedDamage = avgWeaponDamage / 10f; // 10-es weapon damage = 1.0 multiplier
+
+            float normalizedDamage = avgWeaponDamage / 10f;
             float originalHP = health.maxHealth;
             float bonusHP = originalHP * (normalizedDamage - 1f) * selectedEnemy.healthScaleToPlayerDamage;
-            health.maxHealth = originalHP + Mathf.Max(0, bonusHP); // Minimum 0 bonus
-            
-            // Damage: Eredeti damage + (player MaxHealth * scaling)
+            health.maxHealth = originalHP + Mathf.Max(0, bonusHP);
+
             float originalDamage = health.baseDamage;
             health.baseDamage = originalDamage + (playerMaxHealth * selectedEnemy.damageScaleToPlayerHealth);
-            
-            // Speed beállítása
+
             health.baseSpeed *= selectedEnemy.speedScaleToPlayer;
-            
-            // Hozzáadjuk a difficulty multipliereket (ez még mindig érvényes, így egyre nehezebb lesz)
+
             health.maxHealth *= 1 + healthDifficultyMultiplier;
-            health.baseDamage *= 1 + (healthDifficultyMultiplier * 0.5f); // Damage is növekszik de kevésbé
-            
+            health.baseDamage *= 1 + (healthDifficultyMultiplier * 0.5f);
+
             if (isElite)
             {
                 health.maxHealth *= eliteHealthMultiplier;
@@ -271,20 +258,16 @@ public class EnemySpawner : MonoBehaviour
                 health.baseSpeed *= eliteSpeedMultiplier;
                 health.coinReward = Mathf.RoundToInt(health.coinReward * eliteCoinMultiplier);
                 enemy.transform.localScale *= eliteScaleMultiplier;
-                
-                
-                // Vizuális jelzés
+
                 var renderer = enemy.GetComponent<SpriteRenderer>();
                 if (renderer != null)
                 {
                     renderer.color = Color.red;
                 }
             }
-            
-            // FONTOS: Először módosítjuk a maxHealth-et, UTÁNA állítjuk be a currentHealth-et
+
             health.currentHealth = health.maxHealth;
-            
-            // Speed növelés a speed difficulty multiplier alapján
+
             health.baseSpeed += speedDifficultyMultiplier;
             health.currentSpeed = health.baseSpeed;
         }
@@ -292,14 +275,12 @@ public class EnemySpawner : MonoBehaviour
 
     EnemySpawnData SelectEnemyByWeight()
     {
-        // Always spawn enemyk kezelése
         var alwaysSpawnEnemies = availableEnemies.Where(e => e.alwaysSpawn).ToList();
         if (alwaysSpawnEnemies.Count > 0 && Random.value < 0.3f)
         {
             return alwaysSpawnEnemies[Random.Range(0, alwaysSpawnEnemies.Count)];
         }
 
-        // Weighted selection
         float totalWeight = availableEnemies.Sum(e => e.spawnWeight);
         float randomValue = Random.Range(0f, totalWeight);
         float currentWeight = 0f;
@@ -367,6 +348,7 @@ public class EnemySpawner : MonoBehaviour
     public void ResumeSpawning()
     {
         isSpawning = true;
+
         if (useWaveSystem)
             StartCoroutine(WaveSpawnSystem());
         else
@@ -393,7 +375,6 @@ public class EnemySpawner : MonoBehaviour
         return healthDifficultyMultiplier;
     }
 
-    // Kiszámolja az átlagos weapon damage-t a playernek
     private float GetAverageWeaponDamage()
     {
         var weaponController = player.GetComponent<WeaponController>();
@@ -409,7 +390,6 @@ public class EnemySpawner : MonoBehaviour
         {
             if (weapon != null && weapon.definition != null)
             {
-                // GetDamage() már tartalmazza az összes bonuszt
                 totalDamage += weapon.GetDamage();
                 weaponCount++;
             }

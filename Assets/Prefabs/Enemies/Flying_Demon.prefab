@@ -197,10 +197,10 @@ MonoBehaviour:
   maxHealth: 20
   currentHealth: 0
   baseSpeed: 2.8
-  baseDamage: 7
   currentSpeed: 0
+  baseDamage: 7
   xpReward: 25
-  coinReward: 120
+  coinReward: 50
   isSlowed: 0
   isBleeding: 0
   IsDead: 0

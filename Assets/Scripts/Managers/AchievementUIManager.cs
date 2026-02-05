@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class AchievementUIManager : MonoBehaviour
 {
@@ -14,10 +14,10 @@ public class AchievementUIManager : MonoBehaviour
     public Button backButton;
 
     [Header("Font Assets")]
-    [SerializeField] private TMPro.TMP_FontAsset unlockedFont;
-    [SerializeField] private TMPro.TMP_FontAsset lockedFont;
+    [SerializeField] private TMP_FontAsset unlockedFont;
+    [SerializeField] private TMP_FontAsset lockedFont;
 
-    void Start()
+    private void Start()
     {
         if (backButton != null)
         {
@@ -27,7 +27,7 @@ public class AchievementUIManager : MonoBehaviour
         DisplayAchievements();
     }
 
-    void DisplayAchievements()
+    private void DisplayAchievements()
     {
         if (AchievementManager.Instance == null)
         {
@@ -46,11 +46,11 @@ public class AchievementUIManager : MonoBehaviour
         {
             GameObject item = Instantiate(achievementItemPrefab, achievementContainer);
 
-            // Set width to match container width
             RectTransform rectTransform = item.GetComponent<RectTransform>();
             if (rectTransform != null)
             {
-                rectTransform.sizeDelta = new Vector2(achievementContainer.GetComponent<RectTransform>().rect.width, rectTransform.sizeDelta.y);
+                RectTransform containerRect = achievementContainer.GetComponent<RectTransform>();
+                rectTransform.sizeDelta = new Vector2(containerRect.rect.width, rectTransform.sizeDelta.y);
             }
 
             Transform titleTransform = item.transform.Find("Title");
@@ -71,7 +71,9 @@ public class AchievementUIManager : MonoBehaviour
                 if (descText != null)
                 {
                     descText.text = achievement.description;
-                    descText.color = achievement.isUnlocked ? new Color(0.8f, 0.8f, 0.8f) : new Color(0.4f, 0.4f, 0.4f);
+                    descText.color = achievement.isUnlocked
+                        ? new Color(0.8f, 0.8f, 0.8f)
+                        : new Color(0.4f, 0.4f, 0.4f);
                 }
             }
 
@@ -82,7 +84,9 @@ public class AchievementUIManager : MonoBehaviour
                 if (statusText != null)
                 {
                     statusText.text = achievement.isUnlocked ? "UNLOCKED" : "LOCKED";
-                    statusText.color = achievement.isUnlocked ? new Color32(0, 255, 0, 255) : new Color32(255, 0, 0, 255);
+                    statusText.color = achievement.isUnlocked
+                        ? new Color32(0, 255, 0, 255)
+                        : new Color32(255, 0, 0, 255);
 
                     statusText.font = achievement.isUnlocked ? unlockedFont : lockedFont;
                 }
@@ -105,17 +109,18 @@ public class AchievementUIManager : MonoBehaviour
             Image background = item.GetComponent<Image>();
             if (background != null)
             {
-                background.color = achievement.isUnlocked ? new Color(0.09f, 0.18f, 0.09f, 0.8f) : new Color(0.027f, 0.027f, 0.027f, 0.8f);
+                background.color = achievement.isUnlocked
+                    ? new Color(0.09f, 0.18f, 0.09f, 0.8f)
+                    : new Color(0.027f, 0.027f, 0.027f, 0.8f);
             }
 
-            // Darken locked achievements
             CanvasGroup canvasGroup = item.GetComponent<CanvasGroup>();
             if (canvasGroup == null)
             {
                 canvasGroup = item.AddComponent<CanvasGroup>();
             }
-            canvasGroup.alpha = achievement.isUnlocked ? 1f : 0.2f;
 
+            canvasGroup.alpha = achievement.isUnlocked ? 1f : 0.2f;
         }
 
         if (progressText != null)
@@ -128,7 +133,7 @@ public class AchievementUIManager : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(achievementContainer.transform as RectTransform);
     }
 
-    void GoBack()
+    private void GoBack()
     {
         FadeManager.Instance.LoadSceneWithFade("MenuScene");
     }

@@ -17,7 +17,7 @@ public class PauseGame : MonoBehaviour
 
     public static bool PausedThisRun = false;
 
-    void Awake()
+    private void Awake()
     {
         if (pauseUI == null) return;
 
@@ -27,10 +27,11 @@ public class PauseGame : MonoBehaviour
         pauseCanvasGroup.alpha = 0f;
         pauseCanvasGroup.interactable = false;
         pauseCanvasGroup.blocksRaycasts = false;
+
         pauseUI.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -87,14 +88,18 @@ public class PauseGame : MonoBehaviour
         pauseUI.transform.localScale = originalScale * 0.9f;
 
         float t = 0f;
+
         while (t < animDuration)
         {
             t += Time.unscaledDeltaTime;
             float lerp = t / animDuration;
 
             pauseCanvasGroup.alpha = Mathf.Lerp(0f, 1f, lerp);
-            pauseUI.transform.localScale =
-                Vector3.Lerp(originalScale * 0.9f, originalScale, EaseOutBack(lerp));
+            pauseUI.transform.localScale = Vector3.Lerp(
+                originalScale * 0.9f,
+                originalScale,
+                EaseOutBack(lerp)
+            );
 
             yield return null;
         }
@@ -111,14 +116,14 @@ public class PauseGame : MonoBehaviour
         pauseCanvasGroup.blocksRaycasts = false;
 
         float t = 0f;
+
         while (t < animDuration)
         {
             t += Time.unscaledDeltaTime;
             float lerp = t / animDuration;
 
             pauseCanvasGroup.alpha = Mathf.Lerp(1f, 0f, lerp);
-            pauseUI.transform.localScale =
-                Vector3.Lerp(originalScale, originalScale * 0.9f, lerp);
+            pauseUI.transform.localScale = Vector3.Lerp(originalScale, originalScale * 0.9f, lerp);
 
             yield return null;
         }

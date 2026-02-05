@@ -7,10 +7,9 @@ using UnityEngine.UI;
 
 public class WeaponController : MonoBehaviour
 {
-
     [SerializeField] private PlayerStats stats;
     [SerializeField] private Transform firePoint;
-    
+
     [SerializeField] private WeaponDefinition startingWeapon;
 
     [Header("Runtime Weapons (Debug View)")]
@@ -20,7 +19,6 @@ public class WeaponController : MonoBehaviour
     public List<WeaponInstance> GetWeapons() => weapons;
     public List<WeaponInstance> GetAllWeapons() => weapons.Concat(weaponInventory).ToList();
 
-    private bool IsShootingWeapon(WeaponDefinition def) => def.targeting != null && def.spawnPattern != null && def.projectileFactory != null;
     private List<GameObject> orbitingObjects = new List<GameObject>();
 
     [Header("Switch Panel Animation")]
@@ -42,6 +40,8 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private GameObject currentWeaponDisplay;
     [SerializeField] private GameObject weaponSwitchContainer;
     [SerializeField] private GameObject weaponSwitchPrefab;
+    private bool IsShootingWeapon(WeaponDefinition def) =>
+        def.targeting != null && def.spawnPattern != null && def.projectileFactory != null;
 
     private void OnEnable()
     {
@@ -137,21 +137,21 @@ public class WeaponController : MonoBehaviour
 
             var ctx = new WeaponContext
             {
-                owner = this.gameObject,
+                owner = gameObject,
                 firePoint = firePoint,
                 stats = stats,
                 weapon = weapon
             };
+
             ctx.weapon.playerStats = ctx.stats;
 
             var spawned = weapon.definition.orbitingFactory.Spawn(ctx);
-
             orbitingObjects.AddRange(spawned);
         }
 
         if (orbitingObjects.Count > 0)
         {
-            if (AchievementManager.Instance != null) 
+            if (AchievementManager.Instance != null)
             {
                 AchievementManager.Instance.UnlockAchievement("orbit_master");
             }
@@ -161,7 +161,7 @@ public class WeaponController : MonoBehaviour
     private void Update()
     {
         if (GameManagerScript.instance.FreezeGame || stats.Health < 0.01f) return;
-        
+
         float deltaTime = Time.deltaTime;
 
         foreach (var weapon in weapons)
@@ -172,6 +172,7 @@ public class WeaponController : MonoBehaviour
             if (!weapon.isFiring)
             {
                 weapon.cooldownTimer -= deltaTime;
+
                 if (weapon.cooldownTimer <= 0f)
                 {
                     StartCoroutine(FireWeaponRoutine(weapon));
@@ -188,11 +189,10 @@ public class WeaponController : MonoBehaviour
     private IEnumerator FireWeaponRoutine(WeaponInstance _weapon)
     {
         _weapon.isFiring = true;
-        int totalShots;
 
         var ctx = new WeaponContext
         {
-            owner = this.gameObject,
+            owner = gameObject,
             firePoint = firePoint,
             stats = stats,
             weapon = _weapon
@@ -208,7 +208,11 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        if (_weapon.definition.name == "Pistol" || _weapon.definition.name == "BloodScythe" || _weapon.definition.name == "Sword")
+        int totalShots;
+
+        if (_weapon.definition.name == "Pistol" ||
+            _weapon.definition.name == "BloodScythe" ||
+            _weapon.definition.name == "Sword")
         {
             totalShots = ctx.weapon.GetProjectileCount();
         }
@@ -216,7 +220,8 @@ public class WeaponController : MonoBehaviour
         {
             totalShots = 1;
         }
-        float delay = _weapon.definition.spawnPattern.shotDelay; 
+
+        float delay = _weapon.definition.spawnPattern.shotDelay;
 
         for (int i = 0; i < totalShots; i++)
         {
@@ -230,6 +235,7 @@ public class WeaponController : MonoBehaviour
             var shots = _weapon.definition.spawnPattern.BuildShots(ctx, targetInfo);
 
             int shotCount = 0;
+
             foreach (var shot0 in shots)
             {
                 shotCount++;
@@ -243,8 +249,7 @@ public class WeaponController : MonoBehaviour
                     }
                 }
 
-                var projectile =
-                    _weapon.definition.projectileFactory.SpawnAndReturn(ctx, shot);
+                var projectile = _weapon.definition.projectileFactory.SpawnAndReturn(ctx, shot);
 
                 if (_weapon.definition.modifiersOnHit != null)
                 {

@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.Video;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class Cutscene : MonoBehaviour
 {
@@ -9,11 +9,10 @@ public class Cutscene : MonoBehaviour
 
     private bool cutsceneEnded = false;
 
-    void Start()
+    private void Start()
     {
         if (videoPlayer == null)
         {
-            Debug.LogError("VideoPlayer nincs hozzárendelve!");
             return;
         }
 
@@ -22,25 +21,22 @@ public class Cutscene : MonoBehaviour
         videoPlayer.Play();
     }
 
-    void Update()
+    private void Update()
     {
         if (cutsceneEnded) return;
 
-        // Érintés
         if (Touchscreen.current != null &&
             Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
         {
             SkipCutscene();
         }
 
-        // Egér
         if (Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
         {
             SkipCutscene();
         }
 
-        // Billentyûzet
         if (Keyboard.current != null &&
             Keyboard.current.anyKey.wasPressedThisFrame)
         {
@@ -48,21 +44,21 @@ public class Cutscene : MonoBehaviour
         }
     }
 
-    void OnVideoFinished(VideoPlayer vp)
+    private void OnVideoFinished(VideoPlayer vp)
     {
         if (!cutsceneEnded)
             SkipCutscene();
     }
 
-    void SkipCutscene()
+    private void SkipCutscene()
     {
         if (cutsceneEnded) return;
+
         cutsceneEnded = true;
 
         if (videoPlayer.isPlaying)
             videoPlayer.Stop();
 
         FadeManager.Instance.LoadSceneWithFade("MainScene");
-
     }
 }

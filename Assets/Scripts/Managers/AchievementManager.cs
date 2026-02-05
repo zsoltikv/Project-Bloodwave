@@ -7,12 +7,13 @@ public class AchievementManager : MonoBehaviour
 
     private List<Achievement> achievements = new List<Achievement>();
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
             InitializeAchievements();
             LoadAchievements();
         }
@@ -21,7 +22,8 @@ public class AchievementManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void InitializeAchievements()
+
+    private void InitializeAchievements()
     {
         achievements.Clear();
 
@@ -88,13 +90,13 @@ public class AchievementManager : MonoBehaviour
 
         achievements.Add(new Achievement("unlock_10_achievements", "Collector I", "Unlock 10 achievements"));
         achievements.Add(new Achievement("unlock_25_achievements", "Collector II", "Unlock 25 achievements"));
-
         achievements.Add(new Achievement("completionist", "Completionist", "Unlock all achievements"));
     }
 
     public void UnlockAchievement(string achievementId)
     {
         Achievement achievement = null;
+
         foreach (Achievement a in achievements)
         {
             if (a.id == achievementId)
@@ -107,8 +109,10 @@ public class AchievementManager : MonoBehaviour
         if (achievement != null && !achievement.isUnlocked)
         {
             achievement.isUnlocked = true;
+
             SaveAchievements();
             Debug.Log("Achievement Unlocked: " + achievement.title);
+
             CheckMilestoneAchievements();
 
             if (achievementId != "completionist" &&
@@ -124,10 +128,9 @@ public class AchievementManager : MonoBehaviour
         foreach (Achievement a in achievements)
         {
             if (a.id == achievementId)
-            {
                 return a.isUnlocked;
-            }
         }
+
         return false;
     }
 
@@ -139,11 +142,13 @@ public class AchievementManager : MonoBehaviour
     public int GetUnlockedCount()
     {
         int count = 0;
+
         foreach (Achievement a in achievements)
         {
             if (a.isUnlocked)
                 count++;
         }
+
         return count;
     }
 
@@ -152,9 +157,10 @@ public class AchievementManager : MonoBehaviour
         return achievements.Count;
     }
 
-    void SaveAchievements()
+    private void SaveAchievements()
     {
         List<string> unlockedIds = new List<string>();
+
         foreach (Achievement a in achievements)
         {
             if (a.isUnlocked)
@@ -163,8 +169,10 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        AchievementSaveData saveData = new AchievementSaveData();
-        saveData.unlockedAchievementIds = unlockedIds.ToArray();
+        AchievementSaveData saveData = new AchievementSaveData
+        {
+            unlockedAchievementIds = unlockedIds.ToArray()
+        };
 
         string json = JsonUtility.ToJson(saveData);
         PlayerPrefs.SetString("AchievementData", json);
@@ -198,6 +206,7 @@ public class AchievementManager : MonoBehaviour
                 }
             }
         }
+
         CheckMilestoneAchievements();
     }
 
@@ -211,5 +220,4 @@ public class AchievementManager : MonoBehaviour
         if (unlocked >= 25)
             UnlockAchievement("unlock_25_achievements");
     }
-
 }

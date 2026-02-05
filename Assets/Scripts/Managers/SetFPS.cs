@@ -4,12 +4,13 @@ public class SetFPS : MonoBehaviour
 {
     private static bool isInitialized = false;
 
-    void Awake()
+    private void Awake()
     {
-        if (isInitialized == false)
+        if (!isInitialized)
         {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
+
             isInitialized = true;
             DontDestroyOnLoad(gameObject);
         }

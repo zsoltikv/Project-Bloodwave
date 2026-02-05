@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName="Weapons/Projectile Factories/Blood Scythe Factory")]
+[CreateAssetMenu(menuName = "Weapons/Projectile Factories/Blood Scythe Factory")]
 public class BloodScytheFactory : ProjectileFactory
 {
     public GameObject scythePrefab;
@@ -8,7 +8,6 @@ public class BloodScytheFactory : ProjectileFactory
     public override GameObject SpawnAndReturn(WeaponContext context, Shot shot)
     {
         Vector3 dir = shot.direction.normalized;
-        
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         Vector3 pos = context.owner.transform.position;

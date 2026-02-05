@@ -16,7 +16,7 @@ MonoBehaviour:
   description: "A relic of olden craft, which upon use increaseth the bearer\u2019s
     maximum life by 100."
   icon: {fileID: -750258725862395048, guid: 4fb771a36444ca94e936e160d3314a20, type: 3}
-  price: 100
+  price: 750
   weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 0

@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
 using TMPro;
+using UnityEngine;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class LeaderboardManager : MonoBehaviour
     private string SaveFilePath => Path.Combine(Application.persistentDataPath, "leaderboard.json");
     private List<SaveData> saveDataList = new List<SaveData>();
 
-    void Start()
+    private void Start()
     {
         LoadSaves();
         PopulateLeaderboard();
@@ -35,6 +35,7 @@ public class LeaderboardManager : MonoBehaviour
         {
             saveDataList = new List<SaveData>();
         }
+
         saveDataList.Sort((a, b) => b.level.CompareTo(a.level));
     }
 
@@ -50,13 +51,15 @@ public class LeaderboardManager : MonoBehaviour
             Destroy(child.gameObject);
 
         var header = Instantiate(SavePrefab, Content.transform);
+
         if (header.transform.childCount >= 3)
         {
             header.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Player";
             header.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Level";
             header.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Time";
         }
-        header.transform.localScale = Vector3.one * 1.05f; 
+
+        header.transform.localScale = Vector3.one * 1.05f;
 
         for (int i = 0; i < saveDataList.Count; i++)
         {
@@ -75,7 +78,7 @@ public class LeaderboardManager : MonoBehaviour
 
                 if (i == 0)
                 {
-                    Color goldColor = new Color(1f, 0.84f, 0f); 
+                    Color goldColor = new Color(1f, 0.84f, 0f);
                     playerText.color = goldColor;
                     levelText.color = goldColor;
                     timeText.color = goldColor;
@@ -92,6 +95,7 @@ public class LeaderboardManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(delay);
 
         float t = 0f;
+
         while (t < 1f)
         {
             t += Time.unscaledDeltaTime / popInDuration;

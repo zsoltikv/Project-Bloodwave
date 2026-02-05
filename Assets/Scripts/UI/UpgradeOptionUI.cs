@@ -1,6 +1,6 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class UpgradeOptionUI : MonoBehaviour
 {
@@ -8,7 +8,7 @@ public class UpgradeOptionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private Image iconImage;
     [SerializeField] private Button button;
-    
+
     private WeaponUpgrade upgrade;
     private LevelUpScript levelUpScript;
 
@@ -16,16 +16,16 @@ public class UpgradeOptionUI : MonoBehaviour
     {
         this.upgrade = upgrade;
         this.levelUpScript = levelUpScript;
-        
+
         if (descriptionText != null)
             descriptionText.text = upgrade.GetDescription();
-        
+
         if (iconImage != null && upgrade.targetWeapon.definition.icon != null)
             iconImage.sprite = upgrade.targetWeapon.definition.icon;
 
         if (titleText != null)
             titleText.text = upgrade.targetWeapon.definition.weaponName;
-        
+
         if (button != null)
         {
             button.onClick.RemoveListener(OnClick);

@@ -16,7 +16,8 @@ MonoBehaviour:
   description: "A fabled charm that hastens the bearer\u2019s projectiles, increasing
     their speed by 10%."
   icon: {fileID: 608787128665827707, guid: ca990588a463c094cb94907a04f423af, type: 3}
-  price: 200
+  price: 500
+  weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 4
     modifierType: 1
