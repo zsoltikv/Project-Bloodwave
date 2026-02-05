@@ -1,7 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
 using TMPro;
+using UnityEngine;
 
 public class SaveScript : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class SaveScript : MonoBehaviour
     [Header("DataSaved UI")]
     public TMP_Text dataSavedText;
     public float fadeInTime = 0.2f;
-    public float holdTime = 1.6f;     // 0.2 + 1.6 + 0.2 = ~2.0s összesen
+    public float holdTime = 1.6f;
     public float fadeOutTime = 0.2f;
     public bool useUnscaledTime = true;
 
@@ -23,14 +24,15 @@ public class SaveScript : MonoBehaviour
     private Coroutine dataSavedRoutine;
 
     public List<SaveData> saveDataList = new List<SaveData>();
-    
+
     private string SaveFilePath => Path.Combine(Application.persistentDataPath, "leaderboard.json");
 
-    void Start()
+    private void Start()
     {
         LoadLeaderboard();
         InitDataSavedUI();
     }
+
     private void InitDataSavedUI()
     {
         if (dataSavedText == null) return;
@@ -50,10 +52,10 @@ public class SaveScript : MonoBehaviour
             return;
         }
 
-        // Név input fieldből ha van
         if (NameInputField != null)
         {
             var inputField = NameInputField.GetComponent<TMP_InputField>();
+
             if (inputField != null && !string.IsNullOrEmpty(inputField.text))
             {
                 playerName = inputField.text;
@@ -64,16 +66,12 @@ public class SaveScript : MonoBehaviour
             }
         }
 
-        
-        // Score és idő lekérése
         int level = GameManagerScript.instance.level;
 
         time = RunTimer.instance.timeElapsed;
         int minutes = Mathf.FloorToInt(time / 60f);
         int seconds = Mathf.FloorToInt(time % 60f);
-        
 
-        // Új mentés létrehozása
         SaveData newSave = new SaveData
         {
             playerName = playerName,
@@ -84,19 +82,16 @@ public class SaveScript : MonoBehaviour
 
         saveDataList.Add(newSave);
 
-        // Achievement: első mentés
         if (saveDataList.Count == 1)
         {
             AchievementManager.Instance.UnlockAchievement("first_save");
         }
 
-        // Achievement: top 10 elérve
         if (saveDataList.Count == 10)
         {
             AchievementManager.Instance.UnlockAchievement("leaderboard_master");
         }
 
-        // Maximum 10 bejegyzés megtartása
         if (saveDataList.Count > 10)
         {
             saveDataList.RemoveRange(10, saveDataList.Count - 10);
@@ -114,6 +109,7 @@ public class SaveScript : MonoBehaviour
             GameManagerScript.instance.saveUsedThisRun = true;
         }
     }
+
     private void ShowDataSaved()
     {
         if (dataSavedText == null) return;
@@ -125,14 +121,16 @@ public class SaveScript : MonoBehaviour
         dataSavedRoutine = StartCoroutine(DataSavedCoroutine());
     }
 
-    private System.Collections.IEnumerator DataSavedCoroutine()
+    private IEnumerator DataSavedCoroutine()
     {
         dataSavedText.gameObject.SetActive(true);
 
         yield return FadeCanvasGroup(dataSavedGroup, 0f, 1f, fadeInTime);
 
-        if (useUnscaledTime) yield return new WaitForSecondsRealtime(holdTime);
-        else yield return new WaitForSeconds(holdTime);
+        if (useUnscaledTime)
+            yield return new WaitForSecondsRealtime(holdTime);
+        else
+            yield return new WaitForSeconds(holdTime);
 
         yield return FadeCanvasGroup(dataSavedGroup, 1f, 0f, fadeOutTime);
 
@@ -140,7 +138,7 @@ public class SaveScript : MonoBehaviour
         dataSavedRoutine = null;
     }
 
-    private System.Collections.IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
+    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
     {
         if (cg == null) yield break;
 
@@ -153,6 +151,7 @@ public class SaveScript : MonoBehaviour
         }
 
         float t = 0f;
+
         while (t < duration)
         {
             t += useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
@@ -202,6 +201,7 @@ public class SaveScript : MonoBehaviour
     public void ClearLeaderboard()
     {
         saveDataList.Clear();
+
         if (File.Exists(SaveFilePath))
         {
             File.Delete(SaveFilePath);
@@ -212,7 +212,6 @@ public class SaveScript : MonoBehaviour
     {
         return saveDataList;
     }
-
 }
 
 [System.Serializable]

@@ -14,7 +14,7 @@ public class Achievement
         this.id = id;
         this.title = title;
         this.description = description;
-        this.isUnlocked = false;
+        isUnlocked = false;
     }
 }
 

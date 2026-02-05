@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SortingBandManager : MonoBehaviour
@@ -10,7 +9,7 @@ public class SortingBandManager : MonoBehaviour
     public int minOrder = -1500;
     public int maxOrder = 1500;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance != null)
         {

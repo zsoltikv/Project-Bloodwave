@@ -13,7 +13,8 @@ public class ShopManager : MonoBehaviour
 
     [Header("Shop Items")]
     [SerializeField] private List<ShopItem> availableItems = new List<ShopItem>();
-    [SerializeField] private List<WeaponDefinition> availableWeapons = new List<WeaponDefinition>(); 
+    [SerializeField] private List<WeaponDefinition> availableWeapons = new List<WeaponDefinition>();
+
     private readonly List<ShopItem> currentShopItems = new List<ShopItem>();
 
     [Header("Events")]
@@ -24,6 +25,7 @@ public class ShopManager : MonoBehaviour
     [Header("UI")]
     public GameObject shopUI;
     private TextMeshProUGUI coinDisplay;
+
     [SerializeField] private float itemBoughtDuration = 2f;
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject shopButton;
@@ -43,7 +45,7 @@ public class ShopManager : MonoBehaviour
     private int totalCoinsSpent = 0;
     private bool bigSpenderUnlocked = false;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null) instance = this;
         else { Destroy(gameObject); return; }
@@ -66,10 +68,11 @@ public class ShopManager : MonoBehaviour
         bigSpenderUnlocked = AchievementManager.Instance.IsAchievementUnlocked("big_spender");
     }
 
-    void Start()
+    private void Start()
     {
         BeginNewRun();
     }
+
     public void BeginNewRun()
     {
         purchasedItemIds.Clear();
@@ -82,7 +85,8 @@ public class ShopManager : MonoBehaviour
         WeaponController weaponController = PlayerInventory.instance.GetComponent<WeaponController>();
         List<WeaponDefinition> ownedWeapons = weaponController.GetWeapons().ConvertAll(w => w.definition);
 
-        currentShopItems.Clear();  
+        currentShopItems.Clear();
+
         var filteredItems = availableItems.Where(item =>
             item != null &&
             !IsPurchasedThisRun(item) &&
@@ -109,6 +113,7 @@ public class ShopManager : MonoBehaviour
         }
 
         List<ShopItem> pool = new List<ShopItem>(filteredItems);
+
         for (int i = 0; i < itemToSelect; i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, pool.Count);
@@ -117,6 +122,7 @@ public class ShopManager : MonoBehaviour
         }
 
         int[] slotIndices = { 2, 3, 4 };
+
         for (int i = 0; i < slotIndices.Length; i++)
         {
             Transform slot = shopUI.transform.GetChild(slotIndices[i]);
@@ -195,6 +201,7 @@ public class ShopManager : MonoBehaviour
             AddLifetimeSpent(item.price);
 
             totalPurchases++;
+
             if (totalPurchases == 10)
             {
                 AchievementManager.Instance.UnlockAchievement("collector");
@@ -206,13 +213,11 @@ public class ShopManager : MonoBehaviour
             RefreshShop();
             return true;
         }
-        else
-        {
-            playerStats.Coins += item.price;
-            coinDisplay.text = $"Coins: {playerStats.Coins}";
-            OnPurchaseFailed?.Invoke("Inventory full or item stack limit reached");
-            return false;
-        }
+
+        playerStats.Coins += item.price;
+        coinDisplay.text = $"Coins: {playerStats.Coins}";
+        OnPurchaseFailed?.Invoke("Inventory full or item stack limit reached");
+        return false;
     }
 
     public bool CanAfford(ShopItem item)
@@ -274,14 +279,18 @@ public class ShopManager : MonoBehaviour
         shopUI.transform.localScale = originalScale * 0.9f;
 
         float t = 0f;
+
         while (t < animDuration)
         {
             t += Time.unscaledDeltaTime;
             float lerp = t / animDuration;
 
             shopCanvasGroup.alpha = Mathf.Lerp(0f, 1f, lerp);
-            shopUI.transform.localScale =
-                Vector3.Lerp(originalScale * 0.9f, originalScale, EaseOutBack(lerp));
+            shopUI.transform.localScale = Vector3.Lerp(
+                originalScale * 0.9f,
+                originalScale,
+                EaseOutBack(lerp)
+            );
 
             yield return null;
         }
@@ -298,14 +307,14 @@ public class ShopManager : MonoBehaviour
         shopCanvasGroup.blocksRaycasts = false;
 
         float t = 0f;
+
         while (t < animDuration)
         {
             t += Time.unscaledDeltaTime;
             float lerp = t / animDuration;
 
             shopCanvasGroup.alpha = Mathf.Lerp(1f, 0f, lerp);
-            shopUI.transform.localScale =
-                Vector3.Lerp(originalScale, originalScale * 0.9f, lerp);
+            shopUI.transform.localScale = Vector3.Lerp(originalScale, originalScale * 0.9f, lerp);
 
             yield return null;
         }
@@ -348,6 +357,7 @@ public class ShopManager : MonoBehaviour
             shopCanvasGroup.blocksRaycasts = false;
         }
     }
+
     private void AddLifetimeSpent(int amount)
     {
         if (amount <= 0) return;
@@ -362,6 +372,7 @@ public class ShopManager : MonoBehaviour
             AchievementManager.Instance.UnlockAchievement("big_spender");
         }
     }
+
     private string GetItemId(ShopItem item)
     {
         return item != null ? item.name : "";
@@ -381,6 +392,7 @@ public class ShopManager : MonoBehaviour
     {
         if (shopUI == null) return;
         if (childIndex < 0 || childIndex >= shopUI.transform.childCount) return;
+
         shopUI.transform.GetChild(childIndex).gameObject.SetActive(active);
     }
 }

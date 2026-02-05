@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
@@ -71,10 +71,12 @@ public class AudioManager : MonoBehaviour
             return;
 
         isInGameplay = false;
+
         musicSource.loop = true;
         musicSource.clip = menuMusic;
         musicSource.Play();
     }
+
     private void StartGameplayMusic()
     {
         if (isInGameplay)
@@ -94,6 +96,7 @@ public class AudioManager : MonoBehaviour
             return;
 
         AudioClip nextTrack;
+
         do
         {
             nextTrack = gameplayTracks[Random.Range(0, gameplayTracks.Count)];
@@ -101,6 +104,7 @@ public class AudioManager : MonoBehaviour
         while (nextTrack == lastPlayedTrack && gameplayTracks.Count > 1);
 
         lastPlayedTrack = nextTrack;
+
         musicSource.clip = nextTrack;
         musicSource.Play();
 
@@ -110,8 +114,10 @@ public class AudioManager : MonoBehaviour
     private void StopMusic()
     {
         CancelInvoke();
+
         musicSource.Stop();
         musicSource.clip = null;
+
         isInGameplay = false;
     }
 }

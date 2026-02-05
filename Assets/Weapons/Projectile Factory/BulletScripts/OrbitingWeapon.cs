@@ -3,7 +3,7 @@ using UnityEngine;
 public class OrbitingWeapon : MonoBehaviour
 {
     private float radius = 1.5f;
-    private float OrbitalSpeed = 180f; // fok / mp
+    private float OrbitalSpeed = 180f;
     private float damage;
 
     private Transform owner;
@@ -14,7 +14,7 @@ public class OrbitingWeapon : MonoBehaviour
     {
         this.owner = owner;
         this.radius = radius;
-        this.OrbitalSpeed = angularSpeed;
+        OrbitalSpeed = angularSpeed;
         this.damage = damage;
     }
 
@@ -46,8 +46,10 @@ public class OrbitingWeapon : MonoBehaviour
 
         int rndNum = rnd.Next(100);
         float chance = owner.GetComponent<PlayerStats>().baseCritChance * 100;
+
         float mult = 1F;
         string damageType = "none";
+
         if (rndNum < chance / 2)
         {
             mult = 1.4F;
@@ -58,16 +60,27 @@ public class OrbitingWeapon : MonoBehaviour
             mult = 1.2F;
             damageType = "normal";
         }
+
         float dealt = hp.TakeDamage(damage * mult, damageType);
 
         var fx = GetComponent<ProjectileEffects>();
         if (fx != null)
         {
-            fx.RaiseHit(new HitInfo { target = other.gameObject, point = transform.position, damage = dealt });
+            fx.RaiseHit(new HitInfo
+            {
+                target = other.gameObject,
+                point = transform.position,
+                damage = dealt
+            });
 
             if (hp.IsDead)
             {
-                fx.RaiseKill(new KillInfo { target = hp.gameObject, point = transform.position });
+                fx.RaiseKill(new KillInfo
+                {
+                    target = hp.gameObject,
+                    point = transform.position
+                });
+
                 Destroy(hp.gameObject);
             }
         }

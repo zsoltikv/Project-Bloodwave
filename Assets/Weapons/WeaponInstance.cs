@@ -4,8 +4,10 @@ using UnityEngine;
 public class WeaponInstance
 {
     public WeaponDefinition definition;
+
     public int level = 1;
     public float cooldownTimer;
+
     [System.NonSerialized] public bool isFiring = false;
     [System.NonSerialized] public PlayerStats playerStats;
 
@@ -20,30 +22,50 @@ public class WeaponInstance
     {
         this.definition = definition;
     }
-    public float GetDamage() => Mathf.Max(definition.Damage * bonusDamage * playerStats.baseDamageMultiplier, 10F);
+
+    public float GetDamage() =>
+        Mathf.Max(definition.Damage * bonusDamage * playerStats.baseDamageMultiplier, 10F);
+
     public int GetProjectileCount()
     {
         if (definition.name == "BloodScythe")
         {
-            return 1; 
+            return 1;
         }
         else
         {
-            return Mathf.Clamp((definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus, 1, 12);
+            return Mathf.Clamp(
+                (definition.ProjectileCount + bonusProjectileCount) + playerStats.baseProjectileBonus,
+                1,
+                12
+            );
         }
     }
+
     public float GetCooldown()
     {
         if (definition.name == "Shotgun" || definition.name == "BloodScythe")
         {
-            return Mathf.Max(definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier), 1F);;
+            return Mathf.Max(
+                definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier),
+                1F
+            );
         }
         else
         {
-            return Mathf.Max(definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier), 0.5F);
+            return Mathf.Max(
+                definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier),
+                0.5F
+            );
         }
     }
-    public float GetRange() => Mathf.Max(definition.baseRange * rangeMultiplier * playerStats.baseRangeMultiplier, 1F);
-    public float GetProjectileSpeed() => Mathf.Max(definition.ProjectileSpeed * playerStats.baseProjectileSpeed, 1F);
-    public float GetOrbitalSpeed() => Mathf.Max(orbitalSpeedMultiplier * playerStats.baseProjectileSpeed, 1F);
+
+    public float GetRange() =>
+        Mathf.Max(definition.baseRange * rangeMultiplier * playerStats.baseRangeMultiplier, 1F);
+
+    public float GetProjectileSpeed() =>
+        Mathf.Max(definition.ProjectileSpeed * playerStats.baseProjectileSpeed, 1F);
+
+    public float GetOrbitalSpeed() =>
+        Mathf.Max(orbitalSpeedMultiplier * playerStats.baseProjectileSpeed, 1F);
 }

@@ -1,7 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
 
 public class FadeManager : MonoBehaviour
 {
@@ -40,10 +40,8 @@ public class FadeManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Ne avatkozzunk bele, ha épp transition van folyamatban
         if (_isLoading) return;
 
-        // Biztonsági fallback: ha valahogy mégis betöltõdött scene transition nélkül
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
         StartCoroutine(FadeIn());
@@ -95,10 +93,8 @@ public class FadeManager : MonoBehaviour
         _isLoading = true;
         canvasGroup.blocksRaycasts = true;
 
-        // Fade out
         yield return FadeOut();
 
-        // Load scene
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
@@ -110,10 +106,8 @@ public class FadeManager : MonoBehaviour
         while (!asyncLoad.isDone)
             yield return null;
 
-        // Fade in
         yield return FadeIn();
 
-        // Cleanup
         _isLoading = false;
         _currentTransition = null;
     }
@@ -136,23 +130,18 @@ public class FadeManager : MonoBehaviour
         _isLoading = true;
         canvasGroup.blocksRaycasts = true;
 
-        // Fade out
         yield return FadeOut();
 
-        // Wait for preloaded scene to be ready
         while (preloadedOp.progress < 0.9f)
             yield return null;
 
-        // Activate scene
         preloadedOp.allowSceneActivation = true;
 
         while (!preloadedOp.isDone)
             yield return null;
 
-        // Fade in
         yield return FadeIn();
 
-        // Cleanup
         _isLoading = false;
         _currentTransition = null;
     }

@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameLoader : MonoBehaviour
 {
-
     public void StartGame()
     {
         FadeManager.Instance.LoadSceneWithFade("CutsceneScene");

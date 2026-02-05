@@ -6,13 +6,17 @@ public class ShotgunPattern : SpawnPattern
 {
     [Header("Shotgun settings")]
     public int pelletCount = 5;
-    public float spreadAngle = 25f; // fokban
+    public float spreadAngle = 25f;
     public float damageMultiplierPerPellet = 0.7f;
 
     public override IEnumerable<Shot> BuildShots(WeaponContext ctx, targetInfo target)
     {
-        int totalPellets = Mathf.Max(1, pelletCount + ctx.weapon.GetProjectileCount() - 1);
-        float dynamicSpread = spreadAngle + ctx.weapon.GetProjectileCount() * 10f;
+        int totalPellets =
+            Mathf.Max(1, pelletCount + ctx.weapon.GetProjectileCount() - 1);
+
+        float dynamicSpread =
+            spreadAngle + ctx.weapon.GetProjectileCount() * 10f;
+
         float half = dynamicSpread * 0.5f;
 
         Vector3 baseDir = target.hasTarget
@@ -20,8 +24,8 @@ public class ShotgunPattern : SpawnPattern
             : ctx.firePoint.right;
 
         float baseDamage =
-            ctx.weapon.GetDamage() *
-            damageMultiplierPerPellet;
+            ctx.weapon.GetDamage()
+            * damageMultiplierPerPellet;
 
         float speed = ctx.weapon.GetProjectileSpeed();
         float range = ctx.weapon.GetRange();
@@ -34,7 +38,11 @@ public class ShotgunPattern : SpawnPattern
 
         for (int i = 0; i < totalPellets; i++)
         {
-            float t = totalPellets == 1 ? 0f : i / (totalPellets - 1f);
+            float t =
+                totalPellets == 1
+                    ? 0f
+                    : i / (totalPellets - 1f);
+
             float angle = Mathf.Lerp(-half, half, t);
 
             Vector3 dir =
@@ -49,7 +57,8 @@ public class ShotgunPattern : SpawnPattern
         Vector3 dir,
         float damage,
         float speed,
-        float range)
+        float range
+    )
     {
         return new Shot
         {

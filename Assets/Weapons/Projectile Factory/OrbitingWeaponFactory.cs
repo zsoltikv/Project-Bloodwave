@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName="Weapons/Orbiting Weapon Factory")]
+[CreateAssetMenu(menuName = "Weapons/Orbiting Weapon Factory")]
 public class OrbitingWeaponFactory : ScriptableObject
 {
     public GameObject orbitingPrefab;
@@ -12,22 +12,25 @@ public class OrbitingWeaponFactory : ScriptableObject
 
         int count = context.weapon.GetProjectileCount();
 
-        //if (count > 6) count = 6; Removed because now we clamp the value in: WeaponInstance.cs
-
         float radius = context.weapon.GetRange();
 
-    
         float baseRadius = context.weapon.definition.baseRange;
         float baseAngularSpeed = 90f;
-        float angularSpeed = baseAngularSpeed * (baseRadius / radius) * context.weapon.GetOrbitalSpeed();
+        float angularSpeed =
+            baseAngularSpeed
+            * (baseRadius / radius)
+            * context.weapon.GetOrbitalSpeed();
 
         for (int i = 0; i < count; i++)
         {
             float startAngle = (360f / count) * i;
 
             var go = Instantiate(orbitingPrefab);
-            go.GetComponent<ProjectileEffects>().OnHitModifiers = context.weapon.definition.modifiersOnHit;
-            go.GetComponent<ProjectileEffects>().OnKillModifiers = context.weapon.definition.modifiersOnKill;
+
+            var fx = go.GetComponent<ProjectileEffects>();
+            fx.OnHitModifiers = context.weapon.definition.modifiersOnHit;
+            fx.OnKillModifiers = context.weapon.definition.modifiersOnKill;
+
             var orbit = go.GetComponent<OrbitingWeapon>();
 
             orbit.Init(
@@ -38,10 +41,10 @@ public class OrbitingWeaponFactory : ScriptableObject
             );
 
             orbit.SetStartAngle(startAngle);
+
             orbitList.Add(go);
         }
 
         return orbitList;
-
     }
 }

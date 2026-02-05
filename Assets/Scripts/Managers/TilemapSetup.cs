@@ -32,10 +32,9 @@ public class TilemapSetup : MonoBehaviour
     [Header("Random Offset")]
     [Range(0f, 0.5f)] public float maxOffset = 0.25f;
 
-    // runtime tracking
     List<Vector3> spawnedFrontPropPositions = new List<Vector3>();
 
-    void Awake()
+    private void Awake()
     {
         GenerateAll();
     }
@@ -44,7 +43,6 @@ public class TilemapSetup : MonoBehaviour
     public void GenerateAll()
     {
         groundTilemap.CompressBounds();
-
         overlayTilemap.ClearAllTiles();
 
         ClearChildren(propsBehindParent);
@@ -67,8 +65,7 @@ public class TilemapSetup : MonoBehaviour
         }
     }
 
-    // ---------- OVERLAY ----------
-    void TryPlaceOverlay(Vector3Int pos)
+    private void TryPlaceOverlay(Vector3Int pos)
     {
         if (Random.value > overlayChance)
             return;
@@ -76,7 +73,7 @@ public class TilemapSetup : MonoBehaviour
         PlaceOverlayTile(pos);
     }
 
-    void PlaceOverlayTile(Vector3Int pos)
+    private void PlaceOverlayTile(Vector3Int pos)
     {
         if (overlayTiles == null || overlayTiles.Length == 0)
             return;
@@ -101,8 +98,7 @@ public class TilemapSetup : MonoBehaviour
         overlayTilemap.SetTransformMatrix(pos, matrix);
     }
 
-    // ---------- PROPS ----------
-    void TryPlaceProps(Vector3Int pos)
+    private void TryPlaceProps(Vector3Int pos)
     {
         float roll = Random.value;
 
@@ -112,12 +108,11 @@ public class TilemapSetup : MonoBehaviour
         }
         else if (roll < propsBehindChance + propsFrontChance)
         {
-            SpawnFrontProp(pos); 
+            SpawnFrontProp(pos);
         }
     }
 
-    // ---------- BEHIND PROP ----------
-    void SpawnBehindProp(Vector3Int cellPos)
+    private void SpawnBehindProp(Vector3Int cellPos)
     {
         if (propsBehindPrefabs == null || propsBehindPrefabs.Length == 0)
             return;
@@ -127,8 +122,7 @@ public class TilemapSetup : MonoBehaviour
         if (IsTooCloseToFrontProps(worldPos))
             return;
 
-        GameObject prefab =
-            propsBehindPrefabs[Random.Range(0, propsBehindPrefabs.Length)];
+        GameObject prefab = propsBehindPrefabs[Random.Range(0, propsBehindPrefabs.Length)];
 
         Instantiate(
             prefab,
@@ -138,8 +132,7 @@ public class TilemapSetup : MonoBehaviour
         );
     }
 
-    // ---------- FRONT PROP ----------
-    void SpawnFrontProp(Vector3Int cellPos)
+    private void SpawnFrontProp(Vector3Int cellPos)
     {
         if (propsFrontPrefabs == null || propsFrontPrefabs.Length == 0)
             return;
@@ -149,22 +142,19 @@ public class TilemapSetup : MonoBehaviour
         if (!CanSpawnFrontProp(worldPos))
             return;
 
-        GameObject prefab =
-            propsFrontPrefabs[Random.Range(0, propsFrontPrefabs.Length)];
+        GameObject prefab = propsFrontPrefabs[Random.Range(0, propsFrontPrefabs.Length)];
 
-        GameObject instance =
-            Instantiate(
-                prefab,
-                worldPos,
-                Quaternion.identity,
-                propsFrontParent
-            );
+        Instantiate(
+            prefab,
+            worldPos,
+            Quaternion.identity,
+            propsFrontParent
+        );
 
         spawnedFrontPropPositions.Add(worldPos);
     }
 
-    // ---------- SPACING ----------
-    bool CanSpawnFrontProp(Vector3 position)
+    private bool CanSpawnFrontProp(Vector3 position)
     {
         foreach (var existingPos in spawnedFrontPropPositions)
         {
@@ -175,8 +165,7 @@ public class TilemapSetup : MonoBehaviour
         return true;
     }
 
-    // ---------- HELPERS ----------
-    void ClearChildren(Transform parent)
+    private void ClearChildren(Transform parent)
     {
         if (parent == null)
             return;
@@ -187,7 +176,7 @@ public class TilemapSetup : MonoBehaviour
         }
     }
 
-    bool IsTooCloseToFrontProps(Vector3 position)
+    private bool IsTooCloseToFrontProps(Vector3 position)
     {
         foreach (var frontPos in spawnedFrontPropPositions)
         {
@@ -198,8 +187,7 @@ public class TilemapSetup : MonoBehaviour
         return false;
     }
 
-    // ---------- SURROUND CHECK ----------
-    bool IsFullySurrounded(Vector3Int pos, string expectedName="Wall_Middle")
+    private bool IsFullySurrounded(Vector3Int pos, string expectedName = "Wall_Middle")
     {
         if (groundTilemap == null) return false;
 

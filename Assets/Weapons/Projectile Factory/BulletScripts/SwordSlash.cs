@@ -13,6 +13,7 @@ public class SwordSlash : MonoBehaviour
     {
         this.owner = owner;
         this.damage = damage;
+
         Destroy(gameObject, lifetime);
     }
 
@@ -26,14 +27,25 @@ public class SwordSlash : MonoBehaviour
         var fx = GetComponent<ProjectileEffects>();
         if (fx != null)
         {
-            fx.RaiseHit(new HitInfo { target = other.gameObject, point = transform.position, damage = dealt });
+            fx.RaiseHit(new HitInfo
+            {
+                target = other.gameObject,
+                point = transform.position,
+                damage = dealt
+            });
 
             if (hp.IsDead)
             {
-                fx.RaiseKill(new KillInfo { target = hp.gameObject, point = transform.position });
+                fx.RaiseKill(new KillInfo
+                {
+                    target = hp.gameObject,
+                    point = transform.position
+                });
+
                 Destroy(hp.gameObject);
             }
         }
+
         Debug.Log("Sword hit " + other.gameObject.name + " for " + dealt + " damage.");
     }
 }

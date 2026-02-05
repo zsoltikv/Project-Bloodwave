@@ -10,8 +10,8 @@ public class BleedOnHit : WeaponModifier
 
     public override void OnHit(ref WeaponContext context, HitInfo hit)
     {
-
         float bleedDamage = hit.damage / bleedRatio;
+
         var targetStats = hit.target.GetComponent<EnemyHealth>();
         if (targetStats != null)
         {

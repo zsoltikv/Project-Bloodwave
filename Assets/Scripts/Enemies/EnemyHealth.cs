@@ -3,18 +3,20 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [Header("Stats")]
     public float maxHealth = 3;
     public float currentHealth;
     public float baseSpeed = 2f;
-    public float baseDamage = 10f;
     public float currentSpeed;
+    public float baseDamage = 10f;
+
+    [Header("Rewards")]
     public int xpReward = 1;
     public int coinReward = 1;
 
     [Header("Status Effects")]
     public bool isSlowed = false;
     public bool isBleeding = false;
-
     public bool IsDead = false;
 
     [Header("Damage Indicator")]
@@ -39,7 +41,11 @@ public class EnemyHealth : MonoBehaviour
 
         if (showText && DamageTextSpawner.Instance != null)
         {
-            DamageTextSpawner.Instance.Spawn(dmg, transform.position + damageTextWorldOffset, damageType);
+            DamageTextSpawner.Instance.Spawn(
+                dmg,
+                transform.position + damageTextWorldOffset,
+                damageType
+            );
         }
 
         currentHealth -= dmg;
@@ -51,6 +57,7 @@ public class EnemyHealth : MonoBehaviour
 
         return dmg;
     }
+
     private void Die()
     {
         var player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStats>();
@@ -96,8 +103,10 @@ public class EnemyHealth : MonoBehaviour
         if (!isSlowed)
         {
             isSlowed = true;
-            currentSpeed = baseSpeed * (1 - slowAmount);    
+            currentSpeed = baseSpeed * (1 - slowAmount);
+
             yield return new WaitForSeconds(duration);
+
             isSlowed = false;
             ResetSpeed();
         }
@@ -111,8 +120,8 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator BleedCoroutine(int tickDamage, float duration, float tickInterval, bool showText)
     {
         if (isBleeding) yield break;
-        isBleeding = true;
 
+        isBleeding = true;
         float elapsed = 0f;
 
         while (elapsed < duration)

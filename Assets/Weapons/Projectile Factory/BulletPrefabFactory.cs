@@ -8,11 +8,13 @@ public class BulletPrefabFactory : ProjectileFactory
     public override GameObject SpawnAndReturn(WeaponContext context, Shot shot)
     {
         GameObject bullet = Object.Instantiate(bulletPrefab, shot.position, Quaternion.identity);
+
         Projectile bulletComponent = bullet.GetComponent<Projectile>();
         if (bulletComponent != null)
         {
             bulletComponent.Init(context.owner, shot.direction, shot.damage, shot.speed, shot.range);
         }
+
         var fx = bullet.GetComponent<ProjectileEffects>();
         if (fx != null)
         {
@@ -20,6 +22,7 @@ public class BulletPrefabFactory : ProjectileFactory
             fx.OnHitModifiers = context.weapon.definition.modifiersOnHit;
             fx.OnKillModifiers = context.weapon.definition.modifiersOnKill;
         }
+
         return bullet;
     }
 }

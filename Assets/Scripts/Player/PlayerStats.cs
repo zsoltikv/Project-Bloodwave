@@ -1,8 +1,8 @@
-using UnityEngine;
 using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -34,9 +34,8 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float shadowYOffset = -0.5f;
 
     [Header("Runtime buffs (optional)")]
+    public float CooldownMultiplier = 0f;
 
-    public float CooldownMultiplier = 0f;     
-  
     public event Action OnProjectileBonusChanged;
 
     private SpriteRenderer spriteRenderer;
@@ -60,8 +59,8 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.4f;
 
     private Coroutine levelupFadeCoroutine;
-
     private Coroutine xpAnimCoroutine;
+    private Coroutine hpAnimCoroutine;
 
     [Header("Collected resources")]
     [SerializeField] public int XP = 0;
@@ -72,9 +71,10 @@ public class PlayerStats : MonoBehaviour
     private float noHitTime = 0f;
     private bool noHitUnlocked = false;
 
-    private readonly System.Collections.Generic.List<float> recentKillTimes = new System.Collections.Generic.List<float>();
-    private bool multiKillUnlocked = false;
+    private readonly System.Collections.Generic.List<float> recentKillTimes =
+        new System.Collections.Generic.List<float>();
 
+    private bool multiKillUnlocked = false;
     private const float multiKillWindow = 2f;
     private const int multiKillRequired = 10;
 
@@ -91,24 +91,10 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float moveEpsilon = 0.01f;
 
-    private void Start()
-    {
-        mainCamera = this.GetComponentInChildren<Camera>();
-        animator = GetComponent<Animator>();
-        XpBar.GetComponent<Slider>().maxValue = CalculateXPForLevel(Level);
-        RefreshXpBar();
-
-        xpSlider = XpBar.GetComponent<Slider>();
-
-        xpSlider.minValue = 0;
-        xpSlider.maxValue = CalculateXPForLevel(Level);
-        xpSlider.value = XP;
-        xpSlider.interactable = false;
-
-    }
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
         GameManagerScript.instance.ResumeGame();
         RunTimer.instance.ResetTimer();
         PauseGame.ResetRunPauseFlag();
@@ -136,6 +122,22 @@ public class PlayerStats : MonoBehaviour
             levelupCanvasGroup.gameObject.SetActive(false);
         }
     }
+
+    private void Start()
+    {
+        mainCamera = GetComponentInChildren<Camera>();
+        animator = GetComponent<Animator>();
+
+        XpBar.GetComponent<Slider>().maxValue = CalculateXPForLevel(Level);
+        RefreshXpBar();
+
+        xpSlider = XpBar.GetComponent<Slider>();
+        xpSlider.minValue = 0;
+        xpSlider.maxValue = CalculateXPForLevel(Level);
+        xpSlider.value = XP;
+        xpSlider.interactable = false;
+    }
+
     private void Update()
     {
         if (Health <= 0.01f) return;
@@ -143,6 +145,7 @@ public class PlayerStats : MonoBehaviour
         if (!noHitUnlocked)
         {
             noHitTime += Time.deltaTime;
+
             if (noHitTime >= 120f)
             {
                 noHitUnlocked = true;
@@ -167,10 +170,25 @@ public class PlayerStats : MonoBehaviour
             }
             else
             {
-                afkTime = 0f; 
+                afkTime = 0f;
             }
 
             lastPos = currentPos;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (shadowTransform != null && spriteRenderer != null && Health < 0.01f)
+        {
+            Vector3 shadowScale = shadowTransform.localScale;
+            shadowScale.x = Mathf.Abs(transform.localScale.x);
+            shadowTransform.localScale = shadowScale;
+
+            Vector3 shadowPos = shadowTransform.position;
+            shadowPos.x = spriteRenderer.bounds.center.x;
+            shadowPos.y = spriteRenderer.bounds.min.y + shadowYOffset;
+            shadowTransform.position = shadowPos;
         }
     }
 
@@ -197,24 +215,6 @@ public class PlayerStats : MonoBehaviour
         if (!visible)
             canvas.gameObject.SetActive(false);
     }
-            
-    private void LateUpdate()
-    {
-        // Szinkronizálja az árnyék pozícióját és scale-ét a karakterrel
-        if (shadowTransform != null && spriteRenderer != null && Health < 0.01f)
-        {
-            // Az árnyék X scale-e a karakter X scale-ével arányos
-            Vector3 shadowScale = shadowTransform.localScale;
-            shadowScale.x = Mathf.Abs(transform.localScale.x);
-            shadowTransform.localScale = shadowScale;
-
-            // Az árnyék pozícióját a karakter bounds centerének alá tesszük
-            Vector3 shadowPos = shadowTransform.position;
-            shadowPos.x = spriteRenderer.bounds.center.x;
-            shadowPos.y = spriteRenderer.bounds.min.y + shadowYOffset;
-            shadowTransform.position = shadowPos;
-        }
-    }
 
     private void SpawnBlood()
     {
@@ -234,13 +234,13 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    int CalculateXPForLevel(int level)
+    private int CalculateXPForLevel(int level)
     {
         int linearPart = level * 40;
         float exponentialPart = 120f * Mathf.Pow(1.18f, level);
-
         return Mathf.RoundToInt(linearPart + exponentialPart);
     }
+
     public void AddKill()
     {
         totalKills++;
@@ -274,6 +274,7 @@ public class PlayerStats : MonoBehaviour
             if (!multiKillUnlocked)
             {
                 int count2s = 0;
+
                 for (int i = recentKillTimes.Count - 1; i >= 0; i--)
                 {
                     if (now - recentKillTimes[i] <= multiKillWindow)
@@ -288,11 +289,11 @@ public class PlayerStats : MonoBehaviour
             }
         }
     }
+
     private IEnumerator AnimateXpToTarget(int targetXP)
     {
         float startValue = xpSlider.value;
         float targetValue = targetXP;
-
         float t = 0f;
 
         while (!Mathf.Approximately(xpSlider.value, targetValue))
@@ -304,6 +305,7 @@ public class PlayerStats : MonoBehaviour
 
         xpSlider.value = targetValue;
     }
+
     public void AddCoins(int amount)
     {
         Coins += amount;
@@ -314,15 +316,12 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private Coroutine hpAnimCoroutine;
-
     public void TakeDamage(float amount)
     {
         if (amount > 0f)
         {
             noHitTime = 0f;
 
-            // --- tank_500 tracker (csak a ténylegesen levont sebzést számoljuk) ---
             if (!tank500Unlocked)
             {
                 float effectiveDamage = Mathf.Min(amount, Health);
@@ -333,7 +332,6 @@ public class PlayerStats : MonoBehaviour
         Health -= amount;
         if (Health < 0) Health = 0;
 
-        // tank_500 unlock csak akkor, ha életben maradtál a hit után
         if (!tank500Unlocked && Health > 0f && damageTakenThisRun >= 500f)
         {
             tank500Unlocked = true;
@@ -370,19 +368,17 @@ public class PlayerStats : MonoBehaviour
             float y = UnityEngine.Random.Range(-shakeMagnitude, shakeMagnitude);
 
             rt.anchoredPosition = originalPos + new Vector3(x, y, 0f);
-
             yield return null;
         }
 
         rt.anchoredPosition = originalPos;
     }
 
-    private System.Collections.IEnumerator FlashRed()
+    private IEnumerator FlashRed()
     {
         Color originalColor = spriteRenderer.color;
 
         spriteRenderer.color = Color.red;
-
         yield return new WaitForSeconds(0.1f);
 
         if (spriteRenderer != null)
@@ -400,13 +396,14 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
-
         if (!PauseGame.PausedThisRun)
         {
             AchievementManager.Instance.UnlockAchievement("no_pause_run");
         }
 
-        if (RunTimer.instance != null && RunTimer.instance.timeElapsed > 0f && RunTimer.instance.timeElapsed <= 15f)
+        if (RunTimer.instance != null &&
+            RunTimer.instance.timeElapsed > 0f &&
+            RunTimer.instance.timeElapsed <= 15f)
         {
             AchievementManager.Instance.UnlockAchievement("die_fast_15s");
         }
@@ -431,7 +428,7 @@ public class PlayerStats : MonoBehaviour
 
         AchievementManager.Instance.UnlockAchievement("first_steps");
     }
-    
+
     private void DisableShopAndPause()
     {
         if (ShopManager.instance != null)
@@ -446,10 +443,10 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator WaitForDeathAnimation()
+    private IEnumerator WaitForDeathAnimation()
     {
         yield return new WaitForSeconds(0.4f);
-        
+
         if (bloodPrefab != null)
         {
             Vector3 spawnPos = transform.position;
@@ -464,14 +461,14 @@ public class PlayerStats : MonoBehaviour
             if (bloodRenderer != null && sr != null)
                 bloodRenderer.sortingOrder = sr.sortingOrder;
         }
-        
+
         if (mainCamera != null)
         {
             float startSize = mainCamera.orthographicSize;
             float targetSize = 4f;
             float duration = 2.5f;
             float elapsed = 0f;
-            
+
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
@@ -479,12 +476,12 @@ public class PlayerStats : MonoBehaviour
                 mainCamera.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
                 yield return null;
             }
-            
+
             mainCamera.orthographicSize = targetSize;
         }
-        
+
         yield return new WaitForSeconds(1f);
-        
+
         FadeManager.Instance.LoadSceneWithFade("GameOverScene");
     }
 
@@ -499,9 +496,7 @@ public class PlayerStats : MonoBehaviour
         if (xpAnimCoroutine != null)
             StopCoroutine(xpAnimCoroutine);
 
-        xpAnimCoroutine = StartCoroutine(
-            AnimateXpToTarget(XP)
-        );
+        xpAnimCoroutine = StartCoroutine(AnimateXpToTarget(XP));
     }
 
     public void LevelUp()
@@ -510,19 +505,17 @@ public class PlayerStats : MonoBehaviour
 
         Level++;
 
-        LevelText.GetComponent<TMPro.TextMeshProUGUI>().text =
-            "Level " + Level;
+        LevelText.GetComponent<TMPro.TextMeshProUGUI>().text = "Level " + Level;
 
         xpSlider.maxValue = CalculateXPForLevel(Level);
         xpSlider.value = 0f;
 
         GameManagerScript.instance.PauseGame();
+
         if (levelupFadeCoroutine != null)
             StopCoroutine(levelupFadeCoroutine);
 
-        levelupFadeCoroutine = StartCoroutine(
-            FadeCanvas(levelupCanvasGroup, 1f)
-        );
+        levelupFadeCoroutine = StartCoroutine(FadeCanvas(levelupCanvasGroup, 1f));
 
         if (Level >= 5)
         {
@@ -559,18 +552,24 @@ public class PlayerStats : MonoBehaviour
             hpDamageFill.fillAmount = startFill;
 
         float t = 0f;
+
         while (!Mathf.Approximately(hpFill.fillAmount, targetFill))
         {
             t += Time.deltaTime * hpLerpSpeed;
             hpFill.fillAmount = Mathf.Lerp(startFill, targetFill, t);
 
             if (hpDamageFill.fillAmount > hpFill.fillAmount)
-                hpDamageFill.fillAmount = Mathf.Lerp(hpDamageFill.fillAmount, hpFill.fillAmount, Time.deltaTime * (hpLerpSpeed / 2));
+            {
+                hpDamageFill.fillAmount = Mathf.Lerp(
+                    hpDamageFill.fillAmount,
+                    hpFill.fillAmount,
+                    Time.deltaTime * (hpLerpSpeed / 2)
+                );
+            }
 
             yield return null;
         }
 
         hpFill.fillAmount = targetFill;
     }
-
 }

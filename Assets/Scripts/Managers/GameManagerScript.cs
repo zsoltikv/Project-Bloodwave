@@ -8,16 +8,16 @@ public class GameManagerScript : MonoBehaviour
     public bool saveUsedThisRun = false;
     public int level;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -36,17 +36,13 @@ public class GameManagerScript : MonoBehaviour
     public void PauseResumeGame()
     {
         if (FreezeGame)
-        {
             ResumeGame();
-        }
         else
-        {
             PauseGame();
-        }
     }
-    
+
     public void GetLevel(int _level)
     {
-        this.level = _level;
+        level = _level;
     }
 }

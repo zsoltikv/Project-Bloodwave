@@ -1,26 +1,28 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName="Weapons/Projectile Factories/Sword Slash Factory")]
+[CreateAssetMenu(menuName = "Weapons/Projectile Factories/Sword Slash Factory")]
 public class SwordSlashFactory : ProjectileFactory
 {
     public GameObject slashPrefab;
-    public Vector2 hitboxOffset = new Vector2(1.1f, 0f); // előre
+    public Vector2 hitboxOffset = new Vector2(1.1f, 0f);
     public float rotationOffsetDeg = 0f;
 
     public override GameObject SpawnAndReturn(WeaponContext context, Shot shot)
     {
         Vector3 dir = shot.direction.normalized;
 
+        Vector3 pos =
+            context.firePoint.position
+            + (Vector3)((Vector2)dir * hitboxOffset.x);
 
-        // Pozíció: firePoint + irány * offset
-        Vector3 pos = context.firePoint.position + (Vector3)( (Vector2)dir * hitboxOffset.x );
+        float angle =
+            Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg
+            + rotationOffsetDeg;
 
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + rotationOffsetDeg;
         Quaternion rot = Quaternion.Euler(0, 0, angle);
 
         var go = Object.Instantiate(slashPrefab, pos, rot);
-        go.transform.SetParent(context.owner.transform, worldPositionStays: true); 
-
+        go.transform.SetParent(context.owner.transform, worldPositionStays: true);
 
         var x = go.transform.localScale.x;
         var y = go.transform.localScale.y;
@@ -29,11 +31,14 @@ public class SwordSlashFactory : ProjectileFactory
         go.transform.localScale = new Vector3(
             x * rangeModifier,
             y * rangeModifier,
-            1f);
+            1f
+        );
 
         var slash = go.GetComponent<SwordSlash>();
         if (slash != null)
+        {
             slash.Init(context.owner, shot.damage);
+        }
 
         return go;
     }
