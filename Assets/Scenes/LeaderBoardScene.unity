@@ -919,6 +919,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NameInputField: {fileID: 0}
+  dataSavedText: {fileID: 0}
+  fadeInTime: 0.2
+  holdTime: 1.6
+  fadeOutTime: 0.2
+  useUnscaledTime: 1
   saveDataList: []
 --- !u!4 &1301028616
 Transform:
@@ -1314,11 +1319,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838718572656044980, guid: f337109ea9d9c3d499ab3fb7b820f537, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 77.66
       objectReference: {fileID: 0}
     - target: {fileID: 7838718572656044980, guid: f337109ea9d9c3d499ab3fb7b820f537, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 65.47
       objectReference: {fileID: 0}
     - target: {fileID: 7838718572656044980, guid: f337109ea9d9c3d499ab3fb7b820f537, type: 3}
       propertyPath: m_LocalScale.x
@@ -1362,11 +1367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838718572656044980, guid: f337109ea9d9c3d499ab3fb7b820f537, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 121
+      value: 134.7
       objectReference: {fileID: 0}
     - target: {fileID: 7838718572656044980, guid: f337109ea9d9c3d499ab3fb7b820f537, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -159
+      value: -161.4
       objectReference: {fileID: 0}
     - target: {fileID: 7838718572656044980, guid: f337109ea9d9c3d499ab3fb7b820f537, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

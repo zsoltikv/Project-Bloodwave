@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 'Cascade Orb '
   description: "A mystical orb that increases the bearer\u2019s maximum health by
-    100, slows projectile speed by 10%, and adds 3 extra projectiles to each attack."
+    100, slows projectile speed by 10%, and adds 1 extra projectiles to each attack."
   icon: {fileID: -6786452434386311821, guid: 7381d207a45a3684cb2d77a52310ec3f, type: 3}
-  price: 750
+  price: 850
   weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 0

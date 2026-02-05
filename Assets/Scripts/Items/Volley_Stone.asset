@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 'Volley Stone '
   description: "A potent stone that multiplies the bearer\u2019s projectiles, adding
-    five more to each attack."
+    one more to each attack."
   icon: {fileID: 4607906074392689071, guid: e802acd00e838af479e4cb9688829a9c, type: 3}
-  price: 2000
+  price: 750
   weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 5

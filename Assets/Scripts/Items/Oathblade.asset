@@ -16,7 +16,8 @@ MonoBehaviour:
   description: "A finely wrought relic that subtly sharpens the wielder\u2019s strikes,
     increasing base damage by 5%."
   icon: {fileID: 7218204901471160802, guid: 662ad6ece09b02b42819d54d49ea622f, type: 3}
-  price: 150
+  price: 500
+  weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 1
     modifierType: 1

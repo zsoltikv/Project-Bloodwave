@@ -527,6 +527,26 @@ public class PlayerStats : MonoBehaviour
             AchievementManager.Instance.UnlockAchievement("level_10");
         }
 
+        if (Level >= 15)
+        {
+            AchievementManager.Instance.UnlockAchievement("level_15");
+        }
+
+        if (Level >= 20)
+        {
+            AchievementManager.Instance.UnlockAchievement("level_20");
+        }
+
+        if (Level >= 25)
+        {
+            AchievementManager.Instance.UnlockAchievement("level_25");
+        }
+
+        if (Level >= 50)
+        {
+            AchievementManager.Instance.UnlockAchievement("level_50");
+        }
+
         Heal(MaxHealth * 0.25f);
     }
 
