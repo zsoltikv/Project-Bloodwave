@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -14,9 +13,9 @@ public class ShopManager : MonoBehaviour
 
     [Header("Shop Items")]
     [SerializeField] private List<ShopItem> availableItems = new List<ShopItem>();
-    [SerializeField] private List<WeaponDefinition> availableWeapons = new List<WeaponDefinition>();
-    private List<ShopItem> currentShopItems = new List<ShopItem>();
-    
+    [SerializeField] private List<WeaponDefinition> availableWeapons = new List<WeaponDefinition>(); 
+    private readonly List<ShopItem> currentShopItems = new List<ShopItem>();
+
     [Header("Events")]
     public UnityEvent<ShopItem> OnItemPurchased;
     public UnityEvent<string> OnPurchaseFailed;
@@ -38,36 +37,42 @@ public class ShopManager : MonoBehaviour
     private Vector3 originalScale;
 
     private int totalPurchases = 0;
+    private readonly HashSet<string> purchasedItemIds = new HashSet<string>();
 
     private const string TotalSpentKey = "TotalCoinsSpent";
     private int totalCoinsSpent = 0;
     private bool bigSpenderUnlocked = false;
 
-    private const string PurchasedItemsKey = "PurchasedShopItems";
-
-    private HashSet<string> purchasedItemIds = new HashSet<string>();
-
     void Awake()
     {
-        if (instance == null) {
-            instance = this;
+        if (instance == null) instance = this;
+        else { Destroy(gameObject); return; }
+
+        if (shopUI == null)
+        {
+            Debug.LogError("ShopManager: shopUI nincs beállítva!");
+            enabled = false;
+            return;
         }
-        else {
-            Destroy(gameObject);
-        }
+
         coinDisplay = shopUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
-
         shopCanvasGroup = shopUI.GetComponent<CanvasGroup>();
+        if (shopCanvasGroup == null) shopCanvasGroup = shopUI.AddComponent<CanvasGroup>();
+
         originalScale = shopUI.transform.localScale;
 
         totalCoinsSpent = PlayerPrefs.GetInt(TotalSpentKey, 0);
         bigSpenderUnlocked = AchievementManager.Instance.IsAchievementUnlocked("big_spender");
-
-        LoadPurchasedItems();
     }
 
-    void Start() {
+    void Start()
+    {
+        BeginNewRun();
+    }
+    public void BeginNewRun()
+    {
+        purchasedItemIds.Clear();
         totalPurchases = 0;
         RefreshShop();
     }
@@ -77,73 +82,61 @@ public class ShopManager : MonoBehaviour
         WeaponController weaponController = PlayerInventory.instance.GetComponent<WeaponController>();
         List<WeaponDefinition> ownedWeapons = weaponController.GetWeapons().ConvertAll(w => w.definition);
 
-        currentShopItems.Clear();
-
-        List<ShopItem> filteredItems = availableItems.Where(item =>
-            !IsPurchased(item) && (
-                item.weaponDefinition == null ||
-                !ownedWeapons.Contains(item.weaponDefinition)
-            )
+        currentShopItems.Clear();  
+        var filteredItems = availableItems.Where(item =>
+            item != null &&
+            !IsPurchasedThisRun(item) &&
+            (item.weaponDefinition == null || !ownedWeapons.Contains(item.weaponDefinition))
         ).ToList();
 
-        if ( weaponController.GetWeapons().Count == 3 )
+        if (weaponController.GetWeapons().Count == 3)
         {
             filteredItems = filteredItems.Where(item => item.weaponDefinition == null).ToList();
         }
 
-        List<ShopItem> shuffledItems = new List<ShopItem>(filteredItems);
-
-        int itemToSelect = Mathf.Min(3, shuffledItems.Count);
+        int itemToSelect = Mathf.Min(3, filteredItems.Count);
 
         if (itemToSelect == 0)
         {
-            Debug.Log("No items left to show in shop.");
+            Debug.Log("No items left to show in shop (this run).");
 
-            if (shopUI != null)
-            {
-                shopUI.transform.GetChild(2).gameObject.SetActive(false);
-                shopUI.transform.GetChild(3).gameObject.SetActive(false);
-                shopUI.transform.GetChild(4).gameObject.SetActive(false);
-            }
+            SetSlotActive(2, false);
+            SetSlotActive(3, false);
+            SetSlotActive(4, false);
 
             OnShopRefreshed?.Invoke();
             return;
         }
 
+        List<ShopItem> pool = new List<ShopItem>(filteredItems);
         for (int i = 0; i < itemToSelect; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0, shuffledItems.Count);
-            currentShopItems.Add(shuffledItems[randomIndex]);
-            shuffledItems.RemoveAt(randomIndex);
+            int randomIndex = UnityEngine.Random.Range(0, pool.Count);
+            currentShopItems.Add(pool[randomIndex]);
+            pool.RemoveAt(randomIndex);
         }
 
-        if (shopUI != null)
+        int[] slotIndices = { 2, 3, 4 };
+        for (int i = 0; i < slotIndices.Length; i++)
         {
-            int[] slotIndices = { 2, 3, 4 };
+            Transform slot = shopUI.transform.GetChild(slotIndices[i]);
+            bool hasItem = i < currentShopItems.Count;
 
-            for (int i = 0; i < slotIndices.Length; i++)
-            {
-                Transform slot = shopUI.transform.GetChild(slotIndices[i]);
-                bool hasItem = i < currentShopItems.Count;
+            slot.gameObject.SetActive(hasItem);
+            if (!hasItem) continue;
 
-                slot.gameObject.SetActive(hasItem);
+            ShopItem it = currentShopItems[i];
 
-                if (!hasItem)
-                    continue;
+            slot.GetComponent<Image>().sprite = it.icon;
+            slot.GetChild(0).GetComponent<TextMeshProUGUI>().text = it.itemName;
+            slot.GetChild(1).GetComponent<TextMeshProUGUI>().text = it.description;
+            slot.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + it.price;
 
-                ShopItem it = currentShopItems[i];
+            Button btn = slot.GetComponent<Button>();
+            btn.onClick.RemoveAllListeners();
 
-                slot.GetComponent<Image>().sprite = it.icon;
-                slot.GetChild(0).GetComponent<TextMeshProUGUI>().text = it.itemName;
-                slot.GetChild(1).GetComponent<TextMeshProUGUI>().text = it.description;
-                slot.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Cost: " + it.price;
-
-                Button btn = slot.GetComponent<Button>();
-                btn.onClick.RemoveAllListeners();
-
-                ShopItem captured = it; 
-                btn.onClick.AddListener(() => PurchaseItem(captured));
-            }
+            ShopItem captured = it;
+            btn.onClick.AddListener(() => PurchaseItem(captured));
         }
 
         OnShopRefreshed?.Invoke();
@@ -161,9 +154,11 @@ public class ShopManager : MonoBehaviour
             RefreshShop();
         }
     }
+
     public bool PurchaseItem(ShopItem item)
     {
         AchievementManager.Instance.UnlockAchievement("shopaholic");
+
         if (item == null)
         {
             OnPurchaseFailed?.Invoke("Invalid item");
@@ -173,6 +168,12 @@ public class ShopManager : MonoBehaviour
         if (!currentShopItems.Contains(item))
         {
             OnPurchaseFailed?.Invoke("Item not available in current shop");
+            return false;
+        }
+
+        if (IsPurchasedThisRun(item))
+        {
+            OnPurchaseFailed?.Invoke("Already purchased this run");
             return false;
         }
 
@@ -200,7 +201,8 @@ public class ShopManager : MonoBehaviour
                 AchievementManager.Instance.UnlockAchievement("shop_clear_10");
             }
 
-            MarkPurchased(item);
+            MarkPurchasedThisRun(item);
+
             RefreshShop();
             return true;
         }
@@ -216,7 +218,7 @@ public class ShopManager : MonoBehaviour
     public bool CanAfford(ShopItem item)
     {
         if (item == null) return false;
-        
+
         PlayerStats playerStats = PlayerInventory.instance?.GetComponent<PlayerStats>();
         return playerStats != null && playerStats.Coins >= item.price;
     }
@@ -229,9 +231,7 @@ public class ShopManager : MonoBehaviour
     public void AddItemToShop(ShopItem item)
     {
         if (item != null && !availableItems.Contains(item))
-        {
             availableItems.Add(item);
-        }
     }
 
     public void RemoveItemFromShop(ShopItem item)
@@ -252,20 +252,15 @@ public class ShopManager : MonoBehaviour
         if (animRoutine != null)
             StopCoroutine(animRoutine);
 
-        if (open)
-            animRoutine = StartCoroutine(OpenShopAnim());
-        else
-            animRoutine = StartCoroutine(CloseShopAnim());
+        animRoutine = open ? StartCoroutine(OpenShopAnim()) : StartCoroutine(CloseShopAnim());
 
         if (pauseButton != null)
             pauseButton.SetActive(!open);
 
         coinDisplay.text = $"Coins: {PlayerInventory.instance.GetComponent<PlayerStats>().Coins}";
 
-        if (open)
-            GameManagerScript.instance.PauseGame();
-        else
-            GameManagerScript.instance.ResumeGame();
+        if (open) GameManagerScript.instance.PauseGame();
+        else GameManagerScript.instance.ResumeGame();
     }
 
     private IEnumerator OpenShopAnim()
@@ -342,15 +337,17 @@ public class ShopManager : MonoBehaviour
             shopUI.SetActive(false);
 
         if (shopButton != null)
-            shopButton.SetActive(false); 
+            shopButton.SetActive(false);
 
         if (pauseButton != null)
-            pauseButton.SetActive(false); 
+            pauseButton.SetActive(false);
 
-        shopCanvasGroup.interactable = false;
-        shopCanvasGroup.blocksRaycasts = false;
+        if (shopCanvasGroup != null)
+        {
+            shopCanvasGroup.interactable = false;
+            shopCanvasGroup.blocksRaycasts = false;
+        }
     }
-
     private void AddLifetimeSpent(int amount)
     {
         if (amount <= 0) return;
@@ -365,47 +362,25 @@ public class ShopManager : MonoBehaviour
             AchievementManager.Instance.UnlockAchievement("big_spender");
         }
     }
-
-    private void LoadPurchasedItems()
-    {
-        purchasedItemIds.Clear();
-
-        string raw = PlayerPrefs.GetString(PurchasedItemsKey, "");
-        if (string.IsNullOrEmpty(raw)) return;
-
-        string[] parts = raw.Split(';', StringSplitOptions.RemoveEmptyEntries);
-        foreach (var p in parts)
-            purchasedItemIds.Add(p);
-    }
-
-    private void SavePurchasedItems()
-    {
-        string raw = string.Join(";", purchasedItemIds);
-        PlayerPrefs.SetString(PurchasedItemsKey, raw);
-        PlayerPrefs.Save();
-    }
-
     private string GetItemId(ShopItem item)
     {
         return item != null ? item.name : "";
     }
 
-    private bool IsPurchased(ShopItem item)
+    private bool IsPurchasedThisRun(ShopItem item)
     {
         return purchasedItemIds.Contains(GetItemId(item));
     }
 
-    private void MarkPurchased(ShopItem item)
+    private void MarkPurchasedThisRun(ShopItem item)
     {
         purchasedItemIds.Add(GetItemId(item));
-        SavePurchasedItems();
     }
 
-    public void ResetPurchasedItems()
+    private void SetSlotActive(int childIndex, bool active)
     {
-        purchasedItemIds.Clear();
-        PlayerPrefs.DeleteKey(PurchasedItemsKey);
-        PlayerPrefs.Save();
+        if (shopUI == null) return;
+        if (childIndex < 0 || childIndex >= shopUI.transform.childCount) return;
+        shopUI.transform.GetChild(childIndex).gameObject.SetActive(active);
     }
-
 }
