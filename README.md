@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔓 Project: Bloodwave  
+# 💥 Project: Bloodwave  
 ### _Top-down Roguelite / Survival Arena (Unity • Android)_
 
 [![Tech Stack](https://skillicons.dev/icons?i=unity,visualstudio,github,cs)](https://skillicons.dev)
