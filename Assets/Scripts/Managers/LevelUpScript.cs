@@ -106,6 +106,16 @@ public class LevelUpScript : MonoBehaviour
 
             randomType = orbitingUpgrades[Random.Range(0, orbitingUpgrades.Length)];
         }
+        else if (randomWeapon.definition.name == "Blood Scythe")
+        {
+            UpgradeType[] scytheUpgrades =
+            {
+                UpgradeType.Damage,
+                UpgradeType.Cooldown,
+                UpgradeType.Range
+            };
+            randomType = scytheUpgrades[Random.Range(0, scytheUpgrades.Length)];
+        }
         else
         {
             randomType = (UpgradeType)Random.Range(

@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 'Marksman Core '
   description: A refined core that enhances ranged mastery, increasing projectile
-    speed by 5%, adding 1 additional projectile, and extending range by 1.5.
+    speed by 5%, adding 1 additional projectile, and extending range by 15%.
   icon: {fileID: -2454249009384032651, guid: 29424583dab14384bb71c24122927c3b, type: 3}
   price: 1250
   weaponDefinition: {fileID: 0}
   statModifiers:
   - statType: 3
-    modifierType: 0
-    value: 1.5
+    modifierType: 1
+    value: 15
   - statType: 4
     modifierType: 1
     value: 5
