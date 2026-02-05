@@ -12,6 +12,16 @@ public class SaveScript : MonoBehaviour
 
     RunTimer runTimer;
 
+    [Header("DataSaved UI")]
+    public TMP_Text dataSavedText;
+    public float fadeInTime = 0.2f;
+    public float holdTime = 1.6f;     // 0.2 + 1.6 + 0.2 = ~2.0s összesen
+    public float fadeOutTime = 0.2f;
+    public bool useUnscaledTime = true;
+
+    private CanvasGroup dataSavedGroup;
+    private Coroutine dataSavedRoutine;
+
     public List<SaveData> saveDataList = new List<SaveData>();
     
     private string SaveFilePath => Path.Combine(Application.persistentDataPath, "leaderboard.json");
@@ -19,6 +29,18 @@ public class SaveScript : MonoBehaviour
     void Start()
     {
         LoadLeaderboard();
+        InitDataSavedUI();
+    }
+    private void InitDataSavedUI()
+    {
+        if (dataSavedText == null) return;
+
+        dataSavedGroup = dataSavedText.GetComponent<CanvasGroup>();
+        if (dataSavedGroup == null)
+            dataSavedGroup = dataSavedText.gameObject.AddComponent<CanvasGroup>();
+
+        dataSavedGroup.alpha = 0f;
+        dataSavedText.gameObject.SetActive(false);
     }
 
     public void SaveGame()
@@ -80,27 +102,80 @@ public class SaveScript : MonoBehaviour
             saveDataList.RemoveRange(10, saveDataList.Count - 10);
         }
 
-        SaveToFile();
-        
+        bool savedOk = SaveToFile();
+
+        if (savedOk)
+        {
+            ShowDataSaved();
+        }
+
         if (GameManagerScript.instance != null)
         {
             GameManagerScript.instance.saveUsedThisRun = true;
         }
     }
+    private void ShowDataSaved()
+    {
+        if (dataSavedText == null) return;
+        if (dataSavedGroup == null) InitDataSavedUI();
 
-    private void SaveToFile()
+        if (dataSavedRoutine != null)
+            StopCoroutine(dataSavedRoutine);
+
+        dataSavedRoutine = StartCoroutine(DataSavedCoroutine());
+    }
+
+    private System.Collections.IEnumerator DataSavedCoroutine()
+    {
+        dataSavedText.gameObject.SetActive(true);
+
+        yield return FadeCanvasGroup(dataSavedGroup, 0f, 1f, fadeInTime);
+
+        if (useUnscaledTime) yield return new WaitForSecondsRealtime(holdTime);
+        else yield return new WaitForSeconds(holdTime);
+
+        yield return FadeCanvasGroup(dataSavedGroup, 1f, 0f, fadeOutTime);
+
+        dataSavedText.gameObject.SetActive(false);
+        dataSavedRoutine = null;
+    }
+
+    private System.Collections.IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
+    {
+        if (cg == null) yield break;
+
+        cg.alpha = from;
+
+        if (duration <= 0f)
+        {
+            cg.alpha = to;
+            yield break;
+        }
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            cg.alpha = Mathf.Lerp(from, to, t / duration);
+            yield return null;
+        }
+
+        cg.alpha = to;
+    }
+
+    private bool SaveToFile()
     {
         try
         {
             LeaderboardWrapper wrapper = new LeaderboardWrapper { saves = saveDataList };
             string json = JsonUtility.ToJson(wrapper, true);
             File.WriteAllText(SaveFilePath, json);
+            return true;
         }
-        catch (System.Exception e)
+        catch
         {
-            // Save failed silently
+            return false;
         }
-        FadeManager.Instance.LoadSceneWithFade("MenuScene");
     }
 
     public void LoadLeaderboard()
