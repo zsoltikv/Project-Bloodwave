@@ -353,3 +353,7 @@ Shared structs: `WeaponContext`, `TargetInfo`, `Shot`
    - shop/pause pauses time correctly
 
 ---
+
+<div align="center">
+Made with ❤️ for PENdroid using Unity
+</div>
