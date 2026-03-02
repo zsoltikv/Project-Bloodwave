@@ -9,7 +9,7 @@ public class Intro : MonoBehaviour
     public VideoPlayer videoPlayer;
 
     private bool introSkipped = false;
-    private AsyncOperation menuPreload;
+    private AsyncOperation authPreload;
 
     private void Awake()
     {
@@ -26,8 +26,8 @@ public class Intro : MonoBehaviour
 
         Application.backgroundLoadingPriority = ThreadPriority.Low;
 
-        menuPreload = SceneManager.LoadSceneAsync("MenuScene");
-        menuPreload.allowSceneActivation = false;
+        authPreload = SceneManager.LoadSceneAsync("AuthScene");
+        authPreload.allowSceneActivation = false;
     }
 
     private void Update()
@@ -62,7 +62,7 @@ public class Intro : MonoBehaviour
             if (AchievementManager.Instance != null)
                 AchievementManager.Instance.UnlockAchievement("movie_buff");
 
-            FadeManager.Instance.ActivatePreloadedSceneWithFade(menuPreload);
+            FadeManager.Instance.ActivatePreloadedSceneWithFade(authPreload);
         }
     }
 
@@ -75,7 +75,7 @@ public class Intro : MonoBehaviour
         if (videoPlayer != null && videoPlayer.isPlaying)
             videoPlayer.Stop();
 
-        FadeManager.Instance.ActivatePreloadedSceneWithFade(menuPreload);
+        FadeManager.Instance.ActivatePreloadedSceneWithFade(authPreload);
     }
 
     private void OnDestroy()

@@ -198,10 +198,20 @@ public class AuthManager : MonoBehaviour
             expiresAt    = expiresAt
         });
 
-        var data = await PostAsync<AuthResponse>("/api/Auth/refresh", body, authenticated: false);
+        AuthResponse data;
+        try
+        {
+            data = await PostAsync<AuthResponse>("/api/Auth/refresh", body, authenticated: false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[AuthManager] Token refresh FAILED: {e.Message}");
+            throw;
+        }
 
         bool rememberMe = PlayerPrefs.HasKey(KEY_REMEMBER);
         SaveSession(data, rememberMe);
+        Debug.Log($"[AuthManager] Token refreshed successfully – username: '{data.user?.username ?? "unknown"}'");
         return data;
     }
 
@@ -254,8 +264,19 @@ public class AuthManager : MonoBehaviour
             username = username,
             password = password
         });
-        var data = await PostAsync<AuthResponse>("/api/Auth/login", body, authenticated: false);
+        AuthResponse data;
+        try
+        {
+            data = await PostAsync<AuthResponse>("/api/Auth/login", body, authenticated: false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[AuthManager] Login FAILED for '{username}': {e.Message}");
+            throw;
+        }
+
         SaveSession(data, rememberMe);
+        Debug.Log($"[AuthManager] Login successful – username: '{data.user?.username ?? username}', rememberMe: {rememberMe}");
         return data;
     }
 

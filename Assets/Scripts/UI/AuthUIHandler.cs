@@ -23,8 +23,9 @@ using UnityEngine.UI;
 ///    registerPanel          → the Register Panel GameObject
 ///    regUsernameField       → TMP_InputField  "Username"
 ///    regEmailField          → TMP_InputField  "Email"
-///    regPasswordField       → TMP_InputField  "Password"
-///    registerButton         → Button          "Create Account"
+///    regPasswordField          → TMP_InputField  "Password"
+///    regConfirmPasswordField  → TMP_InputField  "Re-enter Password"
+///    registerButton           → Button          "Create Account"
 ///    switchToLoginBtn       → Button          "Already have an account? Log In"
 ///    registerFeedbackText   → TMP_Text        (error / status label)
 ///
@@ -47,6 +48,7 @@ public class AuthUIHandler : MonoBehaviour
     [SerializeField] private TMP_InputField regUsernameField;
     [SerializeField] private TMP_InputField regEmailField;
     [SerializeField] private TMP_InputField regPasswordField;
+    [SerializeField] private TMP_InputField regConfirmPasswordField;
     [SerializeField] private Button         registerButton;
     [SerializeField] private Button         switchToLoginBtn;
     [SerializeField] private TMP_Text       registerFeedbackText;
@@ -74,6 +76,8 @@ public class AuthUIHandler : MonoBehaviour
         // If already logged in, skip straight to the game
         if (AuthManager.Instance != null && AuthManager.Instance.IsLoggedIn())
         {
+            var savedUser = AuthManager.Instance.GetUser();
+            Debug.Log($"[Auth] Auto-login from saved token – username: '{savedUser?.username ?? "unknown"}'");
             SceneManager.LoadScene(mainMenuScene);
             return;
         }
@@ -125,15 +129,22 @@ public class AuthUIHandler : MonoBehaviour
     /// <summary>Called by the Register button's OnClick event (or wired above).</summary>
     private async void OnRegisterClicked()
     {
-        var username = regUsernameField.text.Trim();
-        var email    = regEmailField   .text.Trim();
-        var password = regPasswordField.text;
+        var username        = regUsernameField       .text.Trim();
+        var email           = regEmailField          .text.Trim();
+        var password        = regPasswordField        .text;
+        var confirmPassword = regConfirmPasswordField != null ? regConfirmPasswordField.text : password;
 
         if (string.IsNullOrEmpty(username) ||
             string.IsNullOrEmpty(email)    ||
             string.IsNullOrEmpty(password))
         {
             SetFeedback(registerFeedbackText, "Please fill in all fields.", error: true);
+            return;
+        }
+
+        if (password != confirmPassword)
+        {
+            SetFeedback(registerFeedbackText, "Passwords do not match.", error: true);
             return;
         }
 
