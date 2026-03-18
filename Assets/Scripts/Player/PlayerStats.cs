@@ -88,6 +88,7 @@ public class PlayerStats : MonoBehaviour
     private bool multiKill20Unlocked = false;
     private const float multiKill20Window = 3f;
     private const int multiKill20Required = 20;
+    private bool endMatchSaveTriggered = false;
 
     [SerializeField] private float moveEpsilon = 0.01f;
 
@@ -396,6 +397,11 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
+        if (endMatchSaveTriggered) return;
+        endMatchSaveTriggered = true;
+
+        _ = MatchSaveManager.TryAutoSaveMatchAsync(this);
+
         if (!PauseGame.PausedThisRun)
         {
             AchievementManager.Instance.UnlockAchievement("no_pause_run");

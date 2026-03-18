@@ -18,6 +18,11 @@ public class WeaponController : MonoBehaviour
 
     public List<WeaponInstance> GetWeapons() => weapons;
     public List<WeaponInstance> GetAllWeapons() => weapons.Concat(weaponInventory).ToList();
+    public List<int> GetOwnedWeaponIds() =>
+        GetAllWeapons()
+            .Where(w => w != null && w.definition != null && w.definition.WeaponId > 0)
+            .Select(w => w.definition.WeaponId)
+            .ToList();
 
     private List<GameObject> orbitingObjects = new List<GameObject>();
 

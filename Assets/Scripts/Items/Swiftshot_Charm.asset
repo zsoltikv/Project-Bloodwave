@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Swiftshot_Charm
   m_EditorClassIdentifier: 
+  itemId: 1231009971
   itemName: 'Swiftshot Charm '
   description: "A fabled charm that hastens the bearer\u2019s projectiles, increasing
     their speed by 10%."

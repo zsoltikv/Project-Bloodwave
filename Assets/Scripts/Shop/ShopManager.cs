@@ -39,7 +39,7 @@ public class ShopManager : MonoBehaviour
     private Vector3 originalScale;
 
     private int totalPurchases = 0;
-    private readonly HashSet<string> purchasedItemIds = new HashSet<string>();
+    private readonly HashSet<int> purchasedItemIds = new HashSet<int>();
 
     private const string TotalSpentKey = "TotalCoinsSpent";
     private int totalCoinsSpent = 0;
@@ -368,9 +368,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private string GetItemId(ShopItem item)
+    private int GetItemId(ShopItem item)
     {
-        return item != null ? item.name : "";
+        return item != null ? item.ItemId : 0;
     }
 
     private bool IsPurchasedThisRun(ShopItem item)

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Orbiting Sword
   m_EditorClassIdentifier: 
+  itemId: 7123565
   itemName: Orbiting Sword
   description: A magical blade that circles the bearer, striking any nearby foes
     with relentless, automated attacks.

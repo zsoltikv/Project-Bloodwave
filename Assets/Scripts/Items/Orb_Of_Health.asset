@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Orb_Of_Health
   m_EditorClassIdentifier: 
+  itemId: 890592712
   itemName: Orb Of Health
   description: "A relic of olden craft, which upon use increaseth the bearer\u2019s
     maximum life by 100."

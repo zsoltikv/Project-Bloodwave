@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
+  itemId: 727565079
   itemName: Shotgun
   description: A short-barreled firearm that fires a spread of projectiles, dealing
     heavy damage at close range but less effective at distance.

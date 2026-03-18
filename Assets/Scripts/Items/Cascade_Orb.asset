@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Cascade_Orb
   m_EditorClassIdentifier: 
+  itemId: 1173833106
   itemName: 'Cascade Orb '
   description: "A mystical orb that increases the bearer\u2019s maximum health by
     100, slows projectile speed by 10%, and adds 1 extra projectiles to each attack."

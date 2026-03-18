@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: IceOrb
   m_EditorClassIdentifier: 
+  itemId: 789627096
   itemName: Ice Crystals
   description: A frozen shard imbued with magical frost, capable of chilling and
     slowing enemies with each strike.

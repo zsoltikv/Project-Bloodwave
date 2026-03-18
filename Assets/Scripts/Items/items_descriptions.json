@@ -1,0 +1,19 @@
+﻿{
+    "Bloodforged Sigil":  "A ruthless sigil that greatly empowers the bearer, increasing damage by 25% at the cost of 50 health.",
+    "Blood Scythe":  "A wicked blade that feeds on the life of foes, delivering powerful, sweeping strikes that drain their vitality.",
+    "Cascade Orb":  "A mystical orb that increases the bearer\\u2019s maximum health by 100, slows projectile speed by 10%, and adds 1 extra projectiles to each attack.",
+    "Glass Edge":  "A sharp-edged artifact that boosts the bearer\\u2019s damage by 15%, while reducing attack range by 10%.",
+    "Haste Rune":  "A rune of swift power that reduces the bearer\\u2019s damage by 5% but shortens all cooldowns by 1 second.",
+    "Heart of Ascendance":  "A powerful relic that increases the bearer\\u2019s maximum health by 100, increases damage by 10%, and shortens all cooldowns by 0.5 seconds.",
+    "Hourglass Pendant":  "A mystical pendant that hastens the flow of time for the bearer, reducing attack cooldowns by 5%.",
+    "Ice Crystals":  "A frozen shard imbued with magical frost, capable of chilling and slowing enemies with each strike.",
+    "Longreach Emblem":  "An ancient mark of mastery that grants the bearer greater reach in battle, extending attack range by 10%.",
+    "Marksman Core":  "A refined core that enhances ranged mastery, increasing projectile speed by 5%, adding 1 additional projectile, and extending range by 15%.",
+    "Oathblade":  "A finely wrought relic that subtly sharpens the wielder\\u2019s strikes, increasing base damage by 5%.",
+    "Orbiting Sword":  "A magical blade that circles the bearer, striking any nearby foes with relentless, automated attacks.",
+    "Orb Of Health":  "A relic of olden craft, which upon use increaseth the bearer\\u2019s maximum life by 100.",
+    "Pistol":  "A compact firearm that fires single, precise shots, effective at short to medium range.",
+    "Shotgun":  "A short-barreled firearm that fires a spread of projectiles, dealing heavy damage at close range but less effective at distance.",
+    "Swiftshot Charm":  "A fabled charm that hastens the bearer\\u2019s projectiles, increasing their speed by 10%.",
+    "Volley Stone":  "A potent stone that multiplies the bearer\\u2019s projectiles, adding one more to each attack."
+}

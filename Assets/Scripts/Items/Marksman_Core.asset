@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Marksman_Core
   m_EditorClassIdentifier: 
+  itemId: 900409151
   itemName: 'Marksman Core '
   description: A refined core that enhances ranged mastery, increasing projectile
     speed by 5%, adding 1 additional projectile, and extending range by 15%.

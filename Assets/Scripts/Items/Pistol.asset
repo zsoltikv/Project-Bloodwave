@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
+  itemId: 124676361
   itemName: Pistol
   description: A compact firearm that fires single, precise shots, effective at short
     to medium range.

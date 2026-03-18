@@ -106,6 +106,27 @@ public class PlayerInventory : MonoBehaviour
         InventorySlot slot = items.Find(s => s.item == item);
         return slot?.quantity ?? 0;
     }
+
+    public List<int> GetOwnedItemIds()
+    {
+        List<int> itemIds = new List<int>();
+
+        foreach (InventorySlot slot in items)
+        {
+            if (slot == null || slot.item == null) continue;
+
+            int id = slot.item.ItemId;
+            if (id <= 0) continue;
+
+            int quantity = Mathf.Max(1, slot.quantity);
+            for (int i = 0; i < quantity; i++)
+            {
+                itemIds.Add(id);
+            }
+        }
+
+        return itemIds;
+    }
 }
 
 [System.Serializable]

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Longreach_Emblem
   m_EditorClassIdentifier: 
+  itemId: 1749597487
   itemName: 'Longreach Emblem '
   description: An ancient mark of mastery that grants the bearer greater reach in
     battle, extending attack range by 10%.

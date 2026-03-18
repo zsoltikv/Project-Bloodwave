@@ -4,6 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Shop Item", menuName = "Shop/Item")]
 public class ShopItem : ScriptableObject
 {
+    [SerializeField] private int itemId;
+
     [Header("Item Info")]
     public string itemName;
 
@@ -19,6 +21,20 @@ public class ShopItem : ScriptableObject
 
     public bool isStackable = false;
     public int maxStackSize = 1;
+
+    public int ItemId => itemId > 0 ? itemId : Mathf.Abs(name.GetHashCode());
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (itemId <= 0)
+        {
+            itemId = System.Math.Abs(System.BitConverter.ToInt32(System.Guid.NewGuid().ToByteArray(), 0));
+            if (itemId == 0) itemId = 1;
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+    }
+#endif
 
     public void ApplyToPlayer(PlayerStats playerStats)
     {

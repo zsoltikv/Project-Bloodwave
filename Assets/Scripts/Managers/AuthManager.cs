@@ -47,6 +47,16 @@ public class AuthResponse
     public UserData user;
 }
 
+[Serializable]
+public class MatchCreateRequest
+{
+    public int time;
+    public int level;
+    public int maxHealth;
+    public System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
+    public System.Collections.Generic.List<int> weaponIds = new System.Collections.Generic.List<int>();
+}
+
 // ─── AuthManager ───────────────────────────────────────────────────────────────
 
 /// <summary>
@@ -58,7 +68,7 @@ public class AuthManager : MonoBehaviour
     public static AuthManager Instance { get; private set; }
 
     // ── Config ─────────────────────────────────────────────────────────────────
-    private const string API_BASE          = "http://5.38.131.220:5000";
+    private const string API_BASE          = "http://5.38.140.128:5000";
     private const int    REFRESH_BUFFER_SEC = 60;
 
     // ── PlayerPrefs keys (persistent storage, analogous to cookies) ────────────
@@ -201,7 +211,7 @@ public class AuthManager : MonoBehaviour
         AuthResponse data;
         try
         {
-            data = await PostAsync<AuthResponse>("/api/Auth/refresh", body, authenticated: false);
+            data = await PostAsync<AuthResponse>("/api/refresh/update", body, authenticated: false);
         }
         catch (Exception e)
         {
@@ -253,7 +263,7 @@ public class AuthManager : MonoBehaviour
             email    = email,
             password = password
         });
-        return await PostAsync<AuthResponse>("/api/Auth/register", body, authenticated: false);
+        return await PostAsync<AuthResponse>("/api/user/create", body, authenticated: false);
     }
 
     /// <summary>Login and persist the session.</summary>
@@ -267,7 +277,7 @@ public class AuthManager : MonoBehaviour
         AuthResponse data;
         try
         {
-            data = await PostAsync<AuthResponse>("/api/Auth/login", body, authenticated: false);
+            data = await PostAsync<AuthResponse>("/api/user/login", body, authenticated: false);
         }
         catch (Exception e)
         {
@@ -286,7 +296,7 @@ public class AuthManager : MonoBehaviour
         try
         {
             var token = GetToken();
-            using var req = new UnityWebRequest($"{API_BASE}/api/Auth/logout", "POST");
+            using var req = new UnityWebRequest($"{API_BASE}/api/user/logout", "POST");
             req.downloadHandler = new DownloadHandlerBuffer();
             if (!string.IsNullOrEmpty(token))
                 req.SetRequestHeader("Authorization", $"Bearer {token}");
@@ -297,6 +307,14 @@ public class AuthManager : MonoBehaviour
             ClearSession();
             OnSessionExpired?.Invoke();
         }
+    }
+
+    public async Task<string> CreateMatchAsync(MatchCreateRequest request)
+    {
+        if (request == null) throw new ArgumentNullException(nameof(request));
+
+        string body = JsonUtility.ToJson(request);
+        return await AuthFetchAsync("/api/Match", "POST", body);
     }
 
     // ─── Authenticated fetch wrapper ───────────────────────────────────────────
