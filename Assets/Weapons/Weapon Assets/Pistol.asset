@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef08d026d877b109e9e716277face885, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  weaponId: 845772003
+  weaponId: 2
   weaponName: Pistol
   icon: {fileID: -4854829337826818713, guid: 2eda519d3da59c24bb99ee6a8a21c967, type: 3}
   Cooldown: 1

@@ -27,6 +27,9 @@ public static class MatchSaveManager
 
         int runTime = RunTimer.instance != null ? Mathf.RoundToInt(RunTimer.instance.timeElapsed * 1000f) : 0;
         int level = playerStats.Level;
+        int damageDealtThisRun = GameManagerScript.instance != null ? GameManagerScript.instance.damageDealtThisRun : 0;
+        int enemiesKilledThisRun = GameManagerScript.instance != null ? GameManagerScript.instance.enemiesKilledThisRun : 0;
+        int coinsCollectedThisRun = GameManagerScript.instance != null ? GameManagerScript.instance.coinsCollectedThisRun : 0;
         int maxHealth = Mathf.RoundToInt(playerStats.MaxHealth);
 
         List<int> itemIds = new List<int>();
@@ -47,9 +50,14 @@ public static class MatchSaveManager
             time = runTime,
             level = level,
             maxHealth = maxHealth,
+            damageDealt = damageDealtThisRun,
+            enemiesKilled = enemiesKilledThisRun,
+            coinsCollected = coinsCollectedThisRun,
             itemIds = itemIds,
             weaponIds = weaponIds
         };
+
+        Debug.Log($"{request.itemIds.Count} and {request.weaponIds.Count}");
 
         try
         {

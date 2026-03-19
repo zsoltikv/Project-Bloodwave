@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef08d026d877b109e9e716277face885, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
+  weaponId: 1
   weaponName: Sword
   icon: {fileID: -3753825769889500098, guid: ec1127581a8f5a2438b800580b1b53db, type: 3}
   Cooldown: 1

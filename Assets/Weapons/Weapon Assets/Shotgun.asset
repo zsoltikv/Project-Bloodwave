@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef08d026d877b109e9e716277face885, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  weaponId: 1944872065
+  weaponId: 3
   weaponName: Shotgun
   icon: {fileID: 1275589539659018210, guid: bb0215ff6ab7f4d48ac4720e578365f4, type: 3}
   Cooldown: 1
