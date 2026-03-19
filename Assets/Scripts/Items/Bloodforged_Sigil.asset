@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Bloodforged_Sigil
   m_EditorClassIdentifier: 
-  itemId: 463650689
+  itemId: 1
   itemName: 'Bloodforged Sigil '
   description: A ruthless sigil that greatly empowers the bearer, increasing damage
     by 25% at the cost of 50 health.

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Haste_Run
   m_EditorClassIdentifier: 
-  itemId: 27619793
+  itemId: 4
   itemName: 'Haste Rune '
   description: "A rune of swift power that reduces the bearer\u2019s damage by 5%
     but shortens all cooldowns by 1 second."

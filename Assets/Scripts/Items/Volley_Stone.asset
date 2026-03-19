@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Volley_Stone
   m_EditorClassIdentifier: 
-  itemId: 723886494
+  itemId: 12
   itemName: 'Volley Stone '
   description: "A potent stone that multiplies the bearer\u2019s projectiles, adding
     one more to each attack."

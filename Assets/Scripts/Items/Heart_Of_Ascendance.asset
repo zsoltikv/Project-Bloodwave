@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Heart_Of_Ascendance
   m_EditorClassIdentifier: 
-  itemId: 656946478
+  itemId: 5
   itemName: Heart of Ascendance
   description: "A powerful relic that increases the bearer\u2019s maximum health
     by 100, increases damage by 10%, and shortens all cooldowns by 0.5 seconds."

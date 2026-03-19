@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Glass_Edge
   m_EditorClassIdentifier: 
-  itemId: 594173006
+  itemId: 3
   itemName: 'Glass Edge '
   description: "A sharp-edged artifact that boosts the bearer\u2019s damage by 15%,
     while reducing attack range by 10%."

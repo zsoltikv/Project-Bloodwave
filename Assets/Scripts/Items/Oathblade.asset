@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Oathblade
   m_EditorClassIdentifier: 
-  itemId: 1821153757
+  itemId: 9
   itemName: Oathblade
   description: "A finely wrought relic that subtly sharpens the wielder\u2019s strikes,
     increasing base damage by 5%."

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1703d3639950a4f4b9850337c43de75d, type: 3}
   m_Name: Hourglass_Pendant
   m_EditorClassIdentifier: 
-  itemId: 930543225
+  itemId: 6
   itemName: Hourglass Pendant
   description: A mystical pendant that hastens the flow of time for the bearer, reducing
     attack cooldowns by 5%.
