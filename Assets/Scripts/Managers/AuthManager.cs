@@ -266,7 +266,7 @@ public class AuthManager : MonoBehaviour
             email    = email,
             password = password
         });
-        return await PostAsync<AuthResponse>("/api/user/create", body, authenticated: false);
+        return await PostAsync<AuthResponse>("/api/user", body, authenticated: false);
     }
 
     /// <summary>Login and persist the session.</summary>
