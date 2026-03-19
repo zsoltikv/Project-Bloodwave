@@ -96,6 +96,11 @@ public class PlayerStats : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        if (GameManagerScript.instance != null)
+        {
+            GameManagerScript.instance.ResetRunStats();
+        }
+
         GameManagerScript.instance.ResumeGame();
         RunTimer.instance.ResetTimer();
         PauseGame.ResetRunPauseFlag();
@@ -246,6 +251,11 @@ public class PlayerStats : MonoBehaviour
     {
         totalKills++;
 
+        if (GameManagerScript.instance != null)
+        {
+            GameManagerScript.instance.AddEnemyKilled();
+        }
+
         if (totalKills == 1)
             AchievementManager.Instance.UnlockAchievement("first_blood");
         if (totalKills == 10)
@@ -310,6 +320,11 @@ public class PlayerStats : MonoBehaviour
     public void AddCoins(int amount)
     {
         Coins += amount;
+
+        if (GameManagerScript.instance != null)
+        {
+            GameManagerScript.instance.AddCoinsCollected(amount);
+        }
 
         if (Coins >= 1000)
         {

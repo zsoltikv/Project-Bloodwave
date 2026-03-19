@@ -53,6 +53,9 @@ public class MatchCreateRequest
     public int time;
     public int level;
     public int maxHealth;
+    public int damageDealt;
+    public int enemiesKilled;
+    public int coinsCollected;
     public System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
     public System.Collections.Generic.List<int> weaponIds = new System.Collections.Generic.List<int>();
 }

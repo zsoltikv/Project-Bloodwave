@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef08d026d877b109e9e716277face885, type: 3}
   m_Name: OrbitingSword
   m_EditorClassIdentifier: 
-  weaponId: 789923169
+  weaponId: 4
   weaponName: Orbiting Sword
   icon: {fileID: 1938844011, guid: 4ccf36b5154ff2345b980d12ebdc17ef, type: 3}
   Cooldown: 1

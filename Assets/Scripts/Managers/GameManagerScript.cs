@@ -8,12 +8,41 @@ public class GameManagerScript : MonoBehaviour
     public bool saveUsedThisRun = false;
     public int level;
 
+    public int damageDealtThisRun = 0;
+    public int coinsCollectedThisRun = 0;
+    public int enemiesKilledThisRun = 0;
+
+    public void ResetRunStats()
+    {
+        damageDealtThisRun = 0;
+        coinsCollectedThisRun = 0;
+        enemiesKilledThisRun = 0;
+    }
+
+    public void AddDamageDealt(int amount)
+    {
+        if (amount <= 0) return;
+        damageDealtThisRun += amount;
+    }
+
+    public void AddCoinsCollected(int amount)
+    {
+        if (amount <= 0) return;
+        coinsCollectedThisRun += amount;
+    }
+
+    public void AddEnemyKilled()
+    {
+        enemiesKilledThisRun++;
+    }
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            ResetRunStats();
         }
         else
         {

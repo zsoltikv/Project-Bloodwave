@@ -48,6 +48,11 @@ public class EnemyHealth : MonoBehaviour
             );
         }
 
+        if (GameManagerScript.instance != null)
+        {
+            GameManagerScript.instance.AddDamageDealt(Mathf.RoundToInt(dmg));
+        }
+
         currentHealth -= dmg;
 
         if (currentHealth <= 0)
