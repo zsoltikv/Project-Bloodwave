@@ -92,6 +92,7 @@ public class AuthManager : MonoBehaviour
     /// E.g.: AuthManager.OnSessionExpired += () => SceneManager.LoadScene("Login");
     /// </summary>
     public static event Action OnSessionExpired;
+    public static event Action OnSessionChanged;
 
     // ── Unity lifecycle ────────────────────────────────────────────────────────
 
@@ -132,12 +133,15 @@ public class AuthManager : MonoBehaviour
             _sessionExpiresAt    = data.expiresAt;
             _sessionUser         = data.user != null ? JsonUtility.ToJson(data.user) : null;
         }
+
+        OnSessionChanged?.Invoke();
     }
 
     public void ClearSession()
     {
         _sessionToken = _sessionRefreshToken = _sessionExpiresAt = _sessionUser = null;
         ClearPlayerPrefs();
+        OnSessionChanged?.Invoke();
     }
 
     private void ClearPlayerPrefs()

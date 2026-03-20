@@ -1,11 +1,25 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class AchievementManager : MonoBehaviour
 {
     public static AchievementManager Instance;
+    public static event Action OnAchievementsChanged;
 
-    private List<Achievement> achievements = new List<Achievement>();
+    private static readonly string[] AchievementSyncEndpoints =
+    {
+        "/api/Achievment/unlocked",
+        "/api/Achievment/user/{userId}/unlocked",
+        "/api/Achievment/user/{userId}",
+        "/api/Achievment/{userId}/unlocked",
+        "/api/User/{userId}/achievments",
+        "/api/user/{userId}/achievments"
+    };
+
+    private readonly List<Achievement> achievements = new List<Achievement>();
+    private bool _isSyncing;
 
     private void Awake()
     {
@@ -15,7 +29,9 @@ public class AchievementManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             InitializeAchievements();
-            LoadAchievements();
+            ResetAchievementState();
+            AuthManager.OnSessionChanged += HandleSessionChanged;
+            _ = RefreshAchievementsFromApiAsync();
         }
         else
         {
@@ -23,115 +39,106 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            AuthManager.OnSessionChanged -= HandleSessionChanged;
+    }
+
+    private void HandleSessionChanged()
+    {
+        _ = RefreshAchievementsFromApiAsync();
+    }
+
     private void InitializeAchievements()
     {
         achievements.Clear();
 
-        achievements.Add(new Achievement("first_time_player", "First Time", "Visit How To Play"));
-        achievements.Add(new Achievement("movie_buff", "Movie Buff", "Watch the intro video"));
+        achievements.Add(new Achievement(1, "first_time_player", "First Time", "Visit How To Play"));
+        achievements.Add(new Achievement(2, "movie_buff", "Movie Buff", "Watch the intro video"));
 
-        achievements.Add(new Achievement("first_pause", "Taking a Break", "Pause the game"));
-        achievements.Add(new Achievement("first_restart", "First Restart", "Restart the game"));
-        achievements.Add(new Achievement("first_save", "First Save", "Save for the first time"));
-        achievements.Add(new Achievement("first_steps", "First Steps", "Complete your first run"));
+        achievements.Add(new Achievement(3, "first_pause", "Taking a Break", "Pause the game"));
+        achievements.Add(new Achievement(4, "first_restart", "First Restart", "Restart the game"));
+        achievements.Add(new Achievement(5, "first_save", "First Save", "Save for the first time"));
+        achievements.Add(new Achievement(6, "first_steps", "First Steps", "Complete your first run"));
 
-        achievements.Add(new Achievement("first_blood", "First Blood", "Kill your first enemy"));
-        achievements.Add(new Achievement("slayer_10", "Slayer", "Kill 10 enemies"));
-        achievements.Add(new Achievement("slayer_50", "Slayer Master", "Kill 50 enemies"));
-        achievements.Add(new Achievement("mass_murderer", "Mass Murderer", "Kill 100 enemies"));
+        achievements.Add(new Achievement(7, "first_blood", "First Blood", "Kill your first enemy"));
+        achievements.Add(new Achievement(8, "slayer_10", "Slayer", "Kill 10 enemies"));
+        achievements.Add(new Achievement(9, "slayer_50", "Slayer Master", "Kill 50 enemies"));
+        achievements.Add(new Achievement(10, "mass_murderer", "Mass Murderer", "Kill 100 enemies"));
 
-        achievements.Add(new Achievement("multi_kill_10", "Boom!", "Kill 10 enemies within 2 seconds"));
-        achievements.Add(new Achievement("multi_kill_20", "Nuke!", "Kill 20 enemies within 3 seconds"));
+        achievements.Add(new Achievement(11, "multi_kill_10", "Boom!", "Kill 10 enemies within 2 seconds"));
+        achievements.Add(new Achievement(12, "multi_kill_20", "Nuke!", "Kill 20 enemies within 3 seconds"));
 
-        achievements.Add(new Achievement("no_hit_2min", "Untouchable", "Survive for 2 minutes without taking damage"));
-        achievements.Add(new Achievement("tank_500", "Iron Skin", "Take 500 total damage in a single run and survive"));
+        achievements.Add(new Achievement(13, "no_hit_2min", "Untouchable", "Survive for 2 minutes without taking damage"));
+        achievements.Add(new Achievement(14, "tank_500", "Iron Skin", "Take 500 total damage in a single run and survive"));
 
-        achievements.Add(new Achievement("die_fast_15s", "Oops", "Die within 15 seconds"));
-        achievements.Add(new Achievement("no_pause_run", "No Breaks", "Complete a run without pausing"));
-        achievements.Add(new Achievement("afk_30s", "Statue", "Don't move for 30 seconds and survive"));
+        achievements.Add(new Achievement(15, "die_fast_15s", "Oops", "Die within 15 seconds"));
+        achievements.Add(new Achievement(16, "no_pause_run", "No Breaks", "Complete a run without pausing"));
+        achievements.Add(new Achievement(17, "afk_30s", "Statue", "Don't move for 30 seconds and survive"));
 
-        achievements.Add(new Achievement("survivor_5min", "Survivor", "Survive for 5 minutes"));
-        achievements.Add(new Achievement("survivor_10min", "Endurer", "Survive for 10 minutes"));
-        achievements.Add(new Achievement("survivor_15min", "Unbreakable", "Survive for 15 minutes"));
-        achievements.Add(new Achievement("survivor_30min", "Immortal Run", "Survive for 30 minutes"));
+        achievements.Add(new Achievement(18, "survivor_5min", "Survivor", "Survive for 5 minutes"));
+        achievements.Add(new Achievement(19, "survivor_10min", "Endurer", "Survive for 10 minutes"));
+        achievements.Add(new Achievement(20, "survivor_15min", "Unbreakable", "Survive for 15 minutes"));
+        achievements.Add(new Achievement(21, "survivor_30min", "Immortal Run", "Survive for 30 minutes"));
 
-        achievements.Add(new Achievement("level_5", "Getting Stronger", "Reach level 5"));
-        achievements.Add(new Achievement("level_10", "Veteran", "Reach level 10"));
-        achievements.Add(new Achievement("level_15", "Elite", "Reach level 15"));
-        achievements.Add(new Achievement("level_20", "Master", "Reach level 20"));
-        achievements.Add(new Achievement("level_25", "Legend", "Reach level 25"));
-        achievements.Add(new Achievement("level_50", "Immortal", "Reach level 50"));
+        achievements.Add(new Achievement(22, "level_5", "Getting Stronger", "Reach level 5"));
+        achievements.Add(new Achievement(23, "level_10", "Veteran", "Reach level 10"));
+        achievements.Add(new Achievement(24, "level_15", "Elite", "Reach level 15"));
+        achievements.Add(new Achievement(25, "level_20", "Master", "Reach level 20"));
+        achievements.Add(new Achievement(26, "level_25", "Legend", "Reach level 25"));
+        achievements.Add(new Achievement(27, "level_50", "Immortal", "Reach level 50"));
 
-        achievements.Add(new Achievement("first_weapon_upgrade", "First Upgrade", "Apply your first weapon upgrade."));
-        achievements.Add(new Achievement("upgrade_damage_once", "Hard Hitter", "Apply a Damage upgrade."));
-        achievements.Add(new Achievement("upgrade_projectiles_once", "More Bullets", "Apply a Projectile Count upgrade."));
-        achievements.Add(new Achievement("upgrade_cooldown_once", "Rapid Fire", "Apply a Cooldown upgrade."));
-        achievements.Add(new Achievement("upgrade_range_once", "Long Reach", "Apply a Range upgrade."));
-        achievements.Add(new Achievement("upgrade_orbitalspeed_once", "Faster Orbit", "Apply an Orbital Speed upgrade."));
+        achievements.Add(new Achievement(28, "first_weapon_upgrade", "First Upgrade", "Apply your first weapon upgrade."));
+        achievements.Add(new Achievement(29, "upgrade_damage_once", "Hard Hitter", "Apply a Damage upgrade."));
+        achievements.Add(new Achievement(30, "upgrade_projectiles_once", "More Bullets", "Apply a Projectile Count upgrade."));
+        achievements.Add(new Achievement(31, "upgrade_cooldown_once", "Rapid Fire", "Apply a Cooldown upgrade."));
+        achievements.Add(new Achievement(32, "upgrade_range_once", "Long Reach", "Apply a Range upgrade."));
+        achievements.Add(new Achievement(33, "upgrade_orbitalspeed_once", "Faster Orbit", "Apply an Orbital Speed upgrade."));
 
-        achievements.Add(new Achievement("weapon_level_5", "Weapon Specialist", "Level up a weapon to level 5."));
-        achievements.Add(new Achievement("weapon_level_10", "Weapon Master", "Level up a weapon to level 10."));
+        achievements.Add(new Achievement(34, "weapon_level_5", "Weapon Specialist", "Level up a weapon to level 5."));
+        achievements.Add(new Achievement(35, "weapon_level_10", "Weapon Master", "Level up a weapon to level 10."));
 
-        achievements.Add(new Achievement("projectiles_bonus_3", "Bullet Storm", "Get +3 bonus projectiles on a weapon."));
-        achievements.Add(new Achievement("cooldown_50", "Machine Gun", "Reduce a weapon's cooldown by 50% or more."));
-        achievements.Add(new Achievement("range_150", "Sniper Range", "Increase a weapon's range to 150% or more."));
-        achievements.Add(new Achievement("orbitalspeed_200", "Hyper Orbit", "Increase orbital speed to 200% or more."));
+        achievements.Add(new Achievement(36, "projectiles_bonus_3", "Bullet Storm", "Get +3 bonus projectiles on a weapon."));
+        achievements.Add(new Achievement(37, "cooldown_50", "Machine Gun", "Reduce a weapon's cooldown by 50% or more."));
+        achievements.Add(new Achievement(38, "range_150", "Sniper Range", "Increase a weapon's range to 150% or more."));
+        achievements.Add(new Achievement(39, "orbitalspeed_200", "Hyper Orbit", "Increase orbital speed to 200% or more."));
 
-        achievements.Add(new Achievement("rich", "Rich", "Collect 1000 coins"));
-        achievements.Add(new Achievement("shopaholic", "Shopaholic", "Buy your first item"));
-        achievements.Add(new Achievement("shop_clear_10", "Bought Out", "Buy 10 shop items in a single run"));
-        achievements.Add(new Achievement("collector", "Collector", "Buy 10 items in total"));
-        achievements.Add(new Achievement("big_spender", "Big Spender", "Spend 5000 coins in total"));
+        achievements.Add(new Achievement(40, "rich", "Rich", "Collect 1000 coins"));
+        achievements.Add(new Achievement(41, "shopaholic", "Shopaholic", "Buy your first item"));
+        achievements.Add(new Achievement(42, "shop_clear_10", "Bought Out", "Buy 10 shop items in a single run"));
+        achievements.Add(new Achievement(43, "collector", "Collector", "Buy 10 items in total"));
+        achievements.Add(new Achievement(44, "big_spender", "Big Spender", "Spend 5000 coins in total"));
 
-        achievements.Add(new Achievement("arsenal", "Arsenal", "Hold 3 weapons at once"));
-        achievements.Add(new Achievement("orbit_master", "Orbit Master", "Activate an orbiting weapon"));
+        achievements.Add(new Achievement(45, "arsenal", "Arsenal", "Hold 3 weapons at once"));
+        achievements.Add(new Achievement(46, "orbit_master", "Orbit Master", "Activate an orbiting weapon"));
 
-        achievements.Add(new Achievement("music_lover", "Music Lover", "Started your first music"));
+        achievements.Add(new Achievement(47, "music_lover", "Music Lover", "Started your first music"));
 
-        achievements.Add(new Achievement("unlock_10_achievements", "Collector I", "Unlock 10 achievements"));
-        achievements.Add(new Achievement("unlock_25_achievements", "Collector II", "Unlock 25 achievements"));
-        achievements.Add(new Achievement("completionist", "Completionist", "Unlock all achievements"));
+        achievements.Add(new Achievement(48, "unlock_10_achievements", "Collector I", "Unlock 10 achievements"));
+        achievements.Add(new Achievement(49, "unlock_25_achievements", "Collector II", "Unlock 25 achievements"));
+        achievements.Add(new Achievement(50, "completionist", "Completionist", "Unlock all achievements"));
     }
 
     public void UnlockAchievement(string achievementId)
     {
-        Achievement achievement = null;
+        Achievement achievement = FindAchievement(achievementId);
 
-        foreach (Achievement a in achievements)
-        {
-            if (a.id == achievementId)
-            {
-                achievement = a;
-                break;
-            }
-        }
+        if (achievement == null || achievement.isUnlocked)
+            return;
 
-        if (achievement != null && !achievement.isUnlocked)
-        {
-            achievement.isUnlocked = true;
+        achievement.isUnlocked = true;
+        Debug.Log("Achievement Unlocked: " + achievement.title);
+        NotifyAchievementsChanged();
 
-            SaveAchievements();
-            Debug.Log("Achievement Unlocked: " + achievement.title);
-
-            CheckMilestoneAchievements();
-
-            if (achievementId != "completionist" &&
-                GetUnlockedCount() == GetTotalCount() - 1)
-            {
-                UnlockAchievement("completionist");
-            }
-        }
+        _ = SendUnlockAchievementToApiAsync(achievement);
+        EnsureMetaAchievementsUnlocked();
     }
 
     public bool IsAchievementUnlocked(string achievementId)
     {
-        foreach (Achievement a in achievements)
-        {
-            if (a.id == achievementId)
-                return a.isUnlocked;
-        }
-
-        return false;
+        Achievement achievement = FindAchievement(achievementId);
+        return achievement != null && achievement.isUnlocked;
     }
 
     public List<Achievement> GetAllAchievements()
@@ -143,9 +150,9 @@ public class AchievementManager : MonoBehaviour
     {
         int count = 0;
 
-        foreach (Achievement a in achievements)
+        foreach (Achievement achievement in achievements)
         {
-            if (a.isUnlocked)
+            if (achievement.isUnlocked)
                 count++;
         }
 
@@ -157,60 +164,82 @@ public class AchievementManager : MonoBehaviour
         return achievements.Count;
     }
 
-    private void SaveAchievements()
-    {
-        List<string> unlockedIds = new List<string>();
-
-        foreach (Achievement a in achievements)
-        {
-            if (a.isUnlocked)
-            {
-                unlockedIds.Add(a.id);
-            }
-        }
-
-        AchievementSaveData saveData = new AchievementSaveData
-        {
-            unlockedAchievementIds = unlockedIds.ToArray()
-        };
-
-        string json = JsonUtility.ToJson(saveData);
-        PlayerPrefs.SetString("AchievementData", json);
-        PlayerPrefs.Save();
-    }
-
     public void LoadAchievements()
     {
-        foreach (Achievement a in achievements)
-        {
-            a.isUnlocked = false;
-        }
-
-        if (PlayerPrefs.HasKey("AchievementData"))
-        {
-            string json = PlayerPrefs.GetString("AchievementData");
-            AchievementSaveData saveData = JsonUtility.FromJson<AchievementSaveData>(json);
-
-            if (saveData != null && saveData.unlockedAchievementIds != null)
-            {
-                foreach (string id in saveData.unlockedAchievementIds)
-                {
-                    foreach (Achievement a in achievements)
-                    {
-                        if (a.id == id)
-                        {
-                            a.isUnlocked = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        CheckMilestoneAchievements();
+        _ = RefreshAchievementsFromApiAsync();
     }
 
-    private void CheckMilestoneAchievements()
+    public async Task RefreshAchievementsFromApiAsync()
+    {
+        if (_isSyncing)
+            return;
+
+        _isSyncing = true;
+
+        try
+        {
+            ResetAchievementState();
+
+            if (AuthManager.Instance == null || !AuthManager.Instance.IsLoggedIn())
+            {
+                NotifyAchievementsChanged();
+                return;
+            }
+
+            AchievementUnlockResponse[] unlockedAchievements = await FetchUnlockedAchievementsAsync();
+
+            foreach (AchievementUnlockResponse unlockedAchievement in unlockedAchievements)
+            {
+                Achievement achievement = FindAchievementByApiId(unlockedAchievement.achievmentId);
+                if (achievement != null)
+                    achievement.isUnlocked = true;
+            }
+
+            NotifyAchievementsChanged();
+            EnsureMetaAchievementsUnlocked();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"[AchievementManager] Failed to sync achievements from API: {ex.Message}");
+            NotifyAchievementsChanged();
+        }
+        finally
+        {
+            _isSyncing = false;
+        }
+    }
+
+    private Achievement FindAchievement(string achievementId)
+    {
+        foreach (Achievement achievement in achievements)
+        {
+            if (achievement.id == achievementId)
+                return achievement;
+        }
+
+        return null;
+    }
+
+    private Achievement FindAchievementByApiId(int apiId)
+    {
+        foreach (Achievement achievement in achievements)
+        {
+            if (achievement.apiId == apiId)
+                return achievement;
+        }
+
+        return null;
+    }
+
+    private void ResetAchievementState()
+    {
+        foreach (Achievement achievement in achievements)
+        {
+            achievement.isUnlocked = false;
+        }
+    }
+
+    private void EnsureMetaAchievementsUnlocked()
     {
         int unlocked = GetUnlockedCount();
 
@@ -219,5 +248,72 @@ public class AchievementManager : MonoBehaviour
 
         if (unlocked >= 25)
             UnlockAchievement("unlock_25_achievements");
+
+        if (!IsAchievementUnlocked("completionist") && unlocked >= GetTotalCount() - 1)
+            UnlockAchievement("completionist");
+    }
+
+    private async Task<AchievementUnlockResponse[]> FetchUnlockedAchievementsAsync()
+    {
+        string userId = AuthManager.Instance?.GetUser()?.id;
+
+        foreach (string endpointTemplate in AchievementSyncEndpoints)
+        {
+            if (endpointTemplate.Contains("{userId}") && string.IsNullOrEmpty(userId))
+                continue;
+
+            string endpoint = endpointTemplate.Replace("{userId}", userId);
+            string response = await AuthManager.Instance.AuthFetchAsync(endpoint, "GET");
+
+            if (!TryParseUnlockResponseArray(response, out AchievementUnlockResponse[] unlockedAchievements))
+                continue;
+
+            return unlockedAchievements;
+        }
+
+        throw new Exception("No achievement sync endpoint returned a compatible unlock list.");
+    }
+
+    private bool TryParseUnlockResponseArray(string response, out AchievementUnlockResponse[] unlockedAchievements)
+    {
+        unlockedAchievements = Array.Empty<AchievementUnlockResponse>();
+
+        if (string.IsNullOrWhiteSpace(response))
+            return false;
+
+        string trimmedResponse = response.Trim();
+        if (!trimmedResponse.StartsWith("[") || !trimmedResponse.Contains("achievmentId"))
+            return false;
+
+        try
+        {
+            unlockedAchievements = JsonArrayHelper.FromJson<AchievementUnlockResponse>(trimmedResponse);
+            return unlockedAchievements.Length > 0 || trimmedResponse == "[]";
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private async Task SendUnlockAchievementToApiAsync(Achievement achievement)
+    {
+        if (achievement == null || AuthManager.Instance == null || !AuthManager.Instance.IsLoggedIn())
+            return;
+
+        try
+        {
+            await AuthManager.Instance.AuthFetchAsync($"/api/Achievment/{achievement.apiId}/unlock", "POST");
+            await RefreshAchievementsFromApiAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"[AchievementManager] Failed to sync achievement '{achievement.id}' with API: {ex.Message}");
+        }
+    }
+
+    private void NotifyAchievementsChanged()
+    {
+        OnAchievementsChanged?.Invoke();
     }
 }

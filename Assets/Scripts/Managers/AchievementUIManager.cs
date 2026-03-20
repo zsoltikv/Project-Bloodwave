@@ -24,7 +24,14 @@ public class AchievementUIManager : MonoBehaviour
             backButton.onClick.AddListener(GoBack);
         }
 
+        AchievementManager.OnAchievementsChanged += DisplayAchievements;
         DisplayAchievements();
+        AchievementManager.Instance?.LoadAchievements();
+    }
+
+    private void OnDestroy()
+    {
+        AchievementManager.OnAchievementsChanged -= DisplayAchievements;
     }
 
     private void DisplayAchievements()
@@ -140,8 +147,7 @@ public class AchievementUIManager : MonoBehaviour
 
     public void WipeAchievements()
     {
-        PlayerPrefs.DeleteKey("AchievementData");
-        AchievementManager.Instance.LoadAchievements();
+        AchievementManager.Instance?.LoadAchievements();
         DisplayAchievements();
     }
 }
