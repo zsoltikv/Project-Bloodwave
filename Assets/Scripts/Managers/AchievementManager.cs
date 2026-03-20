@@ -8,15 +8,7 @@ public class AchievementManager : MonoBehaviour
     public static AchievementManager Instance;
     public static event Action OnAchievementsChanged;
 
-    private static readonly string[] AchievementSyncEndpoints =
-    {
-        "/api/Achievment/unlocked",
-        "/api/Achievment/user/{userId}/unlocked",
-        "/api/Achievment/user/{userId}",
-        "/api/Achievment/{userId}/unlocked",
-        "/api/User/{userId}/achievments",
-        "/api/user/{userId}/achievments"
-    };
+    private const string AchievementSyncEndpoint = "/api/Achievment/me";
 
     private readonly List<Achievement> achievements = new List<Achievement>();
     private bool _isSyncing;
@@ -255,23 +247,12 @@ public class AchievementManager : MonoBehaviour
 
     private async Task<AchievementUnlockResponse[]> FetchUnlockedAchievementsAsync()
     {
-        string userId = AuthManager.Instance?.GetUser()?.id;
+        string response = await AuthManager.Instance.AuthFetchAsync(AchievementSyncEndpoint, "GET");
 
-        foreach (string endpointTemplate in AchievementSyncEndpoints)
-        {
-            if (endpointTemplate.Contains("{userId}") && string.IsNullOrEmpty(userId))
-                continue;
-
-            string endpoint = endpointTemplate.Replace("{userId}", userId);
-            string response = await AuthManager.Instance.AuthFetchAsync(endpoint, "GET");
-
-            if (!TryParseUnlockResponseArray(response, out AchievementUnlockResponse[] unlockedAchievements))
-                continue;
-
+        if (TryParseUnlockResponseArray(response, out AchievementUnlockResponse[] unlockedAchievements))
             return unlockedAchievements;
-        }
 
-        throw new Exception("No achievement sync endpoint returned a compatible unlock list.");
+        throw new Exception("Achievement sync endpoint did not return a compatible unlock list.");
     }
 
     private bool TryParseUnlockResponseArray(string response, out AchievementUnlockResponse[] unlockedAchievements)
