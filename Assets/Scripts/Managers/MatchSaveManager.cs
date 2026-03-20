@@ -28,6 +28,7 @@ public static class MatchSaveManager
         int runTime = RunTimer.instance != null ? Mathf.RoundToInt(RunTimer.instance.timeElapsed * 1000f) : 0;
         int level = playerStats.Level;
         int damageDealtThisRun = GameManagerScript.instance != null ? GameManagerScript.instance.damageDealtThisRun : 0;
+        int damageTakenThisRun = Mathf.RoundToInt(playerStats.damageTakenThisRun);
         int enemiesKilledThisRun = GameManagerScript.instance != null ? GameManagerScript.instance.enemiesKilledThisRun : 0;
         int coinsCollectedThisRun = GameManagerScript.instance != null ? GameManagerScript.instance.coinsCollectedThisRun : 0;
         int maxHealth = Mathf.RoundToInt(playerStats.MaxHealth);
@@ -51,6 +52,7 @@ public static class MatchSaveManager
             level = level,
             maxHealth = maxHealth,
             damageDealt = damageDealtThisRun,
+            damageTaken = damageTakenThisRun,
             enemiesKilled = enemiesKilledThisRun,
             coinsCollected = coinsCollectedThisRun,
             itemIds = itemIds,

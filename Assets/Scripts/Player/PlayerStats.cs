@@ -82,7 +82,7 @@ public class PlayerStats : MonoBehaviour
     private float afkTime = 0f;
     private bool afkUnlocked = false;
 
-    private float damageTakenThisRun = 0f;
+    public float damageTakenThisRun = 0f;
     private bool tank500Unlocked = false;
 
     private bool multiKill20Unlocked = false;
@@ -338,11 +338,8 @@ public class PlayerStats : MonoBehaviour
         {
             noHitTime = 0f;
 
-            if (!tank500Unlocked)
-            {
-                float effectiveDamage = Mathf.Min(amount, Health);
-                damageTakenThisRun += effectiveDamage;
-            }
+            float effectiveDamage = Mathf.Min(amount, Health);
+            damageTakenThisRun += effectiveDamage;
         }
 
         Health -= amount;
