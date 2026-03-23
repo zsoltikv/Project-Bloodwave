@@ -1,57 +1,30 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-/// <summary>
-/// Attach to a Canvas that contains Login and Register panels.
-/// Wire every field and button reference in the Inspector (see comments).
-///
-/// SCENE REFERENCES TO SET IN INSPECTOR
-/// ──────────────────────────────────────────────────────────────────────
-///  Login panel
-///    loginPanel          → the Login Panel GameObject
-///    loginUsernameField  → TMP_InputField  "Username"
-///    loginPasswordField  → TMP_InputField  "Password"
-///    rememberMeToggle    → Toggle          "Remember me"
-///    loginButton         → Button          "Log In"
-///    switchToRegisterBtn → Button          "Don't have an account? Register"
-///    loginFeedbackText   → TMP_Text        (error / status label)
-///
-///  Register panel
-///    registerPanel          → the Register Panel GameObject
-///    regUsernameField       → TMP_InputField  "Username"
-///    regEmailField          → TMP_InputField  "Email"
-///    regPasswordField          → TMP_InputField  "Password"
-///    regConfirmPasswordField  → TMP_InputField  "Re-enter Password"
-///    registerButton           → Button          "Create Account"
-///    switchToLoginBtn       → Button          "Already have an account? Log In"
-///    registerFeedbackText   → TMP_Text        (error / status label)
-///
-///  (Optional) loadingOverlay → a full-screen dimming panel shown while requests are in flight
-/// ──────────────────────────────────────────────────────────────────────
-/// </summary>
 public class AuthUIHandler : MonoBehaviour
 {
     [Header("Login Panel")]
-    [SerializeField] private GameObject    loginPanel;
+    [SerializeField] private GameObject loginPanel;
     [SerializeField] private TMP_InputField loginUsernameField;
     [SerializeField] private TMP_InputField loginPasswordField;
-    [SerializeField] private Toggle         rememberMeToggle;
-    [SerializeField] private Button         loginButton;
-    [SerializeField] private Button         switchToRegisterBtn;
-    [SerializeField] private TMP_Text       loginFeedbackText;
+    [SerializeField] private Toggle rememberMeToggle;
+    [SerializeField] private Button loginButton;
+    [SerializeField] private Button switchToRegisterBtn;
+    [SerializeField] private TMP_Text loginFeedbackText;
 
     [Header("Register Panel")]
-    [SerializeField] private GameObject     registerPanel;
+    [SerializeField] private GameObject registerPanel;
     [SerializeField] private TMP_InputField regUsernameField;
     [SerializeField] private TMP_InputField regEmailField;
     [SerializeField] private TMP_InputField regPasswordField;
     [SerializeField] private TMP_InputField regConfirmPasswordField;
-    [SerializeField] private Button         registerButton;
-    [SerializeField] private Button         switchToLoginBtn;
-    [SerializeField] private TMP_Text       registerFeedbackText;
+    [SerializeField] private Button registerButton;
+    [SerializeField] private Button switchToLoginBtn;
+    [SerializeField] private TMP_Text registerFeedbackText;
 
     [Header("Misc")]
     [SerializeField] private GameObject loadingOverlay;
@@ -61,6 +34,8 @@ public class AuthUIHandler : MonoBehaviour
 
     // ──────────────────────────────────────────────────────────────────────────
 
+    private Coroutine loginButtonAnimationCoroutine;
+
     private void Start()
     {
         // Subscribe to the session-expired event so any screen in the game can
@@ -68,10 +43,10 @@ public class AuthUIHandler : MonoBehaviour
         AuthManager.OnSessionExpired += HandleSessionExpired;
 
         // Wire buttons (avoids cluttering the Inspector with persistent listeners)
-        loginButton        .onClick.AddListener(OnLoginClicked);
-        registerButton     .onClick.AddListener(OnRegisterClicked);
+        loginButton.onClick.AddListener(OnLoginClicked);
+        registerButton.onClick.AddListener(OnRegisterClicked);
         switchToRegisterBtn.onClick.AddListener(() => ShowPanel(registerPanel));
-        switchToLoginBtn   .onClick.AddListener(() => ShowPanel(loginPanel));
+        switchToLoginBtn.onClick.AddListener(() => ShowPanel(loginPanel));
 
         // If already logged in, skip straight to the game
         if (AuthManager.Instance != null && AuthManager.Instance.IsLoggedIn())
@@ -89,8 +64,8 @@ public class AuthUIHandler : MonoBehaviour
     {
         AuthManager.OnSessionExpired -= HandleSessionExpired;
 
-        loginButton        .onClick.RemoveListener(OnLoginClicked);
-        registerButton     .onClick.RemoveListener(OnRegisterClicked);
+        loginButton.onClick.RemoveListener(OnLoginClicked);
+        registerButton.onClick.RemoveListener(OnRegisterClicked);
     }
 
     // ─── Button handlers ───────────────────────────────────────────────────────
@@ -98,8 +73,8 @@ public class AuthUIHandler : MonoBehaviour
     /// <summary>Called by the Login button's OnClick event (or wired above).</summary>
     private async void OnLoginClicked()
     {
-        var username   = loginUsernameField.text.Trim();
-        var password   = loginPasswordField.text;
+        var username = loginUsernameField.text.Trim();
+        var password = loginPasswordField.text;
         var rememberMe = rememberMeToggle != null && rememberMeToggle.isOn;
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -110,6 +85,11 @@ public class AuthUIHandler : MonoBehaviour
 
         SetLoading(true);
         SetFeedback(loginFeedbackText, string.Empty);
+
+        // Start the login button animation
+        if (loginButtonAnimationCoroutine != null)
+            StopCoroutine(loginButtonAnimationCoroutine);
+        loginButtonAnimationCoroutine = StartCoroutine(AnimateLoginButton());
 
         try
         {
@@ -123,19 +103,26 @@ public class AuthUIHandler : MonoBehaviour
         finally
         {
             SetLoading(false);
+            // Stop the animation and restore original button text
+            if (loginButtonAnimationCoroutine != null)
+            {
+                StopCoroutine(loginButtonAnimationCoroutine);
+                loginButtonAnimationCoroutine = null;
+            }
+            loginButton.GetComponentInChildren<TMP_Text>().text = "Login";
         }
     }
 
     /// <summary>Called by the Register button's OnClick event (or wired above).</summary>
     private async void OnRegisterClicked()
     {
-        var username        = regUsernameField       .text.Trim();
-        var email           = regEmailField          .text.Trim();
-        var password        = regPasswordField        .text;
+        var username = regUsernameField.text.Trim();
+        var email = regEmailField.text.Trim();
+        var password = regPasswordField.text;
         var confirmPassword = regConfirmPasswordField != null ? regConfirmPasswordField.text : password;
 
         if (string.IsNullOrEmpty(username) ||
-            string.IsNullOrEmpty(email)    ||
+            string.IsNullOrEmpty(email) ||
             string.IsNullOrEmpty(password))
         {
             SetFeedback(registerFeedbackText, "Please fill in all fields.", error: true);
@@ -182,14 +169,14 @@ public class AuthUIHandler : MonoBehaviour
 
     private void ShowPanel(GameObject target)
     {
-        loginPanel   .SetActive(loginPanel    == target);
+        loginPanel.SetActive(loginPanel == target);
         registerPanel.SetActive(registerPanel == target);
     }
 
     private void SetFeedback(TMP_Text label, string message, bool error = false)
     {
         if (label == null) return;
-        label.text  = message;
+        label.text = message;
         label.color = error ? Color.red : Color.green;
     }
 
@@ -198,7 +185,21 @@ public class AuthUIHandler : MonoBehaviour
         if (loadingOverlay != null)
             loadingOverlay.SetActive(active);
 
-        loginButton   .interactable = !active;
+        loginButton.interactable = !active;
         registerButton.interactable = !active;
+    }
+
+    private IEnumerator AnimateLoginButton()
+    {
+        var buttonText = loginButton.GetComponentInChildren<TMP_Text>();
+        string[] frames = { "Logging in.", "Logging in..", "Logging in..." };
+        int frameIndex = 0;
+
+        while (true)
+        {
+            buttonText.text = frames[frameIndex];
+            frameIndex = (frameIndex + 1) % frames.Length;
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 }
