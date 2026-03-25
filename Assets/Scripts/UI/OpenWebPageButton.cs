@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class OpenWebPageButton : MonoBehaviour
 {
-    [SerializeField] private string url = "https://www.google.com";
+    [SerializeField] private string url = "http://bloodwave.site/";
 
     public void OnClickOpenWebPage()
     {

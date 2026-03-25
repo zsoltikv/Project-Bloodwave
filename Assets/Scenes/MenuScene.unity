@@ -1656,7 +1656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ca06ab51888ec41808b6afa3634a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://www.google.com
+  url: http://bloodwave.site/
 --- !u!114 &938980366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2413,6 +2413,9 @@ MonoBehaviour:
   FreezeGame: 0
   saveUsedThisRun: 0
   level: 0
+  damageDealtThisRun: 0
+  coinsCollectedThisRun: 0
+  enemiesKilledThisRun: 0
 --- !u!4 &1678791152
 Transform:
   m_ObjectHideFlags: 0

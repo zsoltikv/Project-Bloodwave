@@ -48,6 +48,10 @@ public class AuthUIHandler : MonoBehaviour
         switchToRegisterBtn.onClick.AddListener(() => ShowPanel(registerPanel));
         switchToLoginBtn.onClick.AddListener(() => ShowPanel(loginPanel));
 
+        // Ensure the "Remember Me" toggle is off by default
+        if (rememberMeToggle != null)
+            rememberMeToggle.isOn = false;
+
         // If already logged in, skip straight to the game
         if (AuthManager.Instance != null && AuthManager.Instance.IsLoggedIn())
         {
