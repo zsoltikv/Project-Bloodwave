@@ -28,6 +28,9 @@ public class AuthUIHandler : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private GameObject loadingOverlay;
+    [SerializeField] private TMP_Text authTitleText;
+    [SerializeField] private string loginTitle = "Login";
+    [SerializeField] private string registerTitle = "Register";
 
     /// <summary>Scene to load after a successful login.</summary>
     [SerializeField] private string mainMenuScene = "MainMenu";
@@ -175,6 +178,14 @@ public class AuthUIHandler : MonoBehaviour
     {
         loginPanel.SetActive(loginPanel == target);
         registerPanel.SetActive(registerPanel == target);
+        // Update the auth title based on the active panel
+        if (authTitleText != null)
+        {
+            if (target == loginPanel)
+                authTitleText.text = loginTitle;
+            else if (target == registerPanel)
+                authTitleText.text = registerTitle;
+        }
     }
 
     private void SetFeedback(TMP_Text label, string message, bool error = false)
