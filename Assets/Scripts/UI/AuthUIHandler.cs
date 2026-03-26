@@ -29,6 +29,8 @@ public class AuthUIHandler : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject loadingOverlay;
     [SerializeField] private TMP_Text authTitleText;
+    [SerializeField] private float titleAnimationDuration = 0.4f;
+    [SerializeField] private float panelAnimationDuration = 0.25f;
     [SerializeField] private string loginTitle = "Login";
     [SerializeField] private string registerTitle = "Register";
 
@@ -38,6 +40,8 @@ public class AuthUIHandler : MonoBehaviour
     // ──────────────────────────────────────────────────────────────────────────
 
     private Coroutine loginButtonAnimationCoroutine;
+    private Coroutine titleAnimationCoroutine;
+    private Coroutine panelAnimationCoroutine;
 
     private void Start()
     {
@@ -176,16 +180,118 @@ public class AuthUIHandler : MonoBehaviour
 
     private void ShowPanel(GameObject target)
     {
-        loginPanel.SetActive(loginPanel == target);
-        registerPanel.SetActive(registerPanel == target);
+        // Deactivate the non-target panel immediately to avoid overlap
+        if (loginPanel != null && loginPanel != target)
+            loginPanel.SetActive(false);
+        if (registerPanel != null && registerPanel != target)
+            registerPanel.SetActive(false);
+
+        // Ensure the target panel is active and animate its entrance
+        if (target != null)
+            StartPanelShowAnimation(target);
+
         // Update the auth title based on the active panel
         if (authTitleText != null)
         {
             if (target == loginPanel)
-                authTitleText.text = loginTitle;
+                StartTitleAnimation(loginTitle);
             else if (target == registerPanel)
-                authTitleText.text = registerTitle;
+                StartTitleAnimation(registerTitle);
         }
+    }
+
+    private void StartPanelShowAnimation(GameObject panel)
+    {
+        if (panel == null) return;
+
+        if (panelAnimationCoroutine != null)
+            StopCoroutine(panelAnimationCoroutine);
+        panelAnimationCoroutine = StartCoroutine(AnimatePanelShow(panel));
+    }
+
+    private CanvasGroup EnsureCanvasGroup(GameObject go)
+    {
+        var cg = go.GetComponent<CanvasGroup>();
+        if (cg == null)
+            cg = go.AddComponent<CanvasGroup>();
+        return cg;
+    }
+
+    private IEnumerator AnimatePanelShow(GameObject panel)
+    {
+        // Activate and prepare
+        panel.SetActive(true);
+        var cg = EnsureCanvasGroup(panel);
+        var rect = panel.transform;
+        var originalScale = rect.localScale;
+
+        float duration = Mathf.Max(0.01f, panelAnimationDuration);
+        float t = 0f;
+
+        cg.alpha = 0f;
+        rect.localScale = originalScale * 0.95f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float f = Mathf.Clamp01(t / duration);
+            // ease-out cubic
+            float ease = 1f - Mathf.Pow(1f - f, 3f);
+            cg.alpha = Mathf.Lerp(0f, 1f, ease);
+            rect.localScale = Vector3.Lerp(originalScale * 0.95f, originalScale, ease);
+            yield return null;
+        }
+
+        cg.alpha = 1f;
+        rect.localScale = originalScale;
+        panelAnimationCoroutine = null;
+    }
+
+    private void StartTitleAnimation(string newTitle)
+    {
+        if (authTitleText == null) return;
+        if (authTitleText.text == newTitle) return;
+
+        if (titleAnimationCoroutine != null)
+            StopCoroutine(titleAnimationCoroutine);
+        titleAnimationCoroutine = StartCoroutine(AnimateTitleChange(newTitle));
+    }
+
+    private IEnumerator AnimateTitleChange(string newTitle)
+    {
+        var tmp = authTitleText;
+        var originalColor = tmp.color;
+        var originalScale = tmp.transform.localScale;
+        float duration = Mathf.Max(0.01f, titleAnimationDuration);
+        float half = duration * 0.5f;
+
+        // Fade out + scale down
+        float t = 0f;
+        while (t < half)
+        {
+            t += Time.deltaTime;
+            float f = Mathf.Clamp01(t / half);
+            tmp.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f - f);
+            tmp.transform.localScale = Vector3.Lerp(originalScale, originalScale * 0.9f, f);
+            yield return null;
+        }
+
+        tmp.text = newTitle;
+
+        // Fade in + scale up
+        t = 0f;
+        while (t < half)
+        {
+            t += Time.deltaTime;
+            float f = Mathf.Clamp01(t / half);
+            tmp.color = new Color(originalColor.r, originalColor.g, originalColor.b, f);
+            tmp.transform.localScale = Vector3.Lerp(originalScale * 0.9f, originalScale, f);
+            yield return null;
+        }
+
+        tmp.color = originalColor;
+        tmp.transform.localScale = originalScale;
+        titleAnimationCoroutine = null;
     }
 
     private void SetFeedback(TMP_Text label, string message, bool error = false)
