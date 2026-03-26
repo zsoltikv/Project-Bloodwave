@@ -1211,6 +1211,7 @@ GameObject:
   - component: {fileID: 709126130}
   - component: {fileID: 709126129}
   - component: {fileID: 709126128}
+  - component: {fileID: 709126131}
   m_Layer: 5
   m_Name: ReEnterPasswordInput
   m_TagString: Untagged
@@ -1286,8 +1287,8 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -1377,6 +1378,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 709126126}
   m_CullTransparentMesh: 1
+--- !u!114 &709126131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709126126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdb818a27121b446987871fae0a498b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maskCharacter: 42
 --- !u!1 &713925946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,6 +1403,7 @@ GameObject:
   - component: {fileID: 713925950}
   - component: {fileID: 713925949}
   - component: {fileID: 713925948}
+  - component: {fileID: 713925951}
   m_Layer: 5
   m_Name: PasswordInput
   m_TagString: Untagged
@@ -1464,8 +1479,8 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -1555,6 +1570,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713925946}
   m_CullTransparentMesh: 1
+--- !u!114 &713925951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713925946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdb818a27121b446987871fae0a498b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maskCharacter: 42
 --- !u!1 &748845101
 GameObject:
   m_ObjectHideFlags: 0
