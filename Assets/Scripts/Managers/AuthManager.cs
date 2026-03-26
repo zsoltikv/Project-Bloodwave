@@ -72,7 +72,7 @@ public class AuthManager : MonoBehaviour
     public static AuthManager Instance { get; private set; }
 
     // ── Config ─────────────────────────────────────────────────────────────────
-    private const string API_BASE          = "http://5.38.140.128:5000";
+    private const string API_BASE          = "http://web.bloodwave.site:5000";
     private const int    REFRESH_BUFFER_SEC = 60;
 
     // ── PlayerPrefs keys (persistent storage, analogous to cookies) ────────────
