@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Net.Mail;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -143,6 +144,12 @@ public class AuthUIHandler : MonoBehaviour
         if (password != confirmPassword)
         {
             SetFeedback(registerFeedbackText, "Passwords do not match.", error: true);
+            return;
+        }
+
+        if (!IsValidEmail(email))
+        {
+            SetFeedback(registerFeedbackText, "Please enter a valid e-mail address.", error: true);
             return;
         }
 
@@ -308,6 +315,19 @@ public class AuthUIHandler : MonoBehaviour
 
         loginButton.interactable = !active;
         registerButton.interactable = !active;
+    }
+
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var mailAddress = new MailAddress(email);
+            return mailAddress.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private IEnumerator AnimateLoginButton()

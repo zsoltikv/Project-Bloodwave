@@ -17,4 +17,10 @@ public class GameLoader : MonoBehaviour
     {
         FadeManager.Instance.LoadSceneWithFade("AchievementScene");
     }
+
+    public void LoadHowToPlayScene()
+    {
+        FadeManager.Instance.LoadSceneWithFade("HowToPlayScene");
+        AchievementManager.Instance.UnlockAchievement("first_time_player");
+    }
 }
