@@ -44,19 +44,20 @@ public class WeaponInstance
 
     public float GetCooldown()
     {
+        if (definition == null)
+        {
+            return 1F;
+        }
+
+        float playerCooldownMultiplier = playerStats != null ? (1 - playerStats.CooldownMultiplier) : 1F;
+
         if (definition.name == "Shotgun" || definition.name == "BloodScythe")
         {
-            return Mathf.Max(
-                definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier),
-                1F
-            );
+            return Mathf.Max(definition.Cooldown * cooldownMultiplier * playerCooldownMultiplier, 1F);
         }
         else
         {
-            return Mathf.Max(
-                definition.Cooldown * cooldownMultiplier * (1 - playerStats.CooldownMultiplier),
-                0.5F
-            );
+            return Mathf.Max(definition.Cooldown * cooldownMultiplier * playerCooldownMultiplier, 0.5F);
         }
     }
 
